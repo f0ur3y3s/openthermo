@@ -41,7 +41,8 @@ MOD = (-62.0, 11.0, -4.5, 45.5)                # measured 73 x 50, centred on th
 MOD_HOLES = [(-59.0, -1.75), (8.0, -1.75), (-59.0, 42.75), (8.0, 42.75)]
 MOD_PCB_Z = 6.0
 FUSE_H = 17.0                                  # holder height with the cap; set to the measured installed height
-FUSE_POCKET = (-37.0, -8.0, -52.5, -29.5, 1.0)  # 1.0 deep pocket in the cover's inner face over the fuses (H <= 17.9)
+FUSE_X = (-31.5, -4.7)                         # fuse holders (26.8 long): 7.5 mm clear of the XIAO's antenna end (x -39)
+FUSE_POCKET = (FUSE_X[0] - 1.0, FUSE_X[1] + 1.0, -52.5, -29.5, 1.0)  # 1.0 deep pocket in the cover over the fuses (H <= 17.9)
 # XL7015 buck (listing: 44 x 16 board; height to the top of the tallest part assumed 12, confirm on arrival)
 XL_L, XL_W, XL_H = 44.0, 16.0, 12.0
 XL_C = (38.5, 34.5)                            # board centre, lying on two rails under the OLED
@@ -374,8 +375,8 @@ def build_wiring():
         named.append(('Field %s' % nm, wire_path([(x + 9.0, -13.5, 0.5), (x + 9.0, -13.5, 14.0), (x, -16.0, 14.0),
                                                   (x, -20.6, 13.6)], R_FIELD)))
     # 2. relay commons: F2 (left end) -> COM1, then COM1-COM2-COM3-COM4 jumpers
-    named.append(('F2 -> COM1', wire_path([(-37.5, -35.5, CTL_TOP + 0.8), (-37.5, -20.5, CTL_TOP + 0.8),
-                                           (-37.5, -20.5, 17.0), (-37.5, -8.0, 17.0), (kx[0], -8.0, 17.0),
+    named.append(('F2 -> COM1', wire_path([(-29.5, -23.0, CTL_TOP + 0.8),
+                                           (-29.5, -23.0, 17.0), (-29.5, -8.0, 17.0), (kx[0], -8.0, 17.0),
                                            (kx[0], yf, zt + 1.5)], R_FIELD)))
     for a, c in zip(kx[:-1], kx[1:]):
         named.append(('COM jumper', wire_path([(a + 0.6, yf, zt + 1.5), (a + 0.6, yf - 2.0, zt + 3.5),
@@ -793,7 +794,9 @@ def build():
         ('Controller perfboard', tbox(cx0, cx1, cy0, cy1, CTL_TOP - 1.6, CTL_TOP)),
         ('XIAO ESP32-C6', tbox(-60.0, -39.0, -45.0, -27.5, CTL_TOP + 8.5, CTL_TOP + 9.5)),
         ('XIAO shield + USB', tbox(-61.5, -46.0, -41.0, -31.5, CTL_TOP + 9.5, CTL_TOP + 12.7)),
-        ('XIAO female headers', tbox(-59.0, -40.0, -44.0, -28.5, CTL_TOP, CTL_TOP + 8.5)),
+        # 0.6" DIP rows: D0-D6 on the -y row, 5V GND 3V3 D10 D9 D8 D7 on the +y row, pin 1 at the USB end
+        ('XIAO header row D0-D6', tbox(-58.39, -40.61, -45.14, -42.60, CTL_TOP, CTL_TOP + 8.5)),
+        ('XIAO header row 5V-D7', tbox(-58.39, -40.61, -29.90, -27.36, CTL_TOP, CTL_TOP + 8.5)),
         ('XL7015 board', tbox(XL_C[0] - XL_L / 2, XL_C[0] + XL_L / 2, XL_C[1] - XL_W / 2, XL_C[1] + XL_W / 2,
                               PLATE + 1.5, PLATE + 1.5 + 1.6)),
         ('XL7015 parts (caps, trimpot)', tbox(XL_C[0] - XL_L / 2 + 1, XL_C[0] + XL_L / 2 - 1, XL_C[1] - XL_W / 2,
@@ -804,8 +807,20 @@ def build():
         ('JST-PH 4p pair (OLED), lying flat', tbox(38.0, 48.0, 5.0, 17.0, 4.6, 9.1)),
         ('R-C terminal', tbox(-10.0, 0.0, -29.0, -21.0, CTL_TOP, CTL_TOP + 12.0)),
         # 5x20 PCB fuse holders, measured 26.8 x 10 x 17 with the cap on (pins 23 apart)
-        ('Fuse F1 PCB holder', tbox(-36.0, -9.2, -51.5, -41.5, CTL_TOP, CTL_TOP + FUSE_H)),
-        ('Fuse F2 PCB holder', tbox(-36.0, -9.2, -40.5, -30.5, CTL_TOP, CTL_TOP + FUSE_H)),
+        ('Fuse F1 PCB holder', tbox(FUSE_X[0], FUSE_X[1], -51.5, -41.5, CTL_TOP, CTL_TOP + FUSE_H)),
+        ('Fuse F2 PCB holder', tbox(FUSE_X[0], FUSE_X[1], -40.5, -30.5, CTL_TOP, CTL_TOP + FUSE_H)),
+        # ---- small parts (docs/HARDWARE.md, Controller board). Signal jumpers run flat on the underside (26 AWG).
+        ('XIAO antenna keepout (keep empty)', tbox(-39.0, FUSE_X[0], -52.0, -24.2, CTL_TOP, CTL_TOP + 0.2)),
+        ('Relay cable pads (5V GND IN1-4)', tbox(-53.9, -38.6, -23.9, -21.3, CTL_TOP, CTL_TOP + 1.5)),
+        ('100nF XIAO 3V3', tbox(-54.0, -49.0, -27.2, -24.2, CTL_TOP, CTL_TOP + 7.0)),
+        ('100nF XIAO 5V', tbox(-48.5, -43.5, -27.2, -24.2, CTL_TOP, CTL_TOP + 7.0)),
+        ('Opt. I2C pull-up SDA 10k', tcyl((-53.5, -47.6, CTL_TOP + 1.3), (-43.3, -47.6, CTL_TOP + 1.3), 1.3)),
+        ('Opt. I2C pull-up SCL 10k', tcyl((-53.5, -50.4, CTL_TOP + 1.3), (-43.3, -50.4, CTL_TOP + 1.3), 1.3)),
+        ('1N4007 (F1 -> bus)', tcyl((-29.0, -29.0, CTL_TOP + 1.4), (-18.8, -29.0, CTL_TOP + 1.4), 1.4)),
+        ('1.5KE51A TVS (bus)', tcyl((-26.6, -24.2, CTL_TOP + 2.75), (-11.4, -24.2, CTL_TOP + 2.75), 2.75)),
+        ('1N5819 (XL OUT -> XIAO 5V)', tcyl((-2.85, -51.0, CTL_TOP + 1.4), (-2.85, -40.8, CTL_TOP + 1.4), 1.4)),
+        ('100nF XL7015 OUT', tbox(-4.35, -1.35, -39.5, -34.5, CTL_TOP, CTL_TOP + 7.0)),
+        ('Cover harness pads (9)', tbox(0.3, 8.0, -29.3, -21.6, CTL_TOP, CTL_TOP + 1.5)),
         ('SHT40 module', tbox(SHT_X0, SHT_X0 + SHT_L, SHT_Y1 - SHT_W, SHT_Y1, SHT_Z, SHT_Z + SHT_T + 1.0)),
         ('#8 screw head L (slot travel)', U(tcyl((-MNT_X - MNT_HALF, MNT_Y, PLATE + MNT_BOSS), (-MNT_X - MNT_HALF, MNT_Y, PLATE + MNT_BOSS + 3), MNT_RH),
                                           U(tbox(-MNT_X - MNT_HALF, -MNT_X + MNT_HALF, MNT_Y - MNT_RH, MNT_Y + MNT_RH, PLATE + MNT_BOSS, PLATE + MNT_BOSS + 3),
@@ -817,6 +832,9 @@ def build():
         ('OLED glass', tbox(UX - 13.35, UX + 13.35, OLED_YB + 4.6, OLED_YB + 24.0, ZF - 1.4, ZF)),
         ('OLED back parts', tbox(UX - 12.0, UX + 12.0, OLED_YB + 1, OLED_YB + 26, ZF - 3.4, ZF - 2.4)),
     ]
+    for nm, x in (('10k pull-down IN1 (D1)', -57.1), ('10k pull-down IN2 (D2)', -54.56), ('10k pull-down IN3 (D3)', -52.02),
+                  ('10k pull-down IN4 (D10)', -49.48), ('1k series D6 (RIGHT key)', -46.94)):   # under the XIAO, USB half
+        r.append((nm, tcyl((x, -41.35, CTL_TOP + 1.25), (x, -31.15, CTL_TOP + 1.25), 1.2)))   # 1/4 W body ~2.4
     for i, dx in enumerate((-25.5, -8.5, 8.5, 25.5)):
         x = (mx0 + mx1) / 2 + dx
         r.append(('Relay K%d' % (i + 1), tbox(x - 7.75, x + 7.75, my0 + 10, my0 + 29, mz, mz + 15.5)))

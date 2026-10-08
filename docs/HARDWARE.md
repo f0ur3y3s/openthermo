@@ -74,11 +74,32 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 
 ## Controller board
 
-- **Perfboard** about 74 × 32 mm (x −60..14 in the CAD). Trim the right edge so it stops 0.75 mm short of the divider rib and the sensor grommet.
-- **470 µF** lies flat on the board, axis at x = 4 (body x −1..9), so a driver still reaches the (11.5, −49) mounting screw.
-- **Pads at the right end** (x 10..14): SHT40, 4 pads at y −42..−36; XL7015, 3 pads at y −34..−29. The cover harness lands at x 2..8, y −28..−24. Keep every pad at least 3 mm from a screw centre.
-- **Underside:** only 3 mm to the backplate. Trim every lead and header tail to ≤ 2 mm, and run the 18 AWG R, C and F2 links on the component side.
+![Controller perfboard layout](controller_layout.png)
+
+Perfboard about 74 × 32 mm (x −60..14, y −52..−20 in the CAD), top face 7.6 mm above the wall plane. Every part sits on the **top**; signal jumpers (26 AWG) run flat on the underside, and every lead and header tail is trimmed to ≤ 2 mm (3 mm gap to the backplate). Every pad and lead stays ≥ 3 mm from a screw centre.
+
+| Part | Where (x, y in mm) | Notes |
+|---|---|---|
+| XIAO ESP32-C6 on female headers | x −60..−39; rows y −43.9 (D0–D6) and −28.6 (5V GND 3V3 D10 D9 D8 D7), pin 1 at the USB end | USB-C through the left wall. Antenna at the x −39 end. |
+| **Antenna keepout** | x −39..−31.5, full height of the board | Bare board: no metal, no 24 VAC wire. The cover and backplate in front of it are plain plastic. |
+| 10 k pull-downs IN1–IN4, 1 k D6 series | under the XIAO, lying along y at x −57.1, −54.6, −52.0, −49.5 (pull-downs) and −46.9 (1 k) | Between the header rows (2.6 mm tall vs 8.5 under the XIAO), kept to the USB half. D1 and GND are opposite each other, so PD1 goes straight across. |
+| 100 nF, XIAO 3V3 and 5V | standing just above the 5V–D7 row, x −54..−49 and −48.5..−43.5 | |
+| Relay cable pads (DC+, DC−, IN1–IN4) | one row at y −22.6, x −53.9..−38.6 | Cable soldered here and tacked down; it leaves along the top edge to the left channel. |
+| Optional I2C pull-ups 10 k | below the XIAO, lying along x at y −47.6 and −50.4, x −53.5..−43.3 | Only if the SHT40 module has none. |
+| F2 (T1.6A, relay commons) | top row, x −31.5..−4.7, y −40.5..−30.5 | R in at the right pin; out at the left pin to the COM wire, which leaves the board at (−29.5, −23). |
+| F1 (T1A, power) | bottom row, same x, y −51.5..−41.5 | R in at the right pin; left pin to the 1N4007 by an underside link. |
+| 1N4007 | lying along x above F2, x −29..−18.8, y −29 | F1 → bus. |
+| 1.5KE51A TVS | lying along x, x −26.6..−11.4, y −24.2 | Across the bus (cathode to bus +, at the right end). |
+| R-C terminal | x −10..0, y −29..−21 | Field R and C from the wire window. |
+| 470 µF 63 V | lying, axis x = 4, y −50.5..−29.5 | Clears the (11.5, −49) screw for a driver. |
+| 1N5819 | lying along y, x −2.85, y −51..−40.8 | XL7015 OUT+ → XIAO 5V. |
+| 100 nF at the XL7015 output | standing, x −4.35..−1.35, y −39.5..−34.5 | |
+| Cover harness pads (9) | 3 × 3, x 0.3..8, y −29.3..−21.6 | GND (OLED and D-pad share it), 3V3, SDA, SCL, UP, DOWN, LEFT, RIGHT, OK. |
+| SHT40 (4) and XL7015 (3) pads | x 10..14, y −42..−36 and −34..−29 | Cables arrive from the grommet and the channel on the right. |
+
+- **NPN relay drivers (optional):** the four TO-92s and their base resistors don't fit on this board. If bring-up step 2 calls for them, build them on a small strip at the relay module's 6-way input terminal.
 - **Fuse holders:** the header pins added to the clip legs must be **soldered**, not glued (CA glue doesn't conduct and F2 carries up to about 1 A). Tug-test them and check ≤ 0.05 Ω from clip to pin. Installed height, board top to the highest point, must be ≤ 17.9 mm (the cover has a 1 mm pocket over the fuses).
+- **Reachable with the cover off:** both fuses, the XIAO's B and R buttons, and the USB-C port (through the left wall). The XL7015 trimpot is on the XL board under the OLED, reachable with the cover off.
 
 ## Sensor
 
@@ -150,5 +171,5 @@ Run these on the bench with LEDs (or the relay module) on IN1–IN4 and no HVAC 
 | Sensor fault | Pull the SHT40's SDA lead. | After 2 min: every output off, OLED fault, Home's "Thermostat fault" opens. Reconnect: valid again only after 1 min of good reads. |
 | Bench build on a real board | Flash the `-sim` build with the SHT40 connected. | Log: `SHT40 found ... will not drive its relays`; the relays stay off. |
 | Fixed attributes | `matter esp attribute set 0x1 0x201 0x19 127` (deadband). | Refused; Home setpoint changes still work. |
-| Factory reset | Settings › Factory reset: centre, No, centre; then centre, Yes, centre. | No does nothing. Yes shows "Factory reset", restarts in mode Off, and the Pair page shows the QR code. |
+| Factory reset | Settings › Factory reset: centre, then centre on No; then centre, Down to Yes, centre. | No does nothing. Yes shows "Factory reset", restarts in mode Off, and the Pair page shows the QR code. |
 | Timing rules | Run a day with the real build, saving the log; `python tools/check_relay_log.py bench.log`. | `RESULT: PASS`. |
