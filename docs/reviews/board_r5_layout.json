@@ -1,0 +1,4314 @@
+{
+ "frame": "hole (col,row) at (2.54*col, 2.54*row) mm; board x -5.80..64.22, y -3.57..26.43; z up from board top; +x along columns, +y along rows. Nets: R = 24 VAC unfused, F1o = F1 output, COM = F2 output, BUS = rectified DC bus, C = power ground (field C), GND = logic ground (joined to C through the XL7015 IN-/OUT- only), 5A = 1N5819 anode (XL OUT+ and relay 5V).",
+ "board": "30 x 70 mm perfboard, 10 rows x 24 columns, 2.54 mm",
+ "final": {
+  "name": "FINAL (default pins)",
+  "parts": [
+   {
+    "name": "XIAO ESP32-C6 on 2 x 7 female headers",
+    "pins": {
+     "UP": [
+      7,
+      3
+     ],
+     "IN1": [
+      7,
+      4
+     ],
+     "IN2": [
+      7,
+      5
+     ],
+     "IN3": [
+      7,
+      6
+     ],
+     "SDA": [
+      7,
+      7
+     ],
+     "SCL": [
+      7,
+      8
+     ],
+     "D6": [
+      7,
+      9
+     ],
+     "5V": [
+      1,
+      3
+     ],
+     "GND": [
+      1,
+      4
+     ],
+     "3V3": [
+      1,
+      5
+     ],
+     "IN4": [
+      1,
+      6
+     ],
+     "LEFT": [
+      1,
+      7
+     ],
+     "DOWN": [
+      1,
+      8
+     ],
+     "OK": [
+      1,
+      9
+     ]
+    },
+    "orientation": "portrait: USB-C toward the bottom edge (face 7.3 mm inside it), antenna end toward the top edge (0.69 mm inside it)",
+    "envelope_mm": {
+     "x": [
+      1.26,
+      19.06
+     ],
+     "y": [
+      4.74,
+      25.74
+     ],
+     "z": [
+      8.5,
+      13.2
+     ]
+    },
+    "antenna_zone_mm": {
+     "x": [
+      1.26,
+      19.06
+     ],
+     "y": [
+      20.74,
+      25.74
+     ]
+    },
+    "header_strips": "cols 1 and 7, rows 3..9, z 0..8.5"
+   },
+   {
+    "name": "PD1",
+    "kind": "res",
+    "mount": "lying",
+    "orientation": "lying along x, under XIAO",
+    "leads": {
+     "s": {
+      "hole": [
+       6,
+       4
+      ],
+      "net": "IN1"
+     },
+     "g": {
+      "hole": [
+       2,
+       4
+      ],
+      "net": "GND"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       7.01,
+       13.31
+      ],
+      "y": [
+       8.96,
+       11.36
+      ],
+      "z": [
+       0.0,
+       2.6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PD2",
+    "kind": "res",
+    "mount": "lying",
+    "orientation": "lying along x, under XIAO",
+    "leads": {
+     "s": {
+      "hole": [
+       6,
+       5
+      ],
+      "net": "IN2"
+     },
+     "g": {
+      "hole": [
+       3,
+       5
+      ],
+      "net": "GND"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       8.28,
+       14.58
+      ],
+      "y": [
+       11.5,
+       13.9
+      ],
+      "z": [
+       0.0,
+       2.6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PD3",
+    "kind": "res",
+    "mount": "lying",
+    "orientation": "lying along x, under XIAO",
+    "leads": {
+     "s": {
+      "hole": [
+       6,
+       6
+      ],
+      "net": "IN3"
+     },
+     "g": {
+      "hole": [
+       3,
+       6
+      ],
+      "net": "GND"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       8.28,
+       14.58
+      ],
+      "y": [
+       14.04,
+       16.44
+      ],
+      "z": [
+       0.0,
+       2.6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "PD4",
+    "kind": "res",
+    "mount": "lying",
+    "orientation": "lying along y in column 0 (beside header)",
+    "leads": {
+     "s": {
+      "hole": [
+       0,
+       6
+      ],
+      "net": "IN4"
+     },
+     "g": {
+      "hole": [
+       0,
+       2
+      ],
+      "net": "GND"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       -1.2,
+       1.2
+      ],
+      "y": [
+       7.01,
+       13.31
+      ],
+      "z": [
+       0.0,
+       2.6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "D5819",
+    "kind": "do41",
+    "mount": "lying",
+    "orientation": "lying along x on row 2 (cathode band at (1,2))",
+    "leads": {
+     "A": {
+      "hole": [
+       5,
+       2
+      ],
+      "net": "5A"
+     },
+     "K": {
+      "hole": [
+       1,
+       2
+      ],
+      "net": "5V"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       5.02,
+       10.22
+      ],
+      "y": [
+       3.73,
+       6.43
+      ],
+      "z": [
+       0.0,
+       2.9
+      ]
+     }
+    ]
+   },
+   {
+    "name": "R1k",
+    "kind": "res",
+    "mount": "lying",
+    "orientation": "lying along y in column 9",
+    "leads": {
+     "a": {
+      "hole": [
+       9,
+       9
+      ],
+      "net": "D6"
+     },
+     "b": {
+      "hole": [
+       9,
+       6
+      ],
+      "net": "RIGHT"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       21.66,
+       24.06
+      ],
+      "y": [
+       15.9,
+       22.2
+      ],
+      "z": [
+       0.0,
+       2.6
+      ]
+     }
+    ]
+   },
+   {
+    "name": "F1",
+    "kind": "fuse",
+    "mount": "lying",
+    "orientation": "along x, input at col 23",
+    "leads": {
+     "in": {
+      "hole": [
+       23,
+       4
+      ],
+      "net": "R"
+     },
+     "out": {
+      "hole": [
+       14,
+       4
+      ],
+      "net": "F1o"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "holder",
+      "x": [
+       33.59,
+       60.39
+      ],
+      "y": [
+       5.16,
+       15.16
+      ],
+      "z": [
+       0,
+       17.0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "F2",
+    "kind": "fuse",
+    "mount": "lying",
+    "orientation": "along x, input at col 23, overhangs top edge 1.43",
+    "leads": {
+     "in": {
+      "hole": [
+       23,
+       9
+      ],
+      "net": "R"
+     },
+     "out": {
+      "hole": [
+       14,
+       9
+      ],
+      "net": "COM"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "holder",
+      "x": [
+       33.59,
+       60.39
+      ],
+      "y": [
+       17.86,
+       27.86
+      ],
+      "z": [
+       0,
+       17.0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TERM",
+    "kind": "term",
+    "mount": "lying",
+    "orientation": "pins along x, wire entries face -y (bottom edge), overhangs 0.43",
+    "leads": {
+     "C": {
+      "hole": [
+       21,
+       0
+      ],
+      "net": "C"
+     },
+     "R": {
+      "hole": [
+       23,
+       0
+      ],
+      "net": "R"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       50.78,
+       60.98
+      ],
+      "y": [
+       -4.0,
+       4.0
+      ],
+      "z": [
+       0,
+       12.0
+      ]
+     }
+    ]
+   },
+   {
+    "name": "CAP",
+    "kind": "cap",
+    "mount": "lying",
+    "orientation": "lying along x, body toward +x, leads bent down 2.0 mm from the bung with a ~2.9 mm dog-leg toward +y; axis at y=-0.40, z=5; body overhangs bottom edge 1.83",
+    "leads": {
+     "-": {
+      "hole": [
+       11,
+       0
+      ],
+      "net": "C"
+     },
+     "+": {
+      "hole": [
+       11,
+       2
+      ],
+      "net": "BUS"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "can",
+      "x": [
+       29.94,
+       49.94
+      ],
+      "y": [
+       -5.4,
+       4.6
+      ],
+      "z": [
+       0,
+       10.2
+      ]
+     }
+    ]
+   },
+   {
+    "name": "TVS",
+    "kind": "tvs",
+    "mount": "standing",
+    "orientation": "standing: anode body over (10,1), cathode (band) at top, sleeved hairpin into (10,3)",
+    "leads": {
+     "A": {
+      "hole": [
+       10,
+       1
+      ],
+      "net": "C"
+     },
+     "K": {
+      "hole": [
+       10,
+       3
+      ],
+      "net": "BUS"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       22.75,
+       28.05
+      ],
+      "y": [
+       -0.11,
+       5.19
+      ],
+      "z": [
+       1.0,
+       10.5
+      ]
+     },
+     {
+      "what": "hairpin",
+      "x": [
+       24.8,
+       26.0
+      ],
+      "y": [
+       2.54,
+       7.62
+      ],
+      "z": [
+       0,
+       12.5
+      ]
+     }
+    ]
+   },
+   {
+    "name": "D1",
+    "kind": "do41",
+    "mount": "lying",
+    "orientation": "lying along y in column 12, cathode band at (12,2)",
+    "leads": {
+     "A": {
+      "hole": [
+       12,
+       5
+      ],
+      "net": "F1o"
+     },
+     "K": {
+      "hole": [
+       12,
+       2
+      ],
+      "net": "BUS"
+     }
+    },
+    "envelope_mm": [
+     {
+      "what": "body",
+      "x": [
+       29.13,
+       31.83
+      ],
+      "y": [
+       6.29,
+       11.49
+      ],
+      "z": [
+       0.0,
+       2.9
+      ]
+     }
+    ]
+   }
+  ],
+  "landings_top_side": [
+   {
+    "hole": [
+     0,
+     0
+    ],
+    "net": "GND",
+    "wire": "cover GND + SHT GND",
+    "leaves_by": "bottom",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 3.6
+   },
+   {
+    "hole": [
+     0,
+     1
+    ],
+    "net": "GND",
+    "wire": "relay GND + XL OUT-",
+    "leaves_by": "left",
+    "nearest_edge": "left",
+    "to_edge_mm": 5.8
+   },
+   {
+    "hole": [
+     0,
+     6
+    ],
+    "net": "IN4",
+    "wire": "relay IN4",
+    "leaves_by": "left",
+    "nearest_edge": "left",
+    "to_edge_mm": 5.8
+   },
+   {
+    "hole": [
+     0,
+     7
+    ],
+    "net": "LEFT",
+    "wire": "cover LEFT",
+    "leaves_by": "left",
+    "nearest_edge": "left",
+    "to_edge_mm": 5.8
+   },
+   {
+    "hole": [
+     0,
+     8
+    ],
+    "net": "DOWN",
+    "wire": "cover DOWN",
+    "leaves_by": "left",
+    "nearest_edge": "left",
+    "to_edge_mm": 5.8
+   },
+   {
+    "hole": [
+     0,
+     9
+    ],
+    "net": "OK",
+    "wire": "cover OK",
+    "leaves_by": "left",
+    "nearest_edge": "top",
+    "to_edge_mm": 3.6
+   },
+   {
+    "hole": [
+     2,
+     5
+    ],
+    "net": "3V3",
+    "wire": "cover 3V3 + SHT 3V3",
+    "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+    "nearest_edge": "left",
+    "to_edge_mm": 10.9
+   },
+   {
+    "hole": [
+     5,
+     1
+    ],
+    "net": "5A",
+    "wire": "relay 5V + XL OUT+",
+    "leaves_by": "bottom",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 6.1
+   },
+   {
+    "hole": [
+     6,
+     4
+    ],
+    "net": "IN1",
+    "wire": "relay IN1",
+    "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 13.7
+   },
+   {
+    "hole": [
+     6,
+     5
+    ],
+    "net": "IN2",
+    "wire": "relay IN2",
+    "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+    "nearest_edge": "top",
+    "to_edge_mm": 13.7
+   },
+   {
+    "hole": [
+     6,
+     6
+    ],
+    "net": "IN3",
+    "wire": "relay IN3",
+    "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+    "nearest_edge": "top",
+    "to_edge_mm": 11.2
+   },
+   {
+    "hole": [
+     7,
+     2
+    ],
+    "net": "UP",
+    "wire": "cover UP",
+    "leaves_by": "bottom",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 8.7
+   },
+   {
+    "hole": [
+     8,
+     7
+    ],
+    "net": "SDA",
+    "wire": "cover SDA + SHT SDA",
+    "leaves_by": "right",
+    "nearest_edge": "top",
+    "to_edge_mm": 8.6
+   },
+   {
+    "hole": [
+     8,
+     8
+    ],
+    "net": "SCL",
+    "wire": "cover SCL + SHT SCL",
+    "leaves_by": "right",
+    "nearest_edge": "top",
+    "to_edge_mm": 6.1
+   },
+   {
+    "hole": [
+     9,
+     0
+    ],
+    "net": "C",
+    "wire": "XL7015 IN- (C)",
+    "leaves_by": "bottom",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 3.6
+   },
+   {
+    "hole": [
+     9,
+     6
+    ],
+    "net": "RIGHT",
+    "wire": "cover RIGHT",
+    "leaves_by": "right",
+    "nearest_edge": "top",
+    "to_edge_mm": 11.2
+   },
+   {
+    "hole": [
+     11,
+     3
+    ],
+    "net": "BUS",
+    "wire": "XL7015 IN+ (bus)",
+    "leaves_by": "bottom",
+    "nearest_edge": "bottom",
+    "to_edge_mm": 11.2
+   },
+   {
+    "hole": [
+     13,
+     9
+    ],
+    "net": "COM",
+    "wire": "COM 18 AWG to relay commons",
+    "leaves_by": "top",
+    "nearest_edge": "top",
+    "to_edge_mm": 3.6
+   }
+  ],
+  "underside_links": [
+   {
+    "net": "IN1",
+    "holes": [
+     [
+      7,
+      4
+     ],
+     [
+      6,
+      4
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "IN2",
+    "holes": [
+     [
+      7,
+      5
+     ],
+     [
+      6,
+      5
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "IN3",
+    "holes": [
+     [
+      7,
+      6
+     ],
+     [
+      6,
+      6
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "IN4",
+    "holes": [
+     [
+      1,
+      6
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "GND",
+    "holes": [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "GND",
+    "holes": [
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    "pitches": 2,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "GND",
+    "holes": [
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "GND",
+    "holes": [
+     [
+      1,
+      4
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      2
+     ]
+    ],
+    "pitches": 3,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "GND",
+    "holes": [
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "pitches": 2,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "5V",
+    "holes": [
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "5A",
+    "holes": [
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "3V3",
+    "holes": [
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "SDA",
+    "holes": [
+     [
+      7,
+      7
+     ],
+     [
+      8,
+      7
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "SCL",
+    "holes": [
+     [
+      7,
+      8
+     ],
+     [
+      8,
+      8
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "D6",
+    "holes": [
+     [
+      7,
+      9
+     ],
+     [
+      8,
+      9
+     ],
+     [
+      9,
+      9
+     ]
+    ],
+    "pitches": 2,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "UP",
+    "holes": [
+     [
+      7,
+      3
+     ],
+     [
+      7,
+      2
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "LEFT",
+    "holes": [
+     [
+      1,
+      7
+     ],
+     [
+      0,
+      7
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "DOWN",
+    "holes": [
+     [
+      1,
+      8
+     ],
+     [
+      0,
+      8
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "OK",
+    "holes": [
+     [
+      1,
+      9
+     ],
+     [
+      0,
+      9
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "R",
+    "holes": [
+     [
+      23,
+      0
+     ],
+     [
+      23,
+      1
+     ],
+     [
+      23,
+      2
+     ],
+     [
+      23,
+      3
+     ],
+     [
+      23,
+      4
+     ],
+     [
+      23,
+      5
+     ],
+     [
+      23,
+      6
+     ],
+     [
+      23,
+      7
+     ],
+     [
+      23,
+      8
+     ],
+     [
+      23,
+      9
+     ]
+    ],
+    "pitches": 9,
+    "material": "18 AWG bare tinned",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "C",
+    "holes": [
+     [
+      9,
+      0
+     ],
+     [
+      10,
+      0
+     ],
+     [
+      11,
+      0
+     ],
+     [
+      12,
+      0
+     ],
+     [
+      13,
+      0
+     ],
+     [
+      14,
+      0
+     ],
+     [
+      15,
+      0
+     ],
+     [
+      16,
+      0
+     ],
+     [
+      17,
+      0
+     ],
+     [
+      18,
+      0
+     ],
+     [
+      19,
+      0
+     ],
+     [
+      20,
+      0
+     ],
+     [
+      21,
+      0
+     ]
+    ],
+    "pitches": 12,
+    "material": "18 AWG bare tinned",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "C",
+    "holes": [
+     [
+      10,
+      1
+     ],
+     [
+      10,
+      0
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "BUS",
+    "holes": [
+     [
+      10,
+      3
+     ],
+     [
+      11,
+      3
+     ],
+     [
+      11,
+      2
+     ],
+     [
+      12,
+      2
+     ]
+    ],
+    "pitches": 3,
+    "material": "18 AWG bare tinned",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "F1o",
+    "holes": [
+     [
+      14,
+      4
+     ],
+     [
+      13,
+      4
+     ],
+     [
+      13,
+      5
+     ],
+     [
+      12,
+      5
+     ]
+    ],
+    "pitches": 3,
+    "material": "18 AWG bare tinned",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   },
+   {
+    "net": "COM",
+    "holes": [
+     [
+      13,
+      9
+     ],
+     [
+      14,
+      9
+     ]
+    ],
+    "pitches": 1,
+    "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+    "insulation": "bare (no crossings; nothing needs insulation)"
+   }
+  ],
+  "keep_empty": [
+   [
+    0,
+    5
+   ],
+   [
+    2,
+    6
+   ],
+   [
+    6,
+    7
+   ],
+   [
+    8,
+    6
+   ],
+   [
+    9,
+    2
+   ],
+   [
+    9,
+    3
+   ],
+   [
+    9,
+    4
+   ],
+   [
+    10,
+    2
+   ],
+   [
+    10,
+    4
+   ],
+   [
+    11,
+    1
+   ],
+   [
+    11,
+    4
+   ],
+   [
+    11,
+    5
+   ],
+   [
+    11,
+    6
+   ],
+   [
+    12,
+    1
+   ],
+   [
+    12,
+    3
+   ],
+   [
+    12,
+    4
+   ],
+   [
+    12,
+    6
+   ],
+   [
+    12,
+    8
+   ],
+   [
+    12,
+    9
+   ],
+   [
+    13,
+    1
+   ],
+   [
+    13,
+    2
+   ],
+   [
+    13,
+    3
+   ],
+   [
+    13,
+    6
+   ],
+   [
+    13,
+    8
+   ],
+   [
+    14,
+    3
+   ],
+   [
+    14,
+    5
+   ],
+   [
+    14,
+    6
+   ],
+   [
+    14,
+    8
+   ],
+   [
+    15,
+    3
+   ],
+   [
+    15,
+    4
+   ],
+   [
+    15,
+    5
+   ],
+   [
+    15,
+    8
+   ],
+   [
+    15,
+    9
+   ],
+   [
+    22,
+    0
+   ],
+   [
+    22,
+    1
+   ],
+   [
+    22,
+    2
+   ],
+   [
+    22,
+    3
+   ],
+   [
+    22,
+    4
+   ],
+   [
+    22,
+    5
+   ],
+   [
+    22,
+    6
+   ],
+   [
+    22,
+    7
+   ],
+   [
+    22,
+    8
+   ],
+   [
+    22,
+    9
+   ]
+  ],
+  "adjacency_hazards": [
+   {
+    "kind": "diag",
+    "cls": "RELAY-ON",
+    "a": [
+     0,
+     6
+    ],
+    "b": [
+     1,
+     5
+    ],
+    "nets": [
+     "IN4",
+     "3V3"
+    ],
+    "note": "3V3/IN4: relay on at boot (step 0 IN->3V3 >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "RELAY-ON",
+    "a": [
+     1,
+     6
+    ],
+    "b": [
+     2,
+     5
+    ],
+    "nets": [
+     "IN4",
+     "3V3"
+    ],
+    "note": "3V3/IN4: relay on at boot (step 0 IN->3V3 >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "RELAY-ON",
+    "a": [
+     6,
+     6
+    ],
+    "b": [
+     7,
+     7
+    ],
+    "nets": [
+     "IN3",
+     "SDA"
+    ],
+    "note": "IN3/SDA: relay on at boot (step 0 IN->SDA >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "RELAY-ON",
+    "a": [
+     7,
+     6
+    ],
+    "b": [
+     8,
+     7
+    ],
+    "nets": [
+     "IN3",
+     "SDA"
+    ],
+    "note": "IN3/SDA: relay on at boot (step 0 IN->SDA >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "RELAY-ON",
+    "a": [
+     1,
+     5
+    ],
+    "b": [
+     1,
+     6
+    ],
+    "nets": [
+     "3V3",
+     "IN4"
+    ],
+    "note": "3V3/IN4: relay on at boot (step 0 IN->3V3 >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "RELAY-ON",
+    "a": [
+     7,
+     6
+    ],
+    "b": [
+     7,
+     7
+    ],
+    "nets": [
+     "IN3",
+     "SDA"
+    ],
+    "note": "IN3/SDA: relay on at boot (step 0 IN->SDA >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     4
+    ],
+    "b": [
+     7,
+     5
+    ],
+    "nets": [
+     "IN1",
+     "IN2"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     5
+    ],
+    "b": [
+     7,
+     4
+    ],
+    "nets": [
+     "IN2",
+     "IN1"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     5
+    ],
+    "b": [
+     7,
+     6
+    ],
+    "nets": [
+     "IN2",
+     "IN3"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     6
+    ],
+    "b": [
+     7,
+     5
+    ],
+    "nets": [
+     "IN3",
+     "IN2"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     4
+    ],
+    "b": [
+     6,
+     5
+    ],
+    "nets": [
+     "IN1",
+     "IN2"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-IN",
+    "a": [
+     6,
+     5
+    ],
+    "b": [
+     6,
+     6
+    ],
+    "nets": [
+     "IN2",
+     "IN3"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-IN",
+    "a": [
+     7,
+     4
+    ],
+    "b": [
+     7,
+     5
+    ],
+    "nets": [
+     "IN1",
+     "IN2"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-IN",
+    "a": [
+     7,
+     5
+    ],
+    "b": [
+     7,
+     6
+    ],
+    "nets": [
+     "IN2",
+     "IN3"
+    ],
+    "note": "cross-drives relays (step 0 IN->IN >1M)"
+   },
+   {
+    "kind": "diag",
+    "cls": "LOW",
+    "a": [
+     10,
+     1
+    ],
+    "b": [
+     11,
+     2
+    ],
+    "nets": [
+     "C",
+     "BUS"
+    ],
+    "note": "bus-C: blows F1 (step 0: bus->C not 0 ohm)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-KEY",
+    "a": [
+     0,
+     6
+    ],
+    "b": [
+     1,
+     7
+    ],
+    "nets": [
+     "IN4",
+     "LEFT"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-KEY",
+    "a": [
+     0,
+     7
+    ],
+    "b": [
+     1,
+     6
+    ],
+    "nets": [
+     "LEFT",
+     "IN4"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   },
+   {
+    "kind": "diag",
+    "cls": "IN-KEY",
+    "a": [
+     6,
+     4
+    ],
+    "b": [
+     7,
+     3
+    ],
+    "nets": [
+     "IN1",
+     "UP"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-KEY",
+    "a": [
+     0,
+     6
+    ],
+    "b": [
+     0,
+     7
+    ],
+    "nets": [
+     "IN4",
+     "LEFT"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-KEY",
+    "a": [
+     1,
+     6
+    ],
+    "b": [
+     1,
+     7
+    ],
+    "nets": [
+     "IN4",
+     "LEFT"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   },
+   {
+    "kind": "orth",
+    "cls": "IN-KEY",
+    "a": [
+     7,
+     3
+    ],
+    "b": [
+     7,
+     4
+    ],
+    "nets": [
+     "UP",
+     "IN1"
+    ],
+    "note": "key line ~0.6 V (step 0)"
+   }
+  ],
+  "checker": {
+   "fit": [
+    [
+     0.07,
+     "XIAO:header1 - PD4:body"
+    ],
+    [
+     0.14,
+     "PD1:body - PD2:body"
+    ],
+    [
+     0.14,
+     "PD2:body - PD3:body"
+    ]
+   ],
+   "overhang": {
+    "F2:holder": 1.43,
+    "TERM:body": 0.43,
+    "CAP:can": 1.83
+   },
+   "closest": [
+    [
+     0.07,
+     "XIAO:header1",
+     "PD4:body"
+    ],
+    [
+     0.14,
+     "PD1:body",
+     "PD2:body"
+    ],
+    [
+     0.14,
+     "PD2:body",
+     "PD3:body"
+    ],
+    [
+     0.56,
+     "F1:holder",
+     "CAP:can"
+    ],
+    [
+     0.84,
+     "TERM:body",
+     "CAP:can"
+    ],
+    [
+     1.16,
+     "F1:holder",
+     "TERM:body"
+    ],
+    [
+     1.21,
+     "XIAO:header1",
+     "D5819:body"
+    ],
+    [
+     1.69,
+     "CAP:can",
+     "D1:body"
+    ],
+    [
+     1.76,
+     "F1:holder",
+     "D1:body"
+    ],
+    [
+     1.89,
+     "CAP:can",
+     "TVS:body"
+    ],
+    [
+     1.93,
+     "XIAO:header0",
+     "PD2:body"
+    ],
+    [
+     1.93,
+     "XIAO:header0",
+     "PD3:body"
+    ]
+   ],
+   "trough_landings": [
+    [
+     [
+      6,
+      4
+     ],
+     "IN1"
+    ],
+    [
+     [
+      6,
+      5
+     ],
+     "IN2"
+    ],
+    [
+     [
+      6,
+      6
+     ],
+     "IN3"
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     "3V3"
+    ],
+    [
+     [
+      7,
+      2
+     ],
+     "UP"
+    ]
+   ],
+   "haz_count": {
+    "RELAY-ON": [
+     2,
+     4
+    ],
+    "IN-IN": [
+     4,
+     4
+    ],
+    "LOW": [
+     0,
+     1
+    ],
+    "IN-KEY": [
+     3,
+     3
+    ],
+    "SUP-GND": [
+     6,
+     10
+    ]
+   },
+   "links": {
+    "n": 25,
+    "pitches": 53.0,
+    "insulated_or_sleeved": 0,
+    "longest": 12.0,
+    "power_pitches": 29.0,
+    "logic_pitches": 24.0,
+    "crossings": 0
+   },
+   "d_ACpad_logicpad": 8.03,
+   "d_ACplastic_logicpad": 10.73,
+   "d_buspad_logicpad": 7.62,
+   "d_ACpad_antenna": 13.96,
+   "d_ACplastic_antenna": 14.53,
+   "d_powerpart_antenna": 13.67,
+   "antenna_end_to_edge": 0.69,
+   "antenna_edge": "top",
+   "usb_face_to_edge": 7.31,
+   "plug_blockers": [],
+   "landings_under_plug": [
+    [
+     5,
+     1
+    ]
+   ],
+   "max_height": [
+    17.0,
+    "F2:holder"
+   ],
+   "standing": [
+    "TVS"
+   ]
+  },
+  "hole_map": {
+   "0,0": "GND",
+   "0,1": "GND",
+   "0,2": "GND",
+   "0,3": "GND",
+   "0,4": "GND",
+   "0,6": "IN4",
+   "0,7": "LEFT",
+   "0,8": "DOWN",
+   "0,9": "OK",
+   "1,2": "5V",
+   "1,3": "5V",
+   "1,4": "GND",
+   "1,5": "3V3",
+   "1,6": "IN4",
+   "1,7": "LEFT",
+   "1,8": "DOWN",
+   "1,9": "OK",
+   "2,4": "GND",
+   "2,5": "3V3",
+   "3,4": "GND",
+   "3,5": "GND",
+   "3,6": "GND",
+   "5,1": "5A",
+   "5,2": "5A",
+   "6,4": "IN1",
+   "6,5": "IN2",
+   "6,6": "IN3",
+   "7,2": "UP",
+   "7,3": "UP",
+   "7,4": "IN1",
+   "7,5": "IN2",
+   "7,6": "IN3",
+   "7,7": "SDA",
+   "7,8": "SCL",
+   "7,9": "D6",
+   "8,7": "SDA",
+   "8,8": "SCL",
+   "8,9": "D6",
+   "9,0": "C",
+   "9,6": "RIGHT",
+   "9,9": "D6",
+   "10,0": "C",
+   "10,1": "C",
+   "10,3": "BUS",
+   "11,0": "C",
+   "11,2": "BUS",
+   "11,3": "BUS",
+   "12,0": "C",
+   "12,2": "BUS",
+   "12,5": "F1o",
+   "13,0": "C",
+   "13,4": "F1o",
+   "13,5": "F1o",
+   "13,9": "COM",
+   "14,0": "C",
+   "14,4": "F1o",
+   "14,9": "COM",
+   "15,0": "C",
+   "16,0": "C",
+   "17,0": "C",
+   "18,0": "C",
+   "19,0": "C",
+   "20,0": "C",
+   "21,0": "C",
+   "23,0": "R",
+   "23,1": "R",
+   "23,2": "R",
+   "23,3": "R",
+   "23,4": "R",
+   "23,5": "R",
+   "23,6": "R",
+   "23,7": "R",
+   "23,8": "R",
+   "23,9": "R"
+  }
+ },
+ "repin_option": {
+  "firmware_changes": {
+   "board.h": "IN4 D10->D0 (GPIO18->GPIO0); UP D0->D10 (GPIO0->GPIO18); SDA D4->D9 (GPIO22->GPIO20); SCL D5->D8 (GPIO23->GPIO19); LEFT D9->D4 (GPIO20->GPIO22); DOWN D8->D5 (GPIO19->GPIO23)",
+   "tools/check_safety_sources.py": "update the expected relay pin set (GPIO 1, 2, 21, 0)",
+   "bootloader hook relay_boot_safe": "drive GPIO0 low instead of GPIO18",
+   "bench": "redo reset/panic/bootloader-hook relay drop checks; scope IN4 (GPIO0, an LP/XTAL_32K pin) through power-on, reset and flash (<1 V); confirm no 32 kHz crystal on GPIO0/1"
+  },
+  "board_changes": "power island identical; logic island: 4 pull-downs in the trough rows 3..6, I2C+UP+3V3+GND on the left column, LEFT/DOWN on column 8, IN4 lands at (7,2); relay cable order at the board changes",
+  "layout": {
+   "name": "RE-PIN option",
+   "parts": [
+    {
+     "name": "XIAO ESP32-C6 on 2 x 7 female headers",
+     "pins": {
+      "IN4": [
+       7,
+       3
+      ],
+      "IN1": [
+       7,
+       4
+      ],
+      "IN2": [
+       7,
+       5
+      ],
+      "IN3": [
+       7,
+       6
+      ],
+      "LEFT": [
+       7,
+       7
+      ],
+      "DOWN": [
+       7,
+       8
+      ],
+      "D6": [
+       7,
+       9
+      ],
+      "5V": [
+       1,
+       3
+      ],
+      "GND": [
+       1,
+       4
+      ],
+      "3V3": [
+       1,
+       5
+      ],
+      "UP": [
+       1,
+       6
+      ],
+      "SDA": [
+       1,
+       7
+      ],
+      "SCL": [
+       1,
+       8
+      ],
+      "OK": [
+       1,
+       9
+      ]
+     },
+     "orientation": "portrait: USB-C toward the bottom edge (face 7.3 mm inside it), antenna end toward the top edge (0.69 mm inside it)",
+     "envelope_mm": {
+      "x": [
+       1.26,
+       19.06
+      ],
+      "y": [
+       4.74,
+       25.74
+      ],
+      "z": [
+       8.5,
+       13.2
+      ]
+     },
+     "antenna_zone_mm": {
+      "x": [
+       1.26,
+       19.06
+      ],
+      "y": [
+       20.74,
+       25.74
+      ]
+     },
+     "header_strips": "cols 1 and 7, rows 3..9, z 0..8.5"
+    },
+    {
+     "name": "PD4",
+     "kind": "res",
+     "mount": "lying",
+     "orientation": "lying along y in column 0 (beside header)",
+     "leads": {
+      "s": {
+       "hole": [
+        6,
+        3
+       ],
+       "net": "IN4"
+      },
+      "g": {
+       "hole": [
+        2,
+        3
+       ],
+       "net": "GND"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        7.01,
+        13.31
+       ],
+       "y": [
+        6.42,
+        8.82
+       ],
+       "z": [
+        0.0,
+        2.6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PD1",
+     "kind": "res",
+     "mount": "lying",
+     "orientation": "lying along x, under XIAO",
+     "leads": {
+      "s": {
+       "hole": [
+        6,
+        4
+       ],
+       "net": "IN1"
+      },
+      "g": {
+       "hole": [
+        2,
+        4
+       ],
+       "net": "GND"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        7.01,
+        13.31
+       ],
+       "y": [
+        8.96,
+        11.36
+       ],
+       "z": [
+        0.0,
+        2.6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PD2",
+     "kind": "res",
+     "mount": "lying",
+     "orientation": "lying along x, under XIAO",
+     "leads": {
+      "s": {
+       "hole": [
+        6,
+        5
+       ],
+       "net": "IN2"
+      },
+      "g": {
+       "hole": [
+        2,
+        5
+       ],
+       "net": "GND"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        7.01,
+        13.31
+       ],
+       "y": [
+        11.5,
+        13.9
+       ],
+       "z": [
+        0.0,
+        2.6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "PD3",
+     "kind": "res",
+     "mount": "lying",
+     "orientation": "lying along x, under XIAO",
+     "leads": {
+      "s": {
+       "hole": [
+        6,
+        6
+       ],
+       "net": "IN3"
+      },
+      "g": {
+       "hole": [
+        2,
+        6
+       ],
+       "net": "GND"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        7.01,
+        13.31
+       ],
+       "y": [
+        14.04,
+        16.44
+       ],
+       "z": [
+        0.0,
+        2.6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "D5819",
+     "kind": "do41",
+     "mount": "lying",
+     "orientation": "lying along x on row 2 (cathode band at (1,2))",
+     "leads": {
+      "A": {
+       "hole": [
+        5,
+        1
+       ],
+       "net": "5A"
+      },
+      "K": {
+       "hole": [
+        1,
+        1
+       ],
+       "net": "5V"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        5.02,
+        10.22
+       ],
+       "y": [
+        1.19,
+        3.89
+       ],
+       "z": [
+        0.0,
+        2.9
+       ]
+      }
+     ]
+    },
+    {
+     "name": "R1k",
+     "kind": "res",
+     "mount": "lying",
+     "orientation": "lying along y in column 9",
+     "leads": {
+      "a": {
+       "hole": [
+        9,
+        9
+       ],
+       "net": "D6"
+      },
+      "b": {
+       "hole": [
+        9,
+        6
+       ],
+       "net": "RIGHT"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        21.66,
+        24.06
+       ],
+       "y": [
+        15.9,
+        22.2
+       ],
+       "z": [
+        0.0,
+        2.6
+       ]
+      }
+     ]
+    },
+    {
+     "name": "F1",
+     "kind": "fuse",
+     "mount": "lying",
+     "orientation": "along x, input at col 23",
+     "leads": {
+      "in": {
+       "hole": [
+        23,
+        4
+       ],
+       "net": "R"
+      },
+      "out": {
+       "hole": [
+        14,
+        4
+       ],
+       "net": "F1o"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "holder",
+       "x": [
+        33.59,
+        60.39
+       ],
+       "y": [
+        5.16,
+        15.16
+       ],
+       "z": [
+        0,
+        17.0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "F2",
+     "kind": "fuse",
+     "mount": "lying",
+     "orientation": "along x, input at col 23, overhangs top edge 1.43",
+     "leads": {
+      "in": {
+       "hole": [
+        23,
+        9
+       ],
+       "net": "R"
+      },
+      "out": {
+       "hole": [
+        14,
+        9
+       ],
+       "net": "COM"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "holder",
+       "x": [
+        33.59,
+        60.39
+       ],
+       "y": [
+        17.86,
+        27.86
+       ],
+       "z": [
+        0,
+        17.0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TERM",
+     "kind": "term",
+     "mount": "lying",
+     "orientation": "pins along x, wire entries face -y (bottom edge), overhangs 0.43",
+     "leads": {
+      "C": {
+       "hole": [
+        21,
+        0
+       ],
+       "net": "C"
+      },
+      "R": {
+       "hole": [
+        23,
+        0
+       ],
+       "net": "R"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        50.78,
+        60.98
+       ],
+       "y": [
+        -4.0,
+        4.0
+       ],
+       "z": [
+        0,
+        12.0
+       ]
+      }
+     ]
+    },
+    {
+     "name": "CAP",
+     "kind": "cap",
+     "mount": "lying",
+     "orientation": "lying along x, body toward +x, leads bent down 2.0 mm from the bung with a ~2.9 mm dog-leg toward +y; axis at y=-0.40, z=5; body overhangs bottom edge 1.83",
+     "leads": {
+      "-": {
+       "hole": [
+        11,
+        0
+       ],
+       "net": "C"
+      },
+      "+": {
+       "hole": [
+        11,
+        2
+       ],
+       "net": "BUS"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "can",
+       "x": [
+        29.94,
+        49.94
+       ],
+       "y": [
+        -5.4,
+        4.6
+       ],
+       "z": [
+        0,
+        10.2
+       ]
+      }
+     ]
+    },
+    {
+     "name": "TVS",
+     "kind": "tvs",
+     "mount": "standing",
+     "orientation": "standing: anode body over (10,1), cathode (band) at top, sleeved hairpin into (10,3)",
+     "leads": {
+      "A": {
+       "hole": [
+        10,
+        1
+       ],
+       "net": "C"
+      },
+      "K": {
+       "hole": [
+        10,
+        3
+       ],
+       "net": "BUS"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        22.75,
+        28.05
+       ],
+       "y": [
+        -0.11,
+        5.19
+       ],
+       "z": [
+        1.0,
+        10.5
+       ]
+      },
+      {
+       "what": "hairpin",
+       "x": [
+        24.8,
+        26.0
+       ],
+       "y": [
+        2.54,
+        7.62
+       ],
+       "z": [
+        0,
+        12.5
+       ]
+      }
+     ]
+    },
+    {
+     "name": "D1",
+     "kind": "do41",
+     "mount": "lying",
+     "orientation": "lying along y in column 12, cathode band at (12,2)",
+     "leads": {
+      "A": {
+       "hole": [
+        12,
+        5
+       ],
+       "net": "F1o"
+      },
+      "K": {
+       "hole": [
+        12,
+        2
+       ],
+       "net": "BUS"
+      }
+     },
+     "envelope_mm": [
+      {
+       "what": "body",
+       "x": [
+        29.13,
+        31.83
+       ],
+       "y": [
+        6.29,
+        11.49
+       ],
+       "z": [
+        0.0,
+        2.9
+       ]
+      }
+     ]
+    }
+   ],
+   "landings_top_side": [
+    {
+     "hole": [
+      0,
+      2
+     ],
+     "net": "GND",
+     "wire": "relay GND + XL OUT-",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      4
+     ],
+     "net": "GND",
+     "wire": "cover GND + SHT GND",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      5
+     ],
+     "net": "3V3",
+     "wire": "cover 3V3 + SHT 3V3",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      6
+     ],
+     "net": "UP",
+     "wire": "cover UP",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      7
+     ],
+     "net": "SDA",
+     "wire": "cover SDA + SHT SDA",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      8
+     ],
+     "net": "SCL",
+     "wire": "cover SCL + SHT SCL",
+     "leaves_by": "left",
+     "nearest_edge": "left",
+     "to_edge_mm": 5.8
+    },
+    {
+     "hole": [
+      0,
+      9
+     ],
+     "net": "OK",
+     "wire": "cover OK",
+     "leaves_by": "left",
+     "nearest_edge": "top",
+     "to_edge_mm": 3.6
+    },
+    {
+     "hole": [
+      5,
+      0
+     ],
+     "net": "5A",
+     "wire": "relay 5V + XL OUT+",
+     "leaves_by": "bottom",
+     "nearest_edge": "bottom",
+     "to_edge_mm": 3.6
+    },
+    {
+     "hole": [
+      6,
+      4
+     ],
+     "net": "IN1",
+     "wire": "relay IN1",
+     "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+     "nearest_edge": "bottom",
+     "to_edge_mm": 13.7
+    },
+    {
+     "hole": [
+      6,
+      5
+     ],
+     "net": "IN2",
+     "wire": "relay IN2",
+     "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+     "nearest_edge": "top",
+     "to_edge_mm": 13.7
+    },
+    {
+     "hole": [
+      6,
+      6
+     ],
+     "net": "IN3",
+     "wire": "relay IN3",
+     "leaves_by": "bottom edge, run up the trough under the XIAO from the USB end (land before fitting the XIAO)",
+     "nearest_edge": "top",
+     "to_edge_mm": 11.2
+    },
+    {
+     "hole": [
+      7,
+      2
+     ],
+     "net": "IN4",
+     "wire": "relay IN4",
+     "leaves_by": "bottom",
+     "nearest_edge": "bottom",
+     "to_edge_mm": 8.7
+    },
+    {
+     "hole": [
+      8,
+      7
+     ],
+     "net": "LEFT",
+     "wire": "cover LEFT",
+     "leaves_by": "right",
+     "nearest_edge": "top",
+     "to_edge_mm": 8.6
+    },
+    {
+     "hole": [
+      8,
+      8
+     ],
+     "net": "DOWN",
+     "wire": "cover DOWN",
+     "leaves_by": "right",
+     "nearest_edge": "top",
+     "to_edge_mm": 6.1
+    },
+    {
+     "hole": [
+      9,
+      0
+     ],
+     "net": "C",
+     "wire": "XL7015 IN- (C)",
+     "leaves_by": "bottom",
+     "nearest_edge": "bottom",
+     "to_edge_mm": 3.6
+    },
+    {
+     "hole": [
+      9,
+      6
+     ],
+     "net": "RIGHT",
+     "wire": "cover RIGHT",
+     "leaves_by": "right",
+     "nearest_edge": "top",
+     "to_edge_mm": 11.2
+    },
+    {
+     "hole": [
+      11,
+      3
+     ],
+     "net": "BUS",
+     "wire": "XL7015 IN+ (bus)",
+     "leaves_by": "bottom",
+     "nearest_edge": "bottom",
+     "to_edge_mm": 11.2
+    },
+    {
+     "hole": [
+      13,
+      9
+     ],
+     "net": "COM",
+     "wire": "COM 18 AWG to relay commons",
+     "leaves_by": "top",
+     "nearest_edge": "top",
+     "to_edge_mm": 3.6
+    }
+   ],
+   "underside_links": [
+    {
+     "net": "IN4",
+     "holes": [
+      [
+       7,
+       3
+      ],
+      [
+       7,
+       2
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "IN4",
+     "holes": [
+      [
+       7,
+       3
+      ],
+      [
+       6,
+       3
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "IN1",
+     "holes": [
+      [
+       7,
+       4
+      ],
+      [
+       6,
+       4
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "IN2",
+     "holes": [
+      [
+       7,
+       5
+      ],
+      [
+       6,
+       5
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "IN3",
+     "holes": [
+      [
+       7,
+       6
+      ],
+      [
+       6,
+       6
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "GND",
+     "holes": [
+      [
+       1,
+       4
+      ],
+      [
+       0,
+       4
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "GND",
+     "holes": [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "GND",
+     "holes": [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       6
+      ]
+     ],
+     "pitches": 3,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "GND",
+     "holes": [
+      [
+       0,
+       4
+      ],
+      [
+       0,
+       3
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     "pitches": 2,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "5V",
+     "holes": [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "pitches": 2,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "5A",
+     "holes": [
+      [
+       5,
+       1
+      ],
+      [
+       5,
+       0
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "3V3",
+     "holes": [
+      [
+       1,
+       5
+      ],
+      [
+       0,
+       5
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "UP",
+     "holes": [
+      [
+       1,
+       6
+      ],
+      [
+       0,
+       6
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "SDA",
+     "holes": [
+      [
+       1,
+       7
+      ],
+      [
+       0,
+       7
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "SCL",
+     "holes": [
+      [
+       1,
+       8
+      ],
+      [
+       0,
+       8
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "OK",
+     "holes": [
+      [
+       1,
+       9
+      ],
+      [
+       0,
+       9
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "D6",
+     "holes": [
+      [
+       7,
+       9
+      ],
+      [
+       8,
+       9
+      ],
+      [
+       9,
+       9
+      ]
+     ],
+     "pitches": 2,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "LEFT",
+     "holes": [
+      [
+       7,
+       7
+      ],
+      [
+       8,
+       7
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "DOWN",
+     "holes": [
+      [
+       7,
+       8
+      ],
+      [
+       8,
+       8
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "R",
+     "holes": [
+      [
+       23,
+       0
+      ],
+      [
+       23,
+       1
+      ],
+      [
+       23,
+       2
+      ],
+      [
+       23,
+       3
+      ],
+      [
+       23,
+       4
+      ],
+      [
+       23,
+       5
+      ],
+      [
+       23,
+       6
+      ],
+      [
+       23,
+       7
+      ],
+      [
+       23,
+       8
+      ],
+      [
+       23,
+       9
+      ]
+     ],
+     "pitches": 9,
+     "material": "18 AWG bare tinned",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "C",
+     "holes": [
+      [
+       9,
+       0
+      ],
+      [
+       10,
+       0
+      ],
+      [
+       11,
+       0
+      ],
+      [
+       12,
+       0
+      ],
+      [
+       13,
+       0
+      ],
+      [
+       14,
+       0
+      ],
+      [
+       15,
+       0
+      ],
+      [
+       16,
+       0
+      ],
+      [
+       17,
+       0
+      ],
+      [
+       18,
+       0
+      ],
+      [
+       19,
+       0
+      ],
+      [
+       20,
+       0
+      ],
+      [
+       21,
+       0
+      ]
+     ],
+     "pitches": 12,
+     "material": "18 AWG bare tinned",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "C",
+     "holes": [
+      [
+       10,
+       1
+      ],
+      [
+       10,
+       0
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "BUS",
+     "holes": [
+      [
+       10,
+       3
+      ],
+      [
+       11,
+       3
+      ],
+      [
+       11,
+       2
+      ],
+      [
+       12,
+       2
+      ]
+     ],
+     "pitches": 3,
+     "material": "18 AWG bare tinned",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "F1o",
+     "holes": [
+      [
+       14,
+       4
+      ],
+      [
+       13,
+       4
+      ],
+      [
+       13,
+       5
+      ],
+      [
+       12,
+       5
+      ]
+     ],
+     "pitches": 3,
+     "material": "18 AWG bare tinned",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    },
+    {
+     "net": "COM",
+     "holes": [
+      [
+       13,
+       9
+      ],
+      [
+       14,
+       9
+      ]
+     ],
+     "pitches": 1,
+     "material": "lead offcut / 0.6 mm tinned wire (1-pitch solder bridge OK)",
+     "insulation": "bare (no crossings; nothing needs insulation)"
+    }
+   ],
+   "keep_empty": [
+    [
+     8,
+     6
+    ],
+    [
+     9,
+     2
+    ],
+    [
+     9,
+     3
+    ],
+    [
+     9,
+     4
+    ],
+    [
+     10,
+     2
+    ],
+    [
+     10,
+     4
+    ],
+    [
+     11,
+     1
+    ],
+    [
+     11,
+     4
+    ],
+    [
+     11,
+     5
+    ],
+    [
+     11,
+     6
+    ],
+    [
+     12,
+     1
+    ],
+    [
+     12,
+     3
+    ],
+    [
+     12,
+     4
+    ],
+    [
+     12,
+     6
+    ],
+    [
+     12,
+     8
+    ],
+    [
+     12,
+     9
+    ],
+    [
+     13,
+     1
+    ],
+    [
+     13,
+     2
+    ],
+    [
+     13,
+     3
+    ],
+    [
+     13,
+     6
+    ],
+    [
+     13,
+     8
+    ],
+    [
+     14,
+     3
+    ],
+    [
+     14,
+     5
+    ],
+    [
+     14,
+     6
+    ],
+    [
+     14,
+     8
+    ],
+    [
+     15,
+     3
+    ],
+    [
+     15,
+     4
+    ],
+    [
+     15,
+     5
+    ],
+    [
+     15,
+     8
+    ],
+    [
+     15,
+     9
+    ],
+    [
+     22,
+     0
+    ],
+    [
+     22,
+     1
+    ],
+    [
+     22,
+     2
+    ],
+    [
+     22,
+     3
+    ],
+    [
+     22,
+     4
+    ],
+    [
+     22,
+     5
+    ],
+    [
+     22,
+     6
+    ],
+    [
+     22,
+     7
+    ],
+    [
+     22,
+     8
+    ],
+    [
+     22,
+     9
+    ]
+   ],
+   "adjacency_hazards": [
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      3
+     ],
+     "b": [
+      7,
+      4
+     ],
+     "nets": [
+      "IN4",
+      "IN1"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      4
+     ],
+     "b": [
+      7,
+      3
+     ],
+     "nets": [
+      "IN1",
+      "IN4"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      4
+     ],
+     "b": [
+      7,
+      5
+     ],
+     "nets": [
+      "IN1",
+      "IN2"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      5
+     ],
+     "b": [
+      7,
+      4
+     ],
+     "nets": [
+      "IN2",
+      "IN1"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      5
+     ],
+     "b": [
+      7,
+      6
+     ],
+     "nets": [
+      "IN2",
+      "IN3"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      6
+     ],
+     "b": [
+      7,
+      5
+     ],
+     "nets": [
+      "IN3",
+      "IN2"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      3
+     ],
+     "b": [
+      6,
+      4
+     ],
+     "nets": [
+      "IN4",
+      "IN1"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      4
+     ],
+     "b": [
+      6,
+      5
+     ],
+     "nets": [
+      "IN1",
+      "IN2"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      6,
+      5
+     ],
+     "b": [
+      6,
+      6
+     ],
+     "nets": [
+      "IN2",
+      "IN3"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      7,
+      3
+     ],
+     "b": [
+      7,
+      4
+     ],
+     "nets": [
+      "IN4",
+      "IN1"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      7,
+      4
+     ],
+     "b": [
+      7,
+      5
+     ],
+     "nets": [
+      "IN1",
+      "IN2"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-IN",
+     "a": [
+      7,
+      5
+     ],
+     "b": [
+      7,
+      6
+     ],
+     "nets": [
+      "IN2",
+      "IN3"
+     ],
+     "note": "cross-drives relays (step 0 IN->IN >1M)"
+    },
+    {
+     "kind": "diag",
+     "cls": "LOW",
+     "a": [
+      10,
+      1
+     ],
+     "b": [
+      11,
+      2
+     ],
+     "nets": [
+      "C",
+      "BUS"
+     ],
+     "note": "bus-C: blows F1 (step 0: bus->C not 0 ohm)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-KEY",
+     "a": [
+      6,
+      6
+     ],
+     "b": [
+      7,
+      7
+     ],
+     "nets": [
+      "IN3",
+      "LEFT"
+     ],
+     "note": "key line ~0.6 V (step 0)"
+    },
+    {
+     "kind": "diag",
+     "cls": "IN-KEY",
+     "a": [
+      7,
+      6
+     ],
+     "b": [
+      8,
+      7
+     ],
+     "nets": [
+      "IN3",
+      "LEFT"
+     ],
+     "note": "key line ~0.6 V (step 0)"
+    },
+    {
+     "kind": "orth",
+     "cls": "IN-KEY",
+     "a": [
+      7,
+      6
+     ],
+     "b": [
+      7,
+      7
+     ],
+     "nets": [
+      "IN3",
+      "LEFT"
+     ],
+     "note": "key line ~0.6 V (step 0)"
+    }
+   ],
+   "checker": {
+    "fit": [
+     [
+      0.14,
+      "PD4:body - PD1:body"
+     ],
+     [
+      0.14,
+      "PD1:body - PD2:body"
+     ],
+     [
+      0.14,
+      "PD2:body - PD3:body"
+     ]
+    ],
+    "overhang": {
+     "F2:holder": 1.43,
+     "TERM:body": 0.43,
+     "CAP:can": 1.83
+    },
+    "closest": [
+     [
+      0.14,
+      "PD1:body",
+      "PD2:body"
+     ],
+     [
+      0.14,
+      "PD4:body",
+      "PD1:body"
+     ],
+     [
+      0.14,
+      "PD2:body",
+      "PD3:body"
+     ],
+     [
+      0.56,
+      "F1:holder",
+      "CAP:can"
+     ],
+     [
+      0.84,
+      "TERM:body",
+      "CAP:can"
+     ],
+     [
+      1.16,
+      "F1:holder",
+      "TERM:body"
+     ],
+     [
+      1.69,
+      "CAP:can",
+      "D1:body"
+     ],
+     [
+      1.76,
+      "F1:holder",
+      "D1:body"
+     ],
+     [
+      1.89,
+      "CAP:can",
+      "TVS:body"
+     ],
+     [
+      2.53,
+      "PD4:body",
+      "D5819:body"
+     ],
+     [
+      2.61,
+      "XIAO:header0",
+      "R1k:body"
+     ],
+     [
+      2.64,
+      "TVS:body",
+      "D1:body"
+     ]
+    ],
+    "trough_landings": [
+     [
+      [
+       6,
+       4
+      ],
+      "IN1"
+     ],
+     [
+      [
+       6,
+       5
+      ],
+      "IN2"
+     ],
+     [
+      [
+       6,
+       6
+      ],
+      "IN3"
+     ],
+     [
+      [
+       7,
+       2
+      ],
+      "IN4"
+     ]
+    ],
+    "haz_count": {
+     "IN-IN": [
+      6,
+      6
+     ],
+     "LOW": [
+      0,
+      1
+     ],
+     "IN-KEY": [
+      1,
+      2
+     ],
+     "SUP-GND": [
+      7,
+      10
+     ]
+    },
+    "links": {
+     "n": 25,
+     "pitches": 53.0,
+     "insulated_or_sleeved": 0,
+     "longest": 12.0,
+     "power_pitches": 29.0,
+     "logic_pitches": 24.0,
+     "crossings": 0
+    },
+    "d_ACpad_logicpad": 8.03,
+    "d_ACplastic_logicpad": 10.73,
+    "d_buspad_logicpad": 7.62,
+    "d_ACpad_antenna": 13.96,
+    "d_ACplastic_antenna": 14.53,
+    "d_powerpart_antenna": 13.67,
+    "antenna_end_to_edge": 0.69,
+    "antenna_edge": "top",
+    "usb_face_to_edge": 7.31,
+    "plug_blockers": [],
+    "landings_under_plug": [
+     [
+      5,
+      0
+     ]
+    ],
+    "max_height": [
+     17.0,
+     "F2:holder"
+    ],
+    "standing": [
+     "TVS"
+    ]
+   },
+   "hole_map": {
+    "0,2": "GND",
+    "0,3": "GND",
+    "0,4": "GND",
+    "0,5": "3V3",
+    "0,6": "UP",
+    "0,7": "SDA",
+    "0,8": "SCL",
+    "0,9": "OK",
+    "1,1": "5V",
+    "1,2": "5V",
+    "1,3": "5V",
+    "1,4": "GND",
+    "1,5": "3V3",
+    "1,6": "UP",
+    "1,7": "SDA",
+    "1,8": "SCL",
+    "1,9": "OK",
+    "2,3": "GND",
+    "2,4": "GND",
+    "2,5": "GND",
+    "2,6": "GND",
+    "5,0": "5A",
+    "5,1": "5A",
+    "6,3": "IN4",
+    "6,4": "IN1",
+    "6,5": "IN2",
+    "6,6": "IN3",
+    "7,2": "IN4",
+    "7,3": "IN4",
+    "7,4": "IN1",
+    "7,5": "IN2",
+    "7,6": "IN3",
+    "7,7": "LEFT",
+    "7,8": "DOWN",
+    "7,9": "D6",
+    "8,7": "LEFT",
+    "8,8": "DOWN",
+    "8,9": "D6",
+    "9,0": "C",
+    "9,6": "RIGHT",
+    "9,9": "D6",
+    "10,0": "C",
+    "10,1": "C",
+    "10,3": "BUS",
+    "11,0": "C",
+    "11,2": "BUS",
+    "11,3": "BUS",
+    "12,0": "C",
+    "12,2": "BUS",
+    "12,5": "F1o",
+    "13,0": "C",
+    "13,4": "F1o",
+    "13,5": "F1o",
+    "13,9": "COM",
+    "14,0": "C",
+    "14,4": "F1o",
+    "14,9": "COM",
+    "15,0": "C",
+    "16,0": "C",
+    "17,0": "C",
+    "18,0": "C",
+    "19,0": "C",
+    "20,0": "C",
+    "21,0": "C",
+    "23,0": "R",
+    "23,1": "R",
+    "23,2": "R",
+    "23,3": "R",
+    "23,4": "R",
+    "23,5": "R",
+    "23,6": "R",
+    "23,7": "R",
+    "23,8": "R",
+    "23,9": "R"
+   }
+  }
+ },
+ "reviewed_layouts": {
+  "r4": {
+   "errors": [],
+   "fit": [
+    [
+     0.06,
+     "PD1:body - PD2:body"
+    ]
+   ],
+   "trough_landings": [
+    [
+     [
+      2,
+      6
+     ],
+     "3V3"
+    ],
+    [
+     [
+      5,
+      6
+     ],
+     "RIGHT"
+    ]
+   ],
+   "haz_count": {
+    "BLOCKER": [
+     0,
+     2
+    ],
+    "RELAY-ON": [
+     3,
+     5
+    ],
+    "MED": [
+     0,
+     1
+    ],
+    "IN-IN": [
+     6,
+     8
+    ],
+    "LOW": [
+     3,
+     6
+    ],
+    "IN-KEY": [
+     4,
+     6
+    ],
+    "SUP-GND": [
+     10,
+     11
+    ],
+    "SUP-SUP": [
+     1,
+     1
+    ]
+   },
+   "links": {
+    "n": 31,
+    "pitches": 80.5,
+    "insulated_or_sleeved": 5,
+    "longest": 11.0,
+    "power_pitches": 52.5,
+    "logic_pitches": 28.0,
+    "crossings": 0
+   },
+   "d_ACpad_logicpad": 10.47,
+   "d_ACpad_antenna": 7.28,
+   "d_ACplastic_antenna": 5.31,
+   "antenna_end_to_edge": 13.73,
+   "max_height": [
+    17.0,
+    "F2:holder"
+   ]
+  },
+  "critic #1": {
+   "errors": [],
+   "fit": [
+    [
+     0.07,
+     "XIAO:header1 - PD4:body"
+    ],
+    [
+     0.14,
+     "PD1:body - PD2:body"
+    ],
+    [
+     0.14,
+     "PD2:body - PD3:body"
+    ],
+    [
+     0.16,
+     "F1:holder - F2:holder"
+    ],
+    [
+     0.06,
+     "F1:holder - TERM:body"
+    ],
+    [
+     0.16,
+     "F1:holder - CAP:can"
+    ]
+   ],
+   "trough_landings": [
+    [
+     [
+      6,
+      4
+     ],
+     "IN1"
+    ],
+    [
+     [
+      6,
+      5
+     ],
+     "IN2"
+    ],
+    [
+     [
+      6,
+      6
+     ],
+     "IN3"
+    ],
+    [
+     [
+      2,
+      5
+     ],
+     "3V3"
+    ],
+    [
+     [
+      7,
+      2
+     ],
+     "UP"
+    ]
+   ],
+   "haz_count": {
+    "RELAY-ON": [
+     2,
+     4
+    ],
+    "IN-IN": [
+     4,
+     4
+    ],
+    "LOW": [
+     0,
+     1
+    ],
+    "IN-KEY": [
+     3,
+     3
+    ],
+    "SUP-GND": [
+     6,
+     10
+    ]
+   },
+   "links": {
+    "n": 30,
+    "pitches": 50.0,
+    "insulated_or_sleeved": 0,
+    "longest": 7.0,
+    "power_pitches": 26.0,
+    "logic_pitches": 24.0,
+    "crossings": 0
+   },
+   "d_ACpad_logicpad": 7.62,
+   "d_ACpad_antenna": 12.68,
+   "d_ACplastic_antenna": 14.53,
+   "antenna_end_to_edge": 0.69,
+   "max_height": [
+    17.0,
+    "F2:holder"
+   ]
+  },
+  "S3": {
+   "errors": [
+    "COLLISION F1:holder x TVS:body"
+   ],
+   "fit": [
+    [
+     0.14,
+     "PD1:body - PD2:body"
+    ],
+    [
+     0.14,
+     "PD2:body - PD3:body"
+    ],
+    [
+     0.16,
+     "F1:holder - CAP:can"
+    ],
+    [
+     0.06,
+     "TERM:body - CAP:can"
+    ]
+   ],
+   "trough_landings": [
+    [
+     [
+      2,
+      6
+     ],
+     "3V3"
+    ],
+    [
+     [
+      5,
+      6
+     ],
+     "RIGHT"
+    ]
+   ],
+   "haz_count": {
+    "RELAY-ON": [
+     3,
+     5
+    ],
+    "IN-IN": [
+     6,
+     8
+    ],
+    "LOW": [
+     4,
+     7
+    ],
+    "IN-KEY": [
+     4,
+     6
+    ],
+    "SUP-GND": [
+     9,
+     11
+    ],
+    "SUP-SUP": [
+     1,
+     1
+    ]
+   },
+   "links": {
+    "n": 26,
+    "pitches": 61.0,
+    "insulated_or_sleeved": 0,
+    "longest": 9.0,
+    "power_pitches": 33.0,
+    "logic_pitches": 28.0,
+    "crossings": 0
+   },
+   "d_ACpad_logicpad": 15.45,
+   "d_ACpad_antenna": 12.36,
+   "d_ACplastic_antenna": 15.47,
+   "antenna_end_to_edge": 13.73,
+   "max_height": [
+    22.5,
+    "CAP:can"
+   ]
+  }
+ }
+}

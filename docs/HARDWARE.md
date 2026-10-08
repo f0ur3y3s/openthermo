@@ -215,8 +215,9 @@ A **30 × 70 mm perfboard with 10 × 24 holes** (2.54 mm) and no mounting holes,
 ## Bring-up order
 
 0. **Board ohm test, before any power** (mandatory):
-   - each IN pin to every other IN, 3V3, 5V, SDA, SCL and D6: **> 1 MΩ**;
-   - each IN pin to GND: **10 k**;
+   - each IN pin to GND: **10.0 kΩ** (about 5 kΩ means two IN pins are bridged; IN-to-IN reads about 20 kΩ through the pull-downs, which is normal);
+   - each IN pin to 3V3, 5V, SDA, SCL, D6 and every key line: **> 1 MΩ**;
+   - once the XL7015 is connected: C to the XIAO GND 0 Ω (they join only through the XL7015);
    - R to C, to the bus and to every logic net: open;
    - the bus to C: charges up, not 0 Ω;
    - 3V3 and 5V to GND: not shorted.
