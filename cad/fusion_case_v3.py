@@ -131,7 +131,9 @@ GRM_COLLAR_Z = 0.6                                 # captive collar behind the w
 SG_X, SG_Y, SG_Z = (14.6, 20.4), (-42.5, -37.5), (PLATE, 13.0)
 # SHT40 module (measured 12.56 x 10.5, 2.85 hole in a corner, VIN GND SCL SDA on the far edge), lying flat in the
 # chamber, sensor side up, pin edge toward the cable grommet; held by one M2 x 6 into a standoff, resting on two posts
-SHT_X0, SHT_Y1 = 25.0, -40.0                   # pin-edge x, +Y edge of the board
+SHT_X0, SHT_Y1 = 40.0, -40.0                   # pin-edge x, +Y edge: centred in the chamber flow, ~20 from the
+                                               # divider skin, 14 from the outer wall, under the exhaust port, and the
+                                               # standoff clears the bottom screw boss (x 53+)
 SHT_L, SHT_W, SHT_T, SHT_Z = 12.56, 10.5, 1.6, 14.0  # along x (pins -> hole), along y, thickness, underside height
                                                      # (mid-depth: in the vent airflow, 11 mm off the backplate)
 SHT_HOLE = (SHT_X0 + SHT_L - 2.4, SHT_Y1 - 2.7)       # 2.85 hole centre
@@ -403,7 +405,8 @@ def build_wiring():
     # 5. SHT40: chamber -> grommet channel -> controller board (right end)
     sy = (SG_Y[0] + SG_Y[1]) / 2
     named.append(('SHT40 (4)', wire_path([(SHT_X0 + 1.1, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2),
-                                          (SHT_X0 - 1.5, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2), (SG_X[1] + 1.5, sy, SG_CH_Z),
+                                          (SHT_X0 - 1.5, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2), (SHT_X0 - 4.0, sy, SG_CH_Z),
+                                          (SG_X[1] + 1.5, sy, SG_CH_Z),
                                           (SG_X[0] - 1.0, sy, SG_CH_Z), (12.0, sy, CTL_TOP + 1.6)], r_bundle(4))))
     # 6. cover side: OLED (4) and D-pad (6) pigtails end in JST-PH pairs lying flat under the carrier (x 22..48,
     #    y 5..17); ~80 mm of cover-side slack is stowed there too. Controller side: one 10-wire bundle down the
