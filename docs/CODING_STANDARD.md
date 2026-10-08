@@ -5,7 +5,7 @@ for all first-party code, plus the project rules below. Where BARR-C leaves a
 choice ("preferred practice"), the project rules make it. Deviations are listed
 at the end; anything not listed there is expected to comply.
 
-**Scope.** Everything under `src/` and `components/`, except `components/u8g2`
+**Scope.** Everything under `components/`, `matter/components/` and `matter/main/`, except `components/u8g2`
 (a build wrapper around third-party code). Test code under `test/` follows the
 same rules except where noted in the deviations.
 
@@ -13,9 +13,9 @@ same rules except where noted in the deviations.
 
 | Layer | What it catches | How to run |
 |---|---|---|
-| Compiler | Implicit conversions, shadowing, missing prototypes, qualifier casts. `-Werror` makes every warning fatal. Flags live in `cmake/strict_warnings.cmake`, applied per component. | `pio run` |
+| Compiler | Implicit conversions, shadowing, missing prototypes, qualifier casts. `-Werror` makes every warning fatal. Flags live in `cmake/strict_warnings.cmake`, applied per component. | `bash tools/matter.sh build` (WSL2) |
 | clang-format | Layout: 80 columns, 4-space indent, Allman braces, mandatory braces, `char * p_name` spacing, aligned declarations. | `clang-format -i <files>` |
-| clang-tidy | Naming prefixes and case, function length, braces, `bugprone`/`cert`/`misc` checks. Config in `.clang-tidy`. | `pio run -t compiledb` then `python tools/tidy_db.py --run` |
+| clang-tidy | Naming prefixes and case, function length, braces, `bugprone`/`cert`/`misc` checks. Config in `.clang-tidy`. | `bash tools/matter.sh tidy` (WSL2) |
 | Unit tests | Behaviour of the pure-logic modules. | `pio test -e native` |
 | Review | What tools cannot see: the checklist at the end of this file. | — |
 
@@ -178,7 +178,9 @@ it, so saved settings survive the update.
 | D5 | `settings_defaults.h` uses `__has_include` (GCC, standardised in C23). | Lets the build succeed without the git-ignored secrets file, falling back to the recovery access point. |
 | D6 | `misc-header-include-cycle` is disabled in `.clang-tidy`. | ESP-IDF's own FreeRTOS headers include each other in a cycle. |
 | D7 | `int8_t` is exempt from the signed-char checks in `.clang-tidy`. | u8g2 reports font metrics as `int8_t`, which is numeric data, not text. |
-| D8 | `src/` (the main component) is compiled without the strict warning flags, and holds only `main.c`'s three-line `app_main()`. | PlatformIO's ESP-IDF builder copies the main component's compile flags into the global environment that ESP-IDF itself is built with, so `-Werror -Wconversion` there breaks the framework build. All real code lives in `components/app`, which does get the flags; clang-tidy still checks `src/`. |
+| D8 | Retired (Oct 2026). It exempted the PlatformIO build's `src/` main component from the strict flags. That build is gone; `matter/main` gets the flags. | — |
+| D9 | `matter/components/matter_bridge/matter_bridge.cpp` is C++ and is compiled without the strict warning flags. It follows the naming, declaration and single-exit rules where C++ allows, and keeps all value mapping in the strict, host-tested `bridge_map.c`. | esp-matter and connectedhomeip are C++ APIs, and their headers do not build under `-Wconversion -Werror`. |
+| D10 | `relays.c` defines `__wrap_esp_panic_handler` and declares `__real_esp_panic_handler`: reserved identifiers without the module prefix, with clang-tidy's naming and reserved-identifier checks silenced around them. | The names are fixed by the linker's `--wrap` option, the one way to run code first in every panic without changing ESP-IDF. |
 
 ## Review checklist
 

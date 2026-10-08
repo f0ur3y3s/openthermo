@@ -1,0 +1,61 @@
+# openthermo, Matter build. sdkconfig.defaults.esp32c6 follows and
+# overrides the Wi-Fi-oriented settings here with Thread. Starts from
+# esp-matter's room_air_conditioner example, plus the thermostat's own
+# safety settings.
+
+# ---- Thermostat ---------------------------------------------------------------
+# The control task feeds the task watchdog; a hang resets the chip, and every
+# reset starts with all relay outputs low.
+CONFIG_ESP_TASK_WDT_EN=y
+CONFIG_ESP_TASK_WDT_INIT=y
+CONFIG_ESP_TASK_WDT_PANIC=y
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=5
+CONFIG_ESP_BROWNOUT_DET=y
+# The main task runs start-up (including esp_matter::start) and then the UI.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
+
+# Size-optimise all of ESP-IDF and Matter, not only our code (-Os). The
+# 4 MB C6 has 1.875 MB app slots; tools/check_size.py fails a build over 90%.
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
+# Assertions stay on, silently: a failed one still resets the chip (which
+# drops every relay) and the panic still prints a backtrace, but the
+# expression, file and function strings are not stored (about 25 KB).
+CONFIG_COMPILER_OPTIMIZATION_ASSERTIONS_SILENT=y
+# Errors log as hex codes, not names: the name table costs about 8 KB.
+CONFIG_ESP_ERR_TO_NAME_LOOKUP=n
+
+# ---- Partitions ---------------------------------------------------------------
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0xC000
+
+# ---- Commissioning over BLE ---------------------------------------------------
+CONFIG_BT_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLE_CONN_REATTEMPT=n
+# Commissioning only advertises and accepts a connection: no scanning or
+# connecting out, which saves flash on the 4 MB C6.
+CONFIG_BT_NIMBLE_ROLE_CENTRAL=n
+CONFIG_BT_NIMBLE_ROLE_OBSERVER=n
+
+# ---- IPv6 / lwIP, as the esp-matter examples ----------------------------------
+CONFIG_LWIP_IPV6_AUTOCONFIG=y
+CONFIG_LWIP_HOOK_IP6_ROUTE_DEFAULT=y
+CONFIG_LWIP_HOOK_ND6_GET_GW_DEFAULT=y
+# Unique local addresses for each fabric (5) plus a link-local one.
+CONFIG_LWIP_IPV6_NUM_ADDRESSES=6
+CONFIG_ESP_WIFI_SOFTAP_SUPPORT=n
+CONFIG_ENABLE_WIFI_AP=n
+# The DHCP server only serves a Wi-Fi access point, which is off.
+CONFIG_LWIP_DHCPS=n
+CONFIG_MBEDTLS_HKDF_C=y
+# Numeric TLS error codes only; the text table costs flash.
+CONFIG_MBEDTLS_ERROR_STRINGS=n
+
+# ---- Matter -------------------------------------------------------------------
+# Serial shell: `matter esp factoryreset`, `matter esp wifi ...`.
+CONFIG_ENABLE_CHIP_SHELL=y
+# Root node plus thermostat, fan, e-heat and the fault contact sensor.
+CONFIG_ESP_MATTER_MAX_DYNAMIC_ENDPOINT_COUNT=5
+CONFIG_SUPPORT_GROUPCAST_CLUSTER=n

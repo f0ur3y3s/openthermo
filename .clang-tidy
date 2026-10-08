@@ -1,0 +1,96 @@
+# Static checks for the project's own code (components/* except u8g2,
+# matter/components/*, matter/main).
+#
+# Mechanises the parts of BARR-C:2018 and the project rules that a tool can
+# see; docs/CODING_STANDARD.md lists the rest, which are checked in review.
+#
+# Run in WSL2, against the firmware build's compile database:
+#   bash tools/matter.sh tidy
+#
+# The database holds GCC RISC-V flags that clang does not know;
+# tools/tidy_db.py filters them before clang-tidy runs.
+---
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-assignment-in-if-condition,
+  cert-*,
+  -cert-err33-c,
+  misc-*,
+  -misc-include-cleaner,
+  -misc-header-include-cycle,
+  readability-braces-around-statements,
+  readability-function-size,
+  readability-identifier-naming,
+  readability-implicit-bool-conversion,
+  readability-misleading-indentation,
+  readability-redundant-declaration
+
+WarningsAsErrors: '*'
+
+# Only report on the project's headers, not ESP-IDF's or u8g2's.
+HeaderFilterRegex: '^(.*/)?(components/(app|board|buttons|control|display|hvac_logic|i2c_bus|matter_bridge|pages|relays|sensor|settings|status_led)/(include/)?)[^/]+\.h$'
+
+# misc-header-include-cycle is off because ESP-IDF's own FreeRTOS headers
+# include each other in a cycle; nothing in this project can fix that.
+
+CheckOptions:
+  # u8g2 reports font metrics as int8_t, which is numeric data, not text.
+  - key: bugprone-signed-char-misuse.CharTypdefsToIgnore
+    value: 'int8_t'
+  - key: cert-str34-c.CharTypdefsToIgnore
+    value: 'int8_t'
+
+  # Functions stay readable on one screen (project rule, after BARR-C 6.2).
+  - key: readability-function-size.LineThreshold
+    value: 100
+
+  # Naming (BARR-C chapters 6 and 7, plus the project's prefixes).
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.TypedefCase
+    value: lower_case
+  - key: readability-identifier-naming.TypedefSuffix
+    value: _t
+  - key: readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+
+  # File-scope variables, static or not, carry g_.
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: g_
+  - key: readability-identifier-naming.StaticVariablePrefix
+    value: g_
+  - key: readability-identifier-naming.GlobalConstantPrefix
+    value: g_
+  - key: readability-identifier-naming.StaticConstantPrefix
+    value: g_
+
+  # Pointers carry p_; file-scope pointers carry gp_.
+  - key: readability-identifier-naming.LocalPointerPrefix
+    value: p_
+  - key: readability-identifier-naming.PointerParameterPrefix
+    value: p_
+  - key: readability-identifier-naming.GlobalPointerPrefix
+    value: gp_
+  - key: readability-identifier-naming.GlobalConstantPointerPrefix
+    value: gp_
+
+  # Opaque ESP-IDF/FreeRTOS handles are pointers underneath but are never
+  # dereferenced by this code, so they carry h_ (g_h_ at file scope) rather
+  # than p_. Pointers to pointers carry pp_. See docs/CODING_STANDARD.md,
+  # naming.
+  - key: readability-identifier-naming.LocalPointerIgnoredRegexp
+    value: '^(h|pp)_[a-z0-9_]+$'
+  - key: readability-identifier-naming.PointerParameterIgnoredRegexp
+    value: '^(h|pp)_[a-z0-9_]+$'
+  - key: readability-identifier-naming.GlobalPointerIgnoredRegexp
+    value: '^g_h_[a-z0-9_]+$'
