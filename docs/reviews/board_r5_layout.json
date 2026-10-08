@@ -373,14 +373,14 @@
      "in": {
       "hole": [
        23,
-       9
+       8
       ],
       "net": "R"
      },
      "out": {
       "hole": [
        14,
-       9
+       8
       ],
       "net": "COM"
      }
@@ -393,8 +393,8 @@
        60.39
       ],
       "y": [
-       17.86,
-       27.86
+       15.32,
+       25.32
       ],
       "z": [
        0,
@@ -766,13 +766,13 @@
    {
     "hole": [
      13,
-     9
+     8
     ],
     "net": "COM",
     "wire": "COM 18 AWG to relay commons",
     "leaves_by": "top",
     "nearest_edge": "top",
-    "to_edge_mm": 3.6
+    "to_edge_mm": 6.1
    }
   ],
   "underside_links": [
@@ -1138,13 +1138,9 @@
      [
       23,
       8
-     ],
-     [
-      23,
-      9
      ]
     ],
-    "pitches": 9,
+    "pitches": 8,
     "material": "18 AWG bare tinned",
     "insulation": "bare (no crossings; nothing needs insulation)"
    },
@@ -1277,11 +1273,11 @@
     "holes": [
      [
       13,
-      9
+      8
      ],
      [
       14,
-      9
+      8
      ]
     ],
     "pitches": 1,
@@ -1360,6 +1356,10 @@
    ],
    [
     12,
+    7
+   ],
+   [
+    12,
     8
    ],
    [
@@ -1384,7 +1384,11 @@
    ],
    [
     13,
-    8
+    7
+   ],
+   [
+    13,
+    9
    ],
    [
     14,
@@ -1400,7 +1404,11 @@
    ],
    [
     14,
-    8
+    7
+   ],
+   [
+    14,
+    9
    ],
    [
     15,
@@ -1413,6 +1421,10 @@
    [
     15,
     5
+   ],
+   [
+    15,
+    7
    ],
    [
     15,
@@ -1460,6 +1472,10 @@
    ],
    [
     22,
+    9
+   ],
+   [
+    23,
     9
    ]
   ],
@@ -1835,10 +1851,13 @@
     [
      0.14,
      "PD2:body - PD3:body"
+    ],
+    [
+     0.16,
+     "F1:holder - F2:holder"
     ]
    ],
    "overhang": {
-    "F2:holder": 1.43,
     "TERM:body": 0.43,
     "CAP:can": 1.83
    },
@@ -1857,6 +1876,11 @@
      0.14,
      "PD2:body",
      "PD3:body"
+    ],
+    [
+     0.16,
+     "F1:holder",
+     "F2:holder"
     ],
     [
      0.56,
@@ -1897,11 +1921,6 @@
      1.93,
      "XIAO:header0",
      "PD2:body"
-    ],
-    [
-     1.93,
-     "XIAO:header0",
-     "PD3:body"
     ]
    ],
    "trough_landings": [
@@ -1965,17 +1984,17 @@
    },
    "links": {
     "n": 25,
-    "pitches": 53.0,
+    "pitches": 52.0,
     "insulated_or_sleeved": 0,
     "longest": 12.0,
-    "power_pitches": 29.0,
+    "power_pitches": 28.0,
     "logic_pitches": 24.0,
     "crossings": 0
    },
    "d_ACpad_logicpad": 8.03,
    "d_ACplastic_logicpad": 10.73,
    "d_buspad_logicpad": 7.62,
-   "d_ACpad_antenna": 13.96,
+   "d_ACpad_antenna": 13.97,
    "d_ACplastic_antenna": 14.53,
    "d_powerpart_antenna": 13.67,
    "antenna_end_to_edge": 0.69,
@@ -2050,10 +2069,10 @@
    "13,0": "C",
    "13,4": "F1o",
    "13,5": "F1o",
-   "13,9": "COM",
+   "13,8": "COM",
    "14,0": "C",
    "14,4": "F1o",
-   "14,9": "COM",
+   "14,8": "COM",
    "15,0": "C",
    "16,0": "C",
    "17,0": "C",
@@ -2069,8 +2088,7 @@
    "23,5": "R",
    "23,6": "R",
    "23,7": "R",
-   "23,8": "R",
-   "23,9": "R"
+   "23,8": "R"
   }
  },
  "repin_option": {
@@ -2453,14 +2471,14 @@
       "in": {
        "hole": [
         23,
-        9
+        8
        ],
        "net": "R"
       },
       "out": {
        "hole": [
         14,
-        9
+        8
        ],
        "net": "COM"
       }
@@ -2473,8 +2491,8 @@
         60.39
        ],
        "y": [
-        17.86,
-        27.86
+        15.32,
+        25.32
        ],
        "z": [
         0,
@@ -2846,13 +2864,13 @@
     {
      "hole": [
       13,
-      9
+      8
      ],
      "net": "COM",
      "wire": "COM 18 AWG to relay commons",
      "leaves_by": "top",
      "nearest_edge": "top",
-     "to_edge_mm": 3.6
+     "to_edge_mm": 6.1
     }
    ],
    "underside_links": [
@@ -3218,13 +3236,9 @@
       [
        23,
        8
-      ],
-      [
-       23,
-       9
       ]
      ],
-     "pitches": 9,
+     "pitches": 8,
      "material": "18 AWG bare tinned",
      "insulation": "bare (no crossings; nothing needs insulation)"
     },
@@ -3357,11 +3371,11 @@
      "holes": [
       [
        13,
-       9
+       8
       ],
       [
        14,
-       9
+       8
       ]
      ],
      "pitches": 1,
@@ -3428,6 +3442,10 @@
     ],
     [
      12,
+     7
+    ],
+    [
+     12,
      8
     ],
     [
@@ -3452,7 +3470,11 @@
     ],
     [
      13,
-     8
+     7
+    ],
+    [
+     13,
+     9
     ],
     [
      14,
@@ -3468,7 +3490,11 @@
     ],
     [
      14,
-     8
+     7
+    ],
+    [
+     14,
+     9
     ],
     [
      15,
@@ -3481,6 +3507,10 @@
     [
      15,
      5
+    ],
+    [
+     15,
+     7
     ],
     [
      15,
@@ -3528,6 +3558,10 @@
     ],
     [
      22,
+     9
+    ],
+    [
+     23,
      9
     ]
    ],
@@ -3818,10 +3852,13 @@
      [
       0.14,
       "PD2:body - PD3:body"
+     ],
+     [
+      0.16,
+      "F1:holder - F2:holder"
      ]
     ],
     "overhang": {
-     "F2:holder": 1.43,
      "TERM:body": 0.43,
      "CAP:can": 1.83
     },
@@ -3840,6 +3877,11 @@
       0.14,
       "PD2:body",
       "PD3:body"
+     ],
+     [
+      0.16,
+      "F1:holder",
+      "F2:holder"
      ],
      [
       0.56,
@@ -3880,11 +3922,6 @@
       2.61,
       "XIAO:header0",
       "R1k:body"
-     ],
-     [
-      2.64,
-      "TVS:body",
-      "D1:body"
      ]
     ],
     "trough_landings": [
@@ -3937,17 +3974,17 @@
     },
     "links": {
      "n": 25,
-     "pitches": 53.0,
+     "pitches": 52.0,
      "insulated_or_sleeved": 0,
      "longest": 12.0,
-     "power_pitches": 29.0,
+     "power_pitches": 28.0,
      "logic_pitches": 24.0,
      "crossings": 0
     },
     "d_ACpad_logicpad": 8.03,
     "d_ACplastic_logicpad": 10.73,
     "d_buspad_logicpad": 7.62,
-    "d_ACpad_antenna": 13.96,
+    "d_ACpad_antenna": 13.97,
     "d_ACplastic_antenna": 14.53,
     "d_powerpart_antenna": 13.67,
     "antenna_end_to_edge": 0.69,
@@ -4022,10 +4059,10 @@
     "13,0": "C",
     "13,4": "F1o",
     "13,5": "F1o",
-    "13,9": "COM",
+    "13,8": "COM",
     "14,0": "C",
     "14,4": "F1o",
-    "14,9": "COM",
+    "14,8": "COM",
     "15,0": "C",
     "16,0": "C",
     "17,0": "C",
@@ -4041,8 +4078,7 @@
     "23,5": "R",
     "23,6": "R",
     "23,7": "R",
-    "23,8": "R",
-    "23,9": "R"
+    "23,8": "R"
    }
   }
  },

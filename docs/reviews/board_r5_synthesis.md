@@ -26,6 +26,14 @@
 - **Distances.** 24 VAC to logic and to the antenna, plus antenna-at-edge and heights.
 - **Tolerances.** `sens.py` re-runs the power island with a cap Ø10.5 (sleeved), fuse holders 10.2 wide, and terminal pins ±1 mm off-centre.
 
+
+> **Amendment (Oct 8, 2026, user-measured fuse holder width 10.0 mm):** F2 moves from row 9 to **row 8**, side by side
+> with F1 (pins 4 rows apart, 0.16 mm plastic gap). F2: R in (23,8), out (14,8); COM lands at (13,8); the R strap runs
+> (23,0)…(23,8); (23,9), (13,9) and (14,9) are now keep-empty. This removes F2's 1.4 mm overhang past the top edge and
+> one pitch of R strap. Re-checked with the same checker: no errors, no new hazard pairs, all distances unchanged.
+> `final_layout.json` and `final_layout.png` reflect it; text below that still says "rows 4 and 9", "2.7 mm gap",
+> "COM (13,9)" or "F2 1.4 over the top edge" is superseded.
+
 ## 1. Verdict
 
 1. **Neither finalist builds as drawn.** Both power islands depend on plastic gaps that only exist at nominal size:
