@@ -1,0 +1,2009 @@
+{
+ "frame": "case frame mm; PB(c,r)=(-58.39+2.54c, -46.41+2.54r); board top z 7.6; board NOT moved",
+ "board": {
+  "CTL": [
+   -64.18,
+   5.82,
+   -49.98,
+   -19.98
+  ],
+  "z": [
+   6.0,
+   7.6
+  ],
+  "PB_X0": -58.39,
+  "PB_Y0": -46.41,
+  "grid": "24 cols x 10 rows"
+ },
+ "xiao": {
+  "rows": {
+   "D0..D6": 1,
+   "5V,GND,3V3,D10,D9,D8,D7": 7
+  },
+  "cols": [
+   0,
+   6
+  ],
+  "XIAO_CY": -36.25,
+  "XIAO_CY_expr": "PB_Y0 + 4*PB_PITCH",
+  "pcb_pin_centred": {
+   "x0": -61.27,
+   "x1": -40.27,
+   "y0": -45.15,
+   "y1": -27.35,
+   "z0": 16.1,
+   "z1": 17.1
+  },
+  "pcb_if_CAD_offset": {
+   "x0": -60.0,
+   "x1": -39.0,
+   "y0": -45.15,
+   "y1": -27.35,
+   "z0": 16.1,
+   "z1": 17.1
+  },
+  "shield_usb": {
+   "x0": -62.5,
+   "x1": -47.27,
+   "y0": -41.0,
+   "y1": -31.5,
+   "z0": 17.1,
+   "z1": 20.3
+  },
+  "header_row1": {
+   "x0": -59.66,
+   "x1": -41.88,
+   "y0": -45.14,
+   "y1": -42.6,
+   "z0": 7.6,
+   "z1": 16.1
+  },
+  "header_row7": {
+   "x0": -59.66,
+   "x1": -41.88,
+   "y0": -29.9,
+   "y1": -27.36,
+   "z0": 7.6,
+   "z1": 16.1
+  },
+  "note": "XIAO PCB rests on the female headers (8.5): remove the male header's black spacer. Pin-centred body assumed; measure USB face -> D0 pin."
+ },
+ "parts": [
+  {
+   "name": "PD1 10k IN1 (D1)",
+   "leads": [
+    [
+     1,
+     2
+    ],
+    [
+     0,
+     6
+    ]
+   ],
+   "lying": "diagonal, 10.47 lead span",
+   "env": {
+    "x0": -59.05,
+    "x1": -55.19,
+    "y0": -39.6,
+    "y1": -32.9,
+    "z0": 7.6,
+    "z1": 10.0
+   }
+  },
+  {
+   "name": "PD2 10k IN2 (D2)",
+   "leads": [
+    [
+     2,
+     2
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "lying": "diagonal, touches PD1 (0.06)",
+   "env": {
+    "x0": -56.51,
+    "x1": -52.65,
+    "y0": -39.6,
+    "y1": -32.9,
+    "z0": 7.6,
+    "z1": 10.0
+   }
+  },
+  {
+   "name": "PD3 10k IN3 (D3)",
+   "leads": [
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     6
+    ]
+   ],
+   "lying": "along y",
+   "env": {
+    "x0": -51.97,
+    "x1": -49.57,
+    "y0": -39.4,
+    "y1": -33.1,
+    "z0": 7.6,
+    "z1": 10.0
+   }
+  },
+  {
+   "name": "1k series D6 (RIGHT)",
+   "leads": [
+    [
+     6,
+     2
+    ],
+    [
+     6,
+     6
+    ]
+   ],
+   "lying": "along y",
+   "env": {
+    "x0": -44.35,
+    "x1": -41.95,
+    "y0": -39.4,
+    "y1": -33.1,
+    "z0": 7.6,
+    "z1": 10.0
+   }
+  },
+  {
+   "name": "PD4 10k IN4 (D10), standing",
+   "leads": [
+    [
+     3,
+     9
+    ],
+    [
+     2,
+     9
+    ]
+   ],
+   "body_over": [
+    3,
+    9
+   ],
+   "env": {
+    "x0": -51.97,
+    "x1": -49.57,
+    "y0": -24.75,
+    "y1": -22.35,
+    "z0": 7.6,
+    "z1": 15.6
+   },
+   "hairpin_to": [
+    2,
+    9
+   ]
+  },
+  {
+   "name": "1N5819 standing (A body over (0,9), K hairpin to (0,8))",
+   "leads": [
+    [
+     0,
+     9
+    ],
+    [
+     0,
+     8
+    ]
+   ],
+   "body_over": [
+    0,
+    9
+   ],
+   "env": {
+    "x0": -59.74,
+    "x1": -57.04,
+    "y0": -24.9,
+    "y1": -22.2,
+    "z0": 7.6,
+    "z1": 15.2
+   }
+  },
+  {
+   "name": "F1 T1A holder",
+   "leads": [
+    [
+     19,
+     0
+    ],
+    [
+     10,
+     0
+    ]
+   ],
+   "in": [
+    19,
+    0
+   ],
+   "out": [
+    10,
+    0
+   ],
+   "env": {
+    "x0": -34.96,
+    "x1": -8.16,
+    "y0": -51.41,
+    "y1": -41.41,
+    "z0": 7.6,
+    "z1": 24.6
+   },
+   "note": "moved from row 1 to row 0; overhangs board bottom edge 1.43 into the gutter"
+  },
+  {
+   "name": "F2 T1.6A holder",
+   "leads": [
+    [
+     19,
+     5
+    ],
+    [
+     10,
+     5
+    ]
+   ],
+   "in": [
+    19,
+    5
+   ],
+   "out": [
+    10,
+    5
+   ],
+   "env": {
+    "x0": -34.96,
+    "x1": -8.16,
+    "y0": -38.71,
+    "y1": -28.71,
+    "z0": 7.6,
+    "z1": 24.6
+   }
+  },
+  {
+   "name": "1N4007",
+   "leads": [
+    [
+     11,
+     8
+    ],
+    [
+     14,
+     8
+    ]
+   ],
+   "anode": [
+    11,
+    8
+   ],
+   "cathode": [
+    14,
+    8
+   ],
+   "env": {
+    "x0": -29.24,
+    "x1": -24.04,
+    "y0": -27.44,
+    "y1": -24.74,
+    "z0": 7.6,
+    "z1": 10.3
+   }
+  },
+  {
+   "name": "1.5KE51A TVS",
+   "leads": [
+    [
+     13,
+     9
+    ],
+    [
+     19,
+     9
+    ]
+   ],
+   "cathode": [
+    13,
+    9
+   ],
+   "anode": [
+    19,
+    9
+   ],
+   "env": {
+    "x0": -22.5,
+    "x1": -13.0,
+    "y0": -26.2,
+    "y1": -20.9,
+    "z0": 7.6,
+    "z1": 12.9
+   }
+  },
+  {
+   "name": "R-C terminal 5.08",
+   "leads": [
+    [
+     21,
+     8
+    ],
+    [
+     23,
+     8
+    ]
+   ],
+   "C": [
+    21,
+    8
+   ],
+   "R": [
+    23,
+    8
+   ],
+   "env": {
+    "x0": -7.59,
+    "x1": 2.57,
+    "y0": -30.09,
+    "y1": -22.09,
+    "z0": 7.6,
+    "z1": 19.6
+   },
+   "note": "pins SWAPPED vs current (R now col 23, C col 21); entries face +y; drill both holes to 1.3 if the pins do not fit"
+  },
+  {
+   "name": "470uF 63V lying",
+   "leads": [
+    [
+     20,
+     2
+    ],
+    [
+     20,
+     4
+    ]
+   ],
+   "minus": [
+    20,
+    2
+   ],
+   "plus": [
+    20,
+    4
+   ],
+   "CAP_AX": [
+    -6.39,
+    13.61,
+    -38.79
+   ],
+   "CAP_AX_expr": "(PB(20,0)[0]+1.2, PB(20,0)[0]+21.2, PB(0,3)[1])",
+   "axis_z": 12.6,
+   "r": 5.0,
+   "note": "bend leads 1.2 from the bung; glue body to board"
+  }
+ ],
+ "removed_from_board": [
+  "100nF XIAO 5V and 3V3 (XIAO has its own decoupling)",
+  "opt. I2C pull-ups (fit on SHT40/OLED module if a probe shows none)",
+  "NPN drivers (strip at relay input terminal, only if bring-up step 2 fails)",
+  "100nF XL OUT (on the XL7015 terminals, as now)"
+ ],
+ "landings_top_side": {
+  "(0,0)": "cover UP",
+  "(1,0)": "relay IN1",
+  "(2,0)": "relay IN2",
+  "(3,0)": "relay IN3",
+  "(4,0)": "cover SDA + SHT SDA (twisted, tinned)",
+  "(5,0)": "cover SCL + SHT SCL (twisted)",
+  "(2,6)": "cover 3V3 + SHT 3V3 (twisted), via trough",
+  "(5,6)": "cover RIGHT, via trough",
+  "(1,8)": "relay GND + XL OUT- (twisted)",
+  "(2,8)": "cover GND + SHT GND (twisted)",
+  "(1,9)": "XL OUT+ 5V + relay 5V (twisted)",
+  "(3,8)": "relay IN4",
+  "(4,8)": "cover LEFT",
+  "(5,8)": "cover DOWN",
+  "(6,8)": "cover OK",
+  "(20,6)": "XL IN+ (bus)",
+  "(21,6)": "XL IN- (GND)",
+  "(21,8)": "field C (terminal)",
+  "(23,8)": "field R (terminal)",
+  "(10,9)": "COM 18 AWG (drill 1.3), enters from top"
+ },
+ "keep_empty": [
+  [
+   3,
+   0
+  ],
+  [
+   6,
+   0
+  ],
+  [
+   4,
+   6
+  ],
+  [
+   2,
+   8
+  ],
+  "cols 7-9 all rows, both sides",
+  [
+   4,
+   9
+  ],
+  [
+   5,
+   9
+  ],
+  [
+   6,
+   9
+  ],
+  [
+   14,
+   9
+  ],
+  [
+   15,
+   9
+  ],
+  [
+   8,
+   0
+  ],
+  [
+   9,
+   0
+  ],
+  "(19,1..4)",
+  "(20,1)",
+  "(20,3)",
+  "(20,5)",
+  "(22,*)",
+  "(17,0..5)",
+  "(19,6)"
+ ],
+ "cables": {
+  "relay_harness_6": {
+   "route": [
+    [
+     -61.5,
+     -21.0,
+     9.5
+    ],
+    [
+     -63.2,
+     -18.0,
+     11.43
+    ],
+    "then existing channel path at x -63.2 (dress FLAT 2x3: channel is 3.25 wide)"
+   ],
+   "IN1-3 continue in lane L to row 0": true
+  },
+  "lane_L_top_side": {
+   "box": {
+    "x0": -63.9,
+    "x1": -60.1,
+    "y0": -44.5,
+    "y1": -21.0,
+    "z0": 7.6,
+    "z1": 12.8
+   },
+   "carries": "UP, IN1, IN2, IN3, SDAx2, SCLx2 (to row 0) + 3V3x2, RIGHT (into trough at y -31.5)",
+   "clear_of_usb_plug_z": 14.25
+  },
+  "bottom_fan": {
+   "box": {
+    "x0": -62.0,
+    "x1": -45.0,
+    "y0": -49.0,
+    "y1": -45.6,
+    "z0": 7.6,
+    "z1": 9.6
+   },
+   "note": "wires pass left of the row-1 header strip end (x<-59.66), run along y ~-47.5, drop into row 0"
+  },
+  "trough_wires": {
+   "box": {
+    "x0": -59.9,
+    "x1": -45.0,
+    "y0": -32.6,
+    "y1": -30.4,
+    "z0": 10.4,
+    "z1": 13.2
+   },
+   "note": "top side, under the XIAO, above the resistor bodies; solder with XIAO unplugged"
+  },
+  "top_fan": {
+   "box": {
+    "x0": -61.5,
+    "x1": -43.0,
+    "y0": -21.9,
+    "y1": -20.5,
+    "z0": 8.0,
+    "z1": 10.6
+   }
+  },
+  "cover_bundle_15": {
+   "route": [
+    [
+     14.5,
+     0.0,
+     13.0
+    ],
+    [
+     14.5,
+     -15.0,
+     15.0
+    ],
+    [
+     10.0,
+     -17.3,
+     18.1
+    ],
+    [
+     -61.0,
+     -17.3,
+     18.1
+    ],
+    [
+     -61.0,
+     -20.5,
+     10.0
+    ]
+   ],
+   "dress": "flat, envelope y -20.0..-14.6, z 15.7..20.5",
+   "contents": "cover 9 + SHT40 4 + XL OUT+/OUT- 2"
+  },
+  "sht40_4": {
+   "route": [
+    [
+     14.4,
+     -40.0,
+     6.0
+    ],
+    [
+     9.8,
+     -40.0,
+     5.0
+    ],
+    [
+     9.8,
+     -26.0,
+     5.0
+    ],
+    [
+     9.8,
+     -21.5,
+     10.0
+    ],
+    [
+     9.8,
+     -17.5,
+     18.0
+    ]
+   ],
+   "r": 1.5,
+   "note": "right gutter under the cap overhang, joins the cover bundle; no longer under the board"
+  },
+  "xl7015_4": {
+   "IN_pair_route": [
+    [
+     14.0,
+     -12.0,
+     6.0
+    ],
+    [
+     14.0,
+     -16.0,
+     9.7
+    ],
+    [
+     4.2,
+     -19.5,
+     9.7
+    ],
+    [
+     4.2,
+     -31.4,
+     9.0
+    ],
+    [
+     -7.0,
+     -31.4,
+     9.0
+    ]
+   ],
+   "IN+": [
+    20,
+    6
+   ],
+   "IN-": [
+    21,
+    6
+   ],
+   "OUT_pair": "leaves the XL harness at (14,-14) and joins the cover bundle -> (1,9) 5V, (1,8) GND"
+  },
+  "COM_18AWG": {
+   "route": [
+    [
+     -33.0,
+     -23.55,
+     8.4
+    ],
+    [
+     -33.0,
+     -23.55,
+     23.0
+    ],
+    [
+     -33.0,
+     -8.0,
+     23.0
+    ],
+    [
+     -51.0,
+     -8.0,
+     23.0
+    ],
+    [
+     -51.0,
+     -8.0,
+     17.0
+    ],
+    "-> COM1 terminal"
+   ],
+   "r": 0.8,
+   "note": "COM now at z 23 (over the cover bundle)"
+  },
+  "field_R": {
+   "route": [
+    [
+     4.0,
+     -13.5,
+     0.5
+    ],
+    [
+     4.0,
+     -13.5,
+     14.0
+    ],
+    [
+     0.03,
+     -18.5,
+     14.0
+    ],
+    [
+     0.03,
+     -21.9,
+     12.0
+    ]
+   ],
+   "r": 0.8
+  },
+  "field_C": {
+   "route": [
+    [
+     2.0,
+     -13.5,
+     0.5
+    ],
+    [
+     2.0,
+     -13.5,
+     14.0
+    ],
+    [
+     -5.05,
+     -18.5,
+     14.0
+    ],
+    [
+     -5.05,
+     -21.9,
+     12.0
+    ]
+   ],
+   "r": 0.8
+  }
+ },
+ "PB_SUPPORTS": [
+  [
+   -62.8,
+   -48.6
+  ],
+  [
+   -37.0,
+   -48.6
+  ],
+  [
+   3.6,
+   -48.6
+  ],
+  [
+   -62.8,
+   -21.4
+  ],
+  [
+   -46.0,
+   -21.4
+  ],
+  [
+   -21.5,
+   -21.4
+  ],
+  [
+   4.0,
+   -24.0
+  ]
+ ],
+ "PB_PRESS": [
+  [
+   -37.0,
+   -48.6,
+   1.2
+  ],
+  [
+   3.6,
+   -48.6,
+   1.2
+  ],
+  [
+   -39.0,
+   -21.6,
+   1.2
+  ]
+ ],
+ "PB_PRESS_removed": [
+  [
+   -62.5,
+   -48.6
+  ],
+  [
+   -46.0,
+   -21.4
+  ],
+  [
+   -36.5,
+   -21.4
+  ]
+ ],
+ "fences": {
+  "g": 0.15,
+  "t": 1.2,
+  "z": [
+   2.5,
+   8.4
+  ],
+  "list": [
+   {
+    "name": "bottom-left",
+    "x": [
+     -63.18,
+     -57.18
+    ],
+    "edge": "bottom"
+   },
+   {
+    "name": "bottom-right",
+    "x": [
+     -1.18,
+     4.82
+    ],
+    "edge": "bottom",
+    "lip_x": [
+     -1.18,
+     2.0
+    ]
+   },
+   {
+    "name": "top",
+    "x": [
+     -45.0,
+     -40.0
+    ],
+    "edge": "top"
+   },
+   {
+    "name": "top-left (NEW)",
+    "x": [
+     -58.0,
+     -53.0
+    ],
+    "edge": "top"
+   },
+   {
+    "name": "right-low",
+    "y": [
+     -48.98,
+     -45.98
+    ],
+    "edge": "right"
+   },
+   {
+    "name": "right-high",
+    "y": [
+     -26.98,
+     -22.98
+    ],
+    "edge": "right"
+   }
+  ],
+  "lips": "every fence gets a 0.5 mm lip toward the board at z 7.75..8.4 (0.35 over the board edge), 45 deg chamfer on its top face for snap-in; flat underside (0.5 overhang prints without supports)",
+  "left_bumps": [
+   {
+    "x": [
+     -65.25,
+     -64.33
+    ],
+    "y": [
+     -46.5,
+     -43.5
+    ],
+    "z": [
+     3.0,
+     7.6
+    ]
+   },
+   {
+    "x": [
+     -65.25,
+     -64.33
+    ],
+    "y": [
+     -26.5,
+     -23.5
+    ],
+    "z": [
+     3.0,
+     7.6
+    ]
+   }
+  ]
+ },
+ "cover": {
+  "USB_cut": {
+   "x": [
+    -70.0,
+    -66.0
+   ],
+   "y": [
+    -43.75,
+    -28.75
+   ],
+   "z": [
+    14.25,
+    23.25
+   ],
+   "centre": [
+    -68.0,
+    -36.25,
+    18.75
+   ],
+   "expr": "tbox(-ix-3, -ix+1, XIAO_CY-7.5, XIAO_CY+7.5, 14.25, 23.25)"
+  },
+  "FUSE_Y": [
+   -46.41,
+   -33.71
+  ],
+  "FUSE_Y_expr": "(PB(0,0)[1], PB(0,5)[1])",
+  "FUSE_POCKET": [
+   -35.96,
+   -7.16,
+   -52.41,
+   -27.71,
+   1.0
+  ]
+ },
+ "verified_min_clearances_mm": {
+  "cap end to sensor grommet": 0.99,
+  "cap end to divider rib": 1.14,
+  "F1-F2 holders": 2.7,
+  "PD1-PD2 bodies (touch, insulated)": 0.06,
+  "top fan wires to fence lips": 0.17,
+  "cap to SHT40 cable": 0.29,
+  "pin (3.6,-48.6) to bottom-right fence": 0.33,
+  "pin (-39,-21.6) to top fence lip": 0.36,
+  "1N5819 to lane L": 0.36,
+  "cover bundle to pin (-39,-21.6)": 0.4,
+  "fuse holders to cover face (with 1.0 pocket 1.4)": 0.4,
+  "lane L to header strips": 0.44,
+  "F2 holder to XL IN+ wire": 0.52,
+  "F2 to terminal": 0.57,
+  "terminal to XL wires": 0.66,
+  "XL harness to window grommet flange": 0.74,
+  "fence top to wall-screw head zone": 0.83,
+  "F1 to pin (-37,-48.6)": 0.84,
+  "soft (driver access only)": {
+   "cover bundle": -2.2,
+   "COM wire": -0.8
+  },
+  "pre-existing": {
+   "relay harness round model vs relay module (dress flat)": -0.63
+  }
+ },
+ "antenna_mm": {
+  "pin-centred end -40.27": {
+   "fuse plastic": 5.31,
+   "fuse clips / col 10": 7.28,
+   "COM riser (10,9)": 7.28
+  },
+  "CAD end -39.0": {
+   "fuse plastic": 4.04,
+   "clips": 6.01
+  }
+ },
+ "hole_map": {
+  "0,0": {
+   "net": "UP",
+   "use": [
+    "landing",
+    "bare",
+    "LAND cover UP"
+   ]
+  },
+  "0,1": {
+   "net": "UP",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "0,6": {
+   "net": "GND",
+   "use": [
+    "PD1 gnd",
+    "bare"
+   ]
+  },
+  "0,7": {
+   "net": "5V",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "0,8": {
+   "net": "5V",
+   "use": [
+    "bare"
+   ]
+  },
+  "0,9": {
+   "net": "5VA",
+   "use": [
+    "1N5819 A",
+    "bare"
+   ]
+  },
+  "1,0": {
+   "net": "IN1",
+   "use": [
+    "landing",
+    "lead",
+    "LAND relay IN1"
+   ]
+  },
+  "1,1": {
+   "net": "IN1",
+   "use": [
+    "XIAO pin",
+    "lead"
+   ]
+  },
+  "1,2": {
+   "net": "IN1",
+   "use": [
+    "lead"
+   ]
+  },
+  "1,5": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "1,6": {
+   "net": "GND",
+   "use": [
+    "PD2 gnd",
+    "bare",
+    "bare"
+   ]
+  },
+  "1,7": {
+   "net": "GND",
+   "use": [
+    "XIAO pin",
+    "bare",
+    "bare"
+   ]
+  },
+  "1,8": {
+   "net": "GND",
+   "use": [
+    "bare",
+    "LAND relay GND + XL OUT-"
+   ]
+  },
+  "1,9": {
+   "net": "5VA",
+   "use": [
+    "bare",
+    "LAND XL 5V + relay 5V"
+   ]
+  },
+  "2,0": {
+   "net": "IN2",
+   "use": [
+    "landing",
+    "lead",
+    "LAND relay IN2"
+   ]
+  },
+  "2,1": {
+   "net": "IN2",
+   "use": [
+    "XIAO pin",
+    "lead"
+   ]
+  },
+  "2,2": {
+   "net": "IN2",
+   "use": [
+    "lead"
+   ]
+  },
+  "2,5": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "2,6": {
+   "net": "3V3",
+   "use": [
+    "bare",
+    "LAND cover 3V3 + SHT 3V3"
+   ]
+  },
+  "2,7": {
+   "net": "3V3",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "2,8": {
+   "net": "GND",
+   "use": [
+    "bare",
+    "LAND cover GND + SHT GND"
+   ]
+  },
+  "2,9": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "3,0": {
+   "net": "IN3",
+   "use": [
+    "landing",
+    "lead",
+    "LAND relay IN3"
+   ]
+  },
+  "3,1": {
+   "net": "IN3",
+   "use": [
+    "XIAO pin",
+    "lead"
+   ]
+  },
+  "3,2": {
+   "net": "IN3",
+   "use": [
+    "lead"
+   ]
+  },
+  "3,5": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "3,6": {
+   "net": "GND",
+   "use": [
+    "PD3 gnd",
+    "bare"
+   ]
+  },
+  "3,7": {
+   "net": "IN4",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "3,8": {
+   "net": "IN4",
+   "use": [
+    "bare",
+    "LAND relay IN4"
+   ]
+  },
+  "3,9": {
+   "net": "IN4",
+   "use": [
+    "bare"
+   ]
+  },
+  "4,0": {
+   "net": "SDA",
+   "use": [
+    "landing",
+    "bare",
+    "LAND cover SDA + SHT SDA"
+   ]
+  },
+  "4,1": {
+   "net": "SDA",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "4,7": {
+   "net": "LEFT",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "4,8": {
+   "net": "LEFT",
+   "use": [
+    "bare",
+    "LAND cover LEFT"
+   ]
+  },
+  "5,0": {
+   "net": "SCL",
+   "use": [
+    "landing",
+    "bare",
+    "LAND cover SCL + SHT SCL"
+   ]
+  },
+  "5,1": {
+   "net": "SCL",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "5,6": {
+   "net": "RIGHT",
+   "use": [
+    "bare",
+    "LAND cover RIGHT"
+   ]
+  },
+  "5,7": {
+   "net": "DOWN",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "5,8": {
+   "net": "DOWN",
+   "use": [
+    "bare",
+    "LAND cover DOWN"
+   ]
+  },
+  "6,1": {
+   "net": "D6",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "6,2": {
+   "net": "D6",
+   "use": [
+    "bare"
+   ]
+  },
+  "6,6": {
+   "net": "RIGHT",
+   "use": [
+    "1k",
+    "bare"
+   ]
+  },
+  "6,7": {
+   "net": "OK",
+   "use": [
+    "XIAO pin",
+    "bare"
+   ]
+  },
+  "6,8": {
+   "net": "OK",
+   "use": [
+    "bare",
+    "LAND cover OK"
+   ]
+  },
+  "10,0": {
+   "net": "F1o",
+   "use": [
+    "F1 pin",
+    "bare"
+   ]
+  },
+  "10,5": {
+   "net": "COM",
+   "use": [
+    "F2 pin",
+    "sleeved COM end"
+   ]
+  },
+  "10,9": {
+   "net": "COM",
+   "use": [
+    "sleeved COM end"
+   ]
+  },
+  "11,0": {
+   "net": "F1o",
+   "use": [
+    "sleeved lead",
+    "bare"
+   ]
+  },
+  "11,8": {
+   "net": "F1o",
+   "use": [
+    "1N4007 A",
+    "sleeved lead"
+   ]
+  },
+  "13,9": {
+   "net": "BUS",
+   "use": [
+    "TVS K",
+    "bare"
+   ]
+  },
+  "14,8": {
+   "net": "BUS",
+   "use": [
+    "1N4007 K",
+    "bare",
+    "bare"
+   ]
+  },
+  "15,8": {
+   "net": "BUS",
+   "use": [
+    "bare",
+    "ins18"
+   ]
+  },
+  "18,0": {
+   "net": "R",
+   "use": [
+    "bare",
+    "bare18"
+   ]
+  },
+  "18,1": {
+   "net": "R",
+   "use": [
+    "bare18"
+   ]
+  },
+  "18,2": {
+   "net": "R",
+   "use": [
+    "bare18"
+   ]
+  },
+  "18,3": {
+   "net": "R",
+   "use": [
+    "bare18"
+   ]
+  },
+  "18,4": {
+   "net": "R",
+   "use": [
+    "bare18"
+   ]
+  },
+  "18,5": {
+   "net": "R",
+   "use": [
+    "bare18"
+   ]
+  },
+  "19,0": {
+   "net": "R",
+   "use": [
+    "F1 pin",
+    "bare"
+   ]
+  },
+  "19,5": {
+   "net": "R",
+   "use": [
+    "F2 pin",
+    "bare18"
+   ]
+  },
+  "19,9": {
+   "net": "GND",
+   "use": [
+    "TVS A",
+    "bare"
+   ]
+  },
+  "20,0": {
+   "net": "R",
+   "use": [
+    "ins18",
+    "bare"
+   ]
+  },
+  "20,2": {
+   "net": "GND",
+   "use": [
+    "cap -",
+    "bare"
+   ]
+  },
+  "20,4": {
+   "net": "BUS",
+   "use": [
+    "cap +",
+    "sleeved lead"
+   ]
+  },
+  "20,6": {
+   "net": "BUS",
+   "use": [
+    "bare",
+    "sleeved lead",
+    "XL IN+ landing"
+   ]
+  },
+  "20,7": {
+   "net": "BUS",
+   "use": [
+    "ins18",
+    "bare"
+   ]
+  },
+  "20,9": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,2": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,3": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,4": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,5": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,6": {
+   "net": "GND",
+   "use": [
+    "bare",
+    "XL IN- landing"
+   ]
+  },
+  "21,7": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "21,8": {
+   "net": "GND",
+   "use": [
+    "terminal C",
+    "bare",
+    "bare"
+   ]
+  },
+  "21,9": {
+   "net": "GND",
+   "use": [
+    "bare"
+   ]
+  },
+  "23,0": {
+   "net": "R",
+   "use": [
+    "ins18"
+   ]
+  },
+  "23,8": {
+   "net": "R",
+   "use": [
+    "terminal R",
+    "ins18"
+   ]
+  }
+ },
+ "underside_links": [
+  {
+   "kind": "bare",
+   "net": "UP",
+   "holes": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "SDA",
+   "holes": [
+    [
+     4,
+     0
+    ],
+    [
+     4,
+     1
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "SCL",
+   "holes": [
+    [
+     5,
+     0
+    ],
+    [
+     5,
+     1
+    ]
+   ]
+  },
+  {
+   "kind": "lead",
+   "net": "IN1",
+   "holes": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ]
+   ]
+  },
+  {
+   "kind": "lead",
+   "net": "IN2",
+   "holes": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ]
+   ]
+  },
+  {
+   "kind": "lead",
+   "net": "IN3",
+   "holes": [
+    [
+     3,
+     0
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     3,
+     2
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "GND",
+   "holes": [
+    [
+     0,
+     6
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "GND",
+   "holes": [
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "3V3",
+   "holes": [
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     6
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "D6",
+   "holes": [
+    [
+     6,
+     1
+    ],
+    [
+     6,
+     2
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "RIGHT",
+   "holes": [
+    [
+     6,
+     6
+    ],
+    [
+     5,
+     6
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "5V",
+   "holes": [
+    [
+     0,
+     7
+    ],
+    [
+     0,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "5VA",
+   "holes": [
+    [
+     0,
+     9
+    ],
+    [
+     1,
+     9
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "GND",
+   "holes": [
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     2,
+     9
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "IN4",
+   "holes": [
+    [
+     3,
+     7
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     3,
+     9
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "LEFT",
+   "holes": [
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "DOWN",
+   "holes": [
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "OK",
+   "holes": [
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "sleeved lead",
+   "net": "F1o",
+   "holes": [
+    [
+     11,
+     8
+    ],
+    [
+     11,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "F1o",
+   "holes": [
+    [
+     11,
+     0
+    ],
+    [
+     10,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "sleeved COM end",
+   "net": "COM",
+   "holes": [
+    [
+     10,
+     9
+    ],
+    [
+     10,
+     5
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "BUS",
+   "holes": [
+    [
+     13,
+     9
+    ],
+    [
+     14,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "BUS",
+   "holes": [
+    [
+     14,
+     8
+    ],
+    [
+     15,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "ins18",
+   "net": "BUS",
+   "holes": [
+    [
+     15,
+     8
+    ],
+    [
+     20,
+     7
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "BUS",
+   "holes": [
+    [
+     20,
+     7
+    ],
+    [
+     20,
+     6
+    ]
+   ]
+  },
+  {
+   "kind": "sleeved lead",
+   "net": "BUS",
+   "holes": [
+    [
+     20,
+     4
+    ],
+    [
+     20,
+     6
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "GND",
+   "holes": [
+    [
+     21,
+     8
+    ],
+    [
+     21,
+     7
+    ],
+    [
+     21,
+     6
+    ],
+    [
+     21,
+     5
+    ],
+    [
+     21,
+     4
+    ],
+    [
+     21,
+     3
+    ],
+    [
+     21,
+     2
+    ],
+    [
+     20,
+     2
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "GND",
+   "holes": [
+    [
+     19,
+     9
+    ],
+    [
+     20,
+     9
+    ],
+    [
+     21,
+     9
+    ],
+    [
+     21,
+     8
+    ]
+   ]
+  },
+  {
+   "kind": "ins18",
+   "net": "R",
+   "holes": [
+    [
+     23,
+     8
+    ],
+    [
+     23,
+     0
+    ],
+    [
+     20,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "bare",
+   "net": "R",
+   "holes": [
+    [
+     20,
+     0
+    ],
+    [
+     19,
+     0
+    ],
+    [
+     18,
+     0
+    ]
+   ]
+  },
+  {
+   "kind": "bare18",
+   "net": "R",
+   "holes": [
+    [
+     18,
+     0
+    ],
+    [
+     18,
+     1
+    ],
+    [
+     18,
+     2
+    ],
+    [
+     18,
+     3
+    ],
+    [
+     18,
+     4
+    ],
+    [
+     18,
+     5
+    ],
+    [
+     19,
+     5
+    ]
+   ]
+  }
+ ],
+ "underside_links_note": "bare = tinned lead offcut / 1-pitch solder bridge; lead = the part lead itself bent along the underside; sleeved = lead in a sleeve of stripped 18 AWG insulation; ins18 = insulated 18 AWG laid flat; bare18 = stripped tinned 18 AWG. Zero crossings (checked)."
+}

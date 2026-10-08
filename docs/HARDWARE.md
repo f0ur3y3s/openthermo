@@ -76,32 +76,97 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 
 ![Controller perfboard layout](controller_layout.png)
 
-A **30 × 70 mm perfboard with 10 × 24 holes** (2.54 mm) and no mounting holes, top face 7.6 mm above the wall plane. In the CAD the board spans x −64.2..5.8, y −50.0..−20.0. Hole (column 0, row 0) is the XIAO's D0 pin; columns run along x, rows along y.
+A **30 × 70 mm perfboard with 10 × 24 holes** (2.54 mm) and no mounting holes, top face 7.6 mm above the wall plane (CAD x −64.2..5.8, y −50.0..−20.0). Hole (column 0, row 0) is at x −58.39, y −46.41; columns run along x, rows along y. Laid out by the round-4 three-agent review (docs/reviews/board_r4_*.md; the layout JSON is beside them).
 
-- **Mounting:** no screws. The board sits on seven support pads on the backplate, inside low fences along its bottom, top and right edges, with the backplate rim on its left. Five pins hung from the cover stop 0.15 mm above the board and hold it down when the cover is on.
-- **Wiring:** every part sits on the top. Wires to the XIAO (relay cable, cover harness, SHT40) solder to the XIAO's header tails underneath and run flat under the board (26 AWG). Trim every lead and tail to ≤ 2 mm: there are 3 mm to the backplate.
+- **Every cable wire lands on top, next to its pin.** The XIAO sits on rows 1 and 7, so row 0 below it and rows 8–9 above it are free for landings. The underside carries only one-pitch bridges on the logic side (stack ≤ 1.2 mm) and flat, non-crossing links on the power side (≤ 2.2 mm), in the 3 mm gap to the backplate. Flush-cut every tail to ≤ 1.2 mm.
+- **Mounting:** no screws. The board sits on seven support pads inside six low fences plus two bumps off the left rim. Each fence has a 45° bead that the board snaps under (no flat overhang, so no supports). Three pins hung from the cover hold it down with the cover on.
 
 | Part | Holes (column, row) | Notes |
 |---|---|---|
-| XIAO ESP32-C6 on female headers | columns 0–6; row 0 = D0–D6, row 6 = 5V GND 3V3 D10 D9 D8 D7 | USB-C at the left wall; antenna at the column-6 end. |
-| 10 k pull-downs IN4 (D10), IN1, IN2, IN3 and the 1 k D6 series resistor | columns 0, 1, 2, 3 and 4, leads on rows 1 and 5 (lying under the XIAO) | 2.4 mm tall vs 8.5 under the XIAO. D1 and GND are both on column 1, so the IN1 pull-down goes straight across. |
-| 100 nF, XIAO 5V and 3V3 | columns 0–1 and 2–3, row 7 | standing, just above the 5V–D7 row |
-| Optional I2C pull-ups 10 k | row 8, columns 0–3 and 3–6 (share the 3V3 hole in column 3) | only if the SHT40 module has none |
-| 1N5819 | row 9, columns 0–4 (cathode on column 0, toward 5V) | XL7015 OUT+ → XIAO 5V |
-| **Antenna keepout** | columns 7–9 | bare board, no metal, no 24 VAC; only plastic (a cover pin) in front of it |
-| F1 (T1A, power) | pins at columns 10 and 19, row 1 | R in at column 19; out at column 10, by an underside link to the 1N4007 |
-| F2 (T1.6A, relay commons) | pins at columns 10 and 19, row 5 | R in at column 19; out at column 10, by an underside link to hole (10, 9), where the 18 AWG COM wire leaves the board |
-| 1N4007 | row 8, columns 11–14 | F1 → bus |
-| 1.5KE51A TVS | row 9, columns 13–19 (cathode toward column 13) | across the bus |
-| R-C terminal (5.08) | columns 21 and 23, row 8 | wire entries face the top edge, toward the wall window |
-| 470 µF 63 V | leads in column 20, rows 1 and 3; body lying along x, over the right edge | about 7.6 mm of the 20 mm body hangs past the board edge, clear of the divider rib. The SHT40 cable passes underneath it. |
-| XL7015 cable (bus +, GND, 5 V) | column 23, rows 4–5 | the cable arrives down the right side of the R-C terminal |
+| XIAO ESP32-C6 on female headers | columns 0–6; row 1 = D0–D6, row 7 = 5V GND 3V3 D10 D9 D8 D7 | USB-C at the left wall (cut 15 × 9). Remove the male headers' black spacer so the XIAO sits 8.5 mm up. Antenna at the column-6 end. |
+| 10 k pull-downs IN1, IN2 | (1,2)→(0,6) and (2,2)→(1,6), lying diagonally under the XIAO | Signal lead bent underneath through (c,1) to the landing at (c,0); the other lead to GND. |
+| 10 k pull-down IN3 | (3,2)→(3,6), under the XIAO | same scheme |
+| 1 k, D6 series (RIGHT key) | (6,2)→(6,6), under the XIAO | (6,1)–(6,2) bridge; RIGHT lands at (5,6) |
+| 10 k pull-down IN4 (D10) | standing over (3,9), hairpin to (2,9) | |
+| 1N5819 | standing, anode body over (0,9), cathode hairpin to (0,8) | XL7015 OUT+ (5 V) lands at (1,9) |
+| **Antenna keepout** | columns 7–9 | bare board, no metal, no 24 VAC |
+| F1 (T1A, power) | pins at columns 10 and 19, **row 0** (overhangs the bottom edge 1.4 mm) | R in at column 19; out at column 10 |
+| F2 (T1.6A, relay commons) | pins at columns 10 and 19, row 5 | R in at column 19; out at column 10 to the COM wire |
+| 1N4007 | row 8, columns 11–14 | F1 → bus; anode lead sleeved down column 11 to (11,0)–(10,0) |
+| 1.5KE51A TVS | row 9, columns 13–19 (cathode on 13) | across the bus |
+| R-C terminal (5.08) | **C at (21,8), R at (23,8)** | wire entries face the top edge, toward the wall window |
+| 470 µF 63 V | **− at (20,2), + at (20,4)**; body lying along x, over the right edge (leads bent 1.2 mm from the bung) | about 7.6 mm hangs past the board edge; glue it down. + lead sleeved to (20,6). |
 
-- **Fuse holders:** the header pins added to the clip legs must be **soldered**, not glued (CA glue doesn't conduct and F2 carries up to about 1 A). Tug-test them and check ≤ 0.05 Ω from clip to pin. Installed height, board top to the highest point, must be ≤ 17.9 mm (the cover has a 1 mm pocket over the fuses).
-- **100 nF at the XL7015 output:** solder it across the XL7015's own OUT terminals; there's no room for it on the perfboard.
-- **NPN relay drivers (optional):** they don't fit. If bring-up step 2 calls for them, build them on a small strip at the relay module's 6-way input terminal.
-- **Antenna clearance:** the fuse holders' plastic is 4 mm from the XIAO's antenna end and their metal clips about 6 mm.
-- **Reachable with the cover off:** both fuses, the XIAO's B and R buttons, and the USB-C port (through the left wall). The board lifts out of its cradle with the cover off.
+**Cable landings (all on top):**
+
+| Hole | Wire |
+|---|---|
+| (0,0) | cover UP |
+| (1,0), (2,0), (3,0) | relay IN1, IN2, IN3 |
+| (4,0), (5,0) | SDA, SCL (cover + SHT40 twisted together) |
+| (2,6) | 3V3 (cover + SHT40), through the trough under the XIAO |
+| (5,6) | cover RIGHT, through the trough |
+| (1,8) | relay GND + XL7015 OUT− |
+| (2,8) | cover GND + SHT40 GND |
+| (1,9) | XL7015 OUT+ (5 V) + relay 5V |
+| (3,8) | relay IN4 |
+| (4,8), (5,8), (6,8) | cover LEFT, DOWN, OK |
+| (20,6), (21,6) | XL7015 IN+ (bus), IN− (GND) |
+| (21,8), (23,8) | field C, field R (terminal) |
+| (10,9) | 18 AWG COM wire to the relay commons. Drill to 1.3 mm. |
+
+**Underside links**
+
+*Logic*, all one-pitch bridges:
+- **UP, SDA, SCL:** (0,0)–(0,1), (4,0)–(4,1), (5,0)–(5,1).
+- **IN1–IN3:** each pull-down's own signal lead runs (c,2)–(c,1)–(c,0).
+- **GND:**
+  - (0,6)–(1,6)–(1,7);
+  - (3,6)–(3,5)–(2,5)–(1,5)–(1,6);
+  - (1,7)–(1,8)–(2,8)–(2,9).
+- **3V3:** (2,7)–(2,6).
+- **D6 / RIGHT:** D6 (6,1)–(6,2); RIGHT (6,6)–(5,6).
+- **5 V:** (0,7)–(0,8), (0,9)–(1,9).
+- **IN4:** (3,7)–(3,8)–(3,9).
+- **Keys:** (4,7)–(4,8), (5,7)–(5,8), (6,7)–(6,8).
+
+*Power*, flat with no crossings:
+- **R:** insulated 18 AWG from the terminal's R tail (23,8), along column 23 and row 0, to (20,0).
+  - Bridges (20,0)–(19,0) (F1 in) and (19,0)–(18,0).
+  - Bare 18 AWG up column 18 to (18,5)–(19,5) (F2 in).
+- **GND:** bare 18 AWG from C (21,8) down column 21 to (21,2)–(20,2) (cap −). TVS anode (19,9)–(20,9)–(21,9)–(21,8).
+- **Bus:**
+  - TVS cathode (13,9)→(14,8)–(15,8);
+  - insulated 18 AWG (15,8)→(20,7)–(20,6);
+  - the cap's + lead sleeved from (20,4) to (20,6).
+- **F1 out:** the 1N4007's anode lead, sleeved, from (11,8) down column 11 to (11,0)–(10,0).
+- **COM:** the stripped end goes down from (10,9), sleeved, and is soldered to the F2 pin tail at (10,5).
+
+**Never solder or bridge:** (19,1..4), (19,6), (20,1), (20,3), (20,5), every hole in column 22, (17,0..5), (4,6), (4,9), (5,9), (6,9), (6,0), and columns 7–9. These keep R, the bus and 24 VAC away from the logic pads. The only pad pairs where a bridge could hold a relay on are D10–3V3 and D3–SDA on the XIAO header, plus IN3–SDA on row 0. Bring-up step 0 catches all of them.
+
+**Build order:**
+1. **Fuse holders.** Solder the header pins to the legs, using the board as a jig. Tug-test them, check ≤ 0.05 Ω, and measure the installed height (≤ 17.9 mm).
+2. **Under-XIAO parts,** before the headers go on: PD1–PD3 and the 1 k, with their bridges. Then the GND bridges on rows 5–6 and (2,7)–(2,6).
+3. **Female headers on rows 1 and 7.** Use a XIAO as the jig, then flush-cut the tails.
+4. **The 1N5819 and PD4,** both standing, plus the row 7–9 bridges.
+5. **Power side:**
+   1. Drill (10,9), and (21,8)/(23,8) if the terminal pins don't fit 1.0 mm holes.
+   2. Fit the 1N4007, the TVS and the terminal.
+   3. Fit the column-18 and column-21 straps and the two insulated links.
+   4. Fit the fuse holders and epoxy their bases.
+   5. Fit the 470 µF last.
+6. **Bring-up step 0** (the ohm test below), then step 1.
+7. **Install:** drive the wall screws first, then snap the board in and land the cables with the XIAO unplugged. Fit the XIAO last.
+
+- **Not on the board:**
+  - the XIAO 5V/3V3 100 nF (the XIAO has its own decoupling);
+  - the optional I2C pull-ups (fit them on the SHT40 or OLED module if a probe shows none);
+  - the 100 nF at the XL7015 output (on its own terminals);
+  - the optional NPN drivers (a strip at the relay module).
+- **Optional firmware re-pin** (not done): IN4→D0, UP→D10, SDA→D9, SCL→D8, LEFT→D4, DOWN→D5 would remove the three pad pairs above. It needs `board.h`, `tools/check_safety_sources.py` and the relay bench checks redone.
+- **Antenna fallback:** if Thread signal is poor, use the XIAO's U.FL port with an FPC antenna on the cover (GPIO14).
+- **Fuse holders:** the header pins must be **soldered** to the clip legs; CA glue doesn't conduct.
+- **Reachable with the cover off:** both fuses, the XIAO's B and R buttons, and the USB-C port. The board snaps out of its cradle.
 
 ## Sensor
 
@@ -149,6 +214,12 @@ A **30 × 70 mm perfboard with 10 × 24 holes** (2.54 mm) and no mounting holes,
 
 ## Bring-up order
 
+0. **Board ohm test, before any power** (mandatory):
+   - each IN pin to every other IN, 3V3, 5V, SDA, SCL and D6: **> 1 MΩ**;
+   - each IN pin to GND: **10 k**;
+   - R to C, to the bus and to every logic net: open;
+   - the bus to C: charges up, not 0 Ω;
+   - 3V3 and 5V to GND: not shorted.
 1. Power stage alone on the bench, from a 24 VAC supply or the real R/C wires:
    - check the bus voltage;
    - set the XL7015 to 5.00 V;
