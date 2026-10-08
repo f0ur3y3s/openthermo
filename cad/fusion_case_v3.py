@@ -714,6 +714,8 @@ def build():
         hx, hy, hz = DC[0] + ax + ux * ps, DC[1] + ay + uy * ps, SW_Z0 + HOLE_Z
         lx_, ly_ = -uy * pside, ux * pside
         reach = SW_W / 2 + 0.15 + 1.2 + 0.6
+        if name == 'center':
+            reach = 7.0                              # straight through the centre key's guide columns on both sides
         slots.append(tcyl((hx, hy, hz), (hx + lx_ * reach, hy + ly_ * reach, hz), PIN_ENTRY_R))
         slots.append(tcone((hx + lx_ * 3.95, hy + ly_ * 3.95, hz), PIN_ENTRY_R,
                            (hx + lx_ * 4.30, hy + ly_ * 4.30, hz), PIN_ENTRY_R + 0.35))   # entry countersink
@@ -756,7 +758,8 @@ def build():
     pillars = []                                               # stop pillars (the centre key stops on its guide columns)
     for gx, gy in ck_guides():                                 # centre key guide columns with pin sockets
         walls.append(tcyl((gx, gy, CAR_Z1 - 0.01), (gx, gy, STOP_Z), CK_COL_R))
-        slots.append(tcyl((gx, gy, STOP_Z - CK_PIN_LEN - KEY_TRAVEL - 0.3), (gx, gy, STOP_Z + 1), CK_SOCK_R))
+        # socket bottom 0.4 below the pressed pin tip, so it stays above the centre switch's retaining-pin hole
+        slots.append(tcyl((gx, gy, STOP_Z - CK_PIN_LEN - 0.4), (gx, gy, STOP_Z + 1), CK_SOCK_R))
     for nm in ANG:
         legs = ((-3.0, 7.35), (-3.0, 14.65)) if nm == 'down' else ((-3.65, 11.0), (3.65, 11.0))
         th = math.radians(ANG[nm])
