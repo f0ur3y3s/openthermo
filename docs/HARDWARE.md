@@ -80,7 +80,15 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 
 **Round-5 layout with pin map v2**, from the board-only three-agent review (docs/reviews/board_r5_*.md; the layout is `repin_option` in board_r5_layout.json, drawing board_r5_layout_repin.png). It's a **30 × 70 mm perfboard, 10 × 24 holes**, no mounting holes. Hole (column, row) is at (2.54·col, 2.54·row) mm; columns run along the long side, row 0 is the bottom edge.
 
-*The enclosure model (`cad/fusion_case_v3.py`) still carries the round-4 board. It is updated separately.*
+**In the enclosure** (`cad/fusion_case_v3.py`) the board sits in the same cradle with the XIAO's USB-C facing down, so the cover's USB cut is now in the **bottom wall** (15 × 9 mm, under the XIAO). The cables run like this:
+
+- **Relay harness:** down the left lane to the bottom edge, then fans to (0,2), (5,0) and (7,2). IN1–IN3 run up the trough under the XIAO.
+- **Cover/SHT40 bundle:** drops at the top-left corner to column 0. LEFT, DOWN and RIGHT branch off to the right of the XIAO.
+- **Field R and C:** go down the right-hand gutter and into the terminal's bottom entries.
+- **XL7015 IN pair:** goes along the bottom edge to (9,0) and (11,3).
+- **COM:** rises from (13,8).
+
+The model is built from the BOM sizes, so re-check it once the measurements in build step 1 are in.
 
 - **Zones:** logic in columns 0–9 with the XIAO standing upright (antenna at the top edge, USB-C toward the bottom edge); 24 VAC and the bus in columns 9–23. No R, 24 VAC or bus pad touches a logic pad, straight or diagonally; 24 VAC is 8 mm from the nearest logic pad and 14 mm from the antenna.
 - **Underside:** 25 links, all bare and flat, no crossings: logic links are lead offcuts (1–3 pitches); power links are 18 AWG.
