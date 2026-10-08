@@ -689,24 +689,26 @@ def build():
                 ry = DC[1] + ay + uy * s_rib + ux * side * rc
                 walls.append(tcyl((rx, ry, CAR_Z1), (rx, ry, CRADLE_TOP), RIB_R))
         se = 11.55 + RIB_R - (0.15 + RIB_BITE)
-        walls.append(tcyl((DC[0] + ax + ux * se, DC[1] + ay + uy * se, CAR_Z1),
-                          (DC[0] + ax + ux * se, DC[1] + ay + uy * se, CRADLE_TOP), RIB_R))
+        for off in ((0.0,) if name == 'down' else (-1.9, 1.9)):   # split either side of the wire slit
+            ex_, ey_ = DC[0] + ax + ux * se - uy * off, DC[1] + ay + uy * se + ux * off
+            walls.append(tcyl((ex_, ey_, CAR_Z1), (ex_, ey_, CRADLE_TOP), RIB_R))
         # floor opening for the switch terminals: wide enough to pass pre-soldered joints (<= ~3.2 mm),
         # leaving 1.1 mm ledges each side and 0.2 at each end for the body to sit on
         slots.append(sw_box(name, -1.2, 11.2, SLOT_W, CAR_Z0 - 1, CAR_Z1 + 1))
-        # wire slit through the floor only (the end wall bridges it): arrows straight out past the cradle end;
-        # the centre one angles off the diagonal so it misses the post clamp tube at the end of that arm
+        # wire slit, full height (floor and walls), so a wired switch's leads slide out sideways: arrows straight
+        # out through the cradle end wall; the centre one angles off the diagonal to miss the post clamp tube;
+        # the tangential down switch exits through its -y side wall between the crush rib and the pin hole
         if name == 'center':
             ax0, ay0 = DC[0] + ax + ux * 10.5, DC[1] + ay + uy * 10.5
-            bx0, by0 = DC[0] + ax + ux * 22.0 - uy * 6.0, DC[1] + ay + uy * 22.0 + ux * 6.0
+            bx0, by0 = DC[0] + ax + ux * 22.0 - uy * 8.0, DC[1] + ay + uy * 22.0 + ux * 8.0
             dx_, dy_ = bx0 - ax0, by0 - ay0
             slots.append(tobox((ax0 + bx0) / 2, (ay0 + by0) / 2, dx_, dy_, math.hypot(dx_, dy_), SLIT_W,
-                               CAR_Z0 - 1, CAR_Z1 + 0.01))
+                               CAR_Z0 - 1, ZF))
         elif name == 'down':                                   # tangential: exit sideways (-y), between ribs and pillars
-            sx_ = DC[0] + ax + ux * 6.0
-            slots.append(tbox(sx_ - SLIT_W / 2, sx_ + SLIT_W / 2, DC[1] + ay - 9.0, DC[1] + ay, CAR_Z0 - 1, CAR_Z1 + 0.01))
+            sx_ = DC[0] + ax + ux * 5.5
+            slots.append(tbox(sx_ - SLIT_W / 2, sx_ + SLIT_W / 2, DC[1] + ay - 9.0, DC[1] + ay, CAR_Z0 - 1, ZF))
         else:
-            slots.append(sw_box(name, 10.5, 16.0, SLIT_W, CAR_Z0 - 1, CAR_Z1 + 0.01))
+            slots.append(sw_box(name, 10.5, 16.0, SLIT_W, CAR_Z0 - 1, ZF))
         # retaining pin: through both cradle walls and the switch's mounting hole
         ps, pside = PINS[name]
         hx, hy, hz = DC[0] + ax + ux * ps, DC[1] + ay + uy * ps, SW_Z0 + HOLE_Z
