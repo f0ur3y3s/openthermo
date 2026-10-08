@@ -1,10 +1,10 @@
 # Controller board: parts the case model still needs
 
-> **Done (Oct 8, 2026).** Every part below is now a named reference body in `fusion_case_v3.py` and clears
-> the cover, backplate and screws; placements are in docs/HARDWARE.md, "Controller board". The fuses moved
-> 4.5 mm right, so the XIAO's antenna end has 7.5 mm of bare board (the relay pads reach 0.4 mm into it at the
-> top edge, low voltage only). The optional NPN driver set did not fit: build it on a strip at the relay
-> module's input terminal if bring-up step 2 calls for it.
+> **Done (Oct 8, 2026), then redone for the real board.** The board on hand is a 30 × 70 perfboard with only 10 × 24
+> holes and no mounting holes, so the layout was redone on that grid (docs/HARDWARE.md, "Controller board"). Everything
+> stays on the one board; it sits in a cradle on the backplate and pins on the cover hold it down. The XIAO's antenna
+> end has 4 mm to the fuse holders' plastic and about 6 mm to their metal clips. The 100 nF at the XL7015 output moved
+> onto the XL7015's own terminals, and the optional NPN drivers still don't fit.
 
 This is for whoever next edits `fusion_case_v3.py`. The firmware and the
 bring-up work (Oct 2026) settled every part on the controller perfboard.
