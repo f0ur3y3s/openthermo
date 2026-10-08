@@ -113,6 +113,8 @@ STOP_Z = SFX_Z0 - KEY_TRAVEL                       # tops of the stop pillars on
 TIP_TOP = SW_Z0 + 1.3
 RIB_R, RIB_BITE = 0.5, 0.1                         # cradle crush ribs: 0.1 interference on the body
 SLOT_W = 3.6                                       # terminal opening width in the carrier floor
+SLIT_W = 1.6                                       # wire slit from each terminal slot to the carrier edge, so wired
+                                                   # switches can be moved between carriers without unsoldering
 USE_LIPS = False
 # wire-window grommet (TPU 95A): flange inside, tube through the window, a flared skirt that folds into a narrow
 # groove on the wall face and presses on the wall around the hole, and a slit membrane the cable pushes through.
@@ -691,6 +693,19 @@ def build():
         # floor opening for the switch terminals: wide enough to pass pre-soldered joints (<= ~3.2 mm),
         # leaving 1.1 mm ledges each side and 0.2 at each end for the body to sit on
         slots.append(sw_box(name, -1.2, 11.2, SLOT_W, CAR_Z0 - 1, CAR_Z1 + 1))
+        # wire slit through the floor only (the end wall bridges it): arrows straight out past the cradle end;
+        # the centre one angles off the diagonal so it misses the post clamp tube at the end of that arm
+        if name == 'center':
+            ax0, ay0 = DC[0] + ax + ux * 10.5, DC[1] + ay + uy * 10.5
+            bx0, by0 = DC[0] + ax + ux * 22.0 - uy * 6.0, DC[1] + ay + uy * 22.0 + ux * 6.0
+            dx_, dy_ = bx0 - ax0, by0 - ay0
+            slots.append(tobox((ax0 + bx0) / 2, (ay0 + by0) / 2, dx_, dy_, math.hypot(dx_, dy_), SLIT_W,
+                               CAR_Z0 - 1, CAR_Z1 + 0.01))
+        elif name == 'down':                                   # tangential: exit sideways (-y), between ribs and pillars
+            sx_ = DC[0] + ax + ux * 6.0
+            slots.append(tbox(sx_ - SLIT_W / 2, sx_ + SLIT_W / 2, DC[1] + ay - 9.0, DC[1] + ay, CAR_Z0 - 1, CAR_Z1 + 0.01))
+        else:
+            slots.append(sw_box(name, 10.5, 16.0, SLIT_W, CAR_Z0 - 1, CAR_Z1 + 0.01))
         # retaining pin: through both cradle walls and the switch's mounting hole
         ps, pside = PINS[name]
         hx, hy, hz = DC[0] + ax + ux * ps, DC[1] + ay + uy * ps, SW_Z0 + HOLE_Z
