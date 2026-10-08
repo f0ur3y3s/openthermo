@@ -29,18 +29,30 @@
  * GPIO16 is U0TXD and D7 = GPIO17 U0RXD, used as keys: the console is on
  * USB. The ROM drives U0TXD at reset, so the right key has a 1 k series
  * resistor; holding it then only garbles the ROM's boot message.
+ *
+ * Pin map v2 (Oct 8, 2026; controller board round 5, docs/reviews/board_r5_*):
+ * the four relay inputs are D0..D3, one side of the XIAO in a row, so on the
+ * board no relay input sits next to 3V3, 5V, SDA/SCL or a strapping/TX pin;
+ * its only neighbours are other INs, GND and the LEFT key line (which a
+ * solder bridge can pull to ~0.6 V at most: too low to energise a relay).
+ * Bring-up step 0 checks every one of those pairs.
+ * GPIO0 (IN4) is an LP GPIO and the XTAL_32K_P pad. It is not a strapping
+ * pin, and the XIAO C6 has no 32 kHz crystal (GPIO1 is already a relay pin).
+ * Re-validate after this change: the relay reset/panic/bootloader bench
+ * checks, and scope IN4 through power-on, reset and flashing (must stay
+ * below 1 V).
  */
 #define BOARD_PIN_RELAY_Y1 GPIO_NUM_1  // D1, IN1, compressor
 #define BOARD_PIN_RELAY_G  GPIO_NUM_2  // D2, IN2, blower
 #define BOARD_PIN_RELAY_O  GPIO_NUM_21 // D3, IN3, reversing valve (on = cool)
-#define BOARD_PIN_RELAY_W  GPIO_NUM_18 // D10, IN4, aux / emergency strips
+#define BOARD_PIN_RELAY_W  GPIO_NUM_0  // D0, IN4, aux / emergency strips
 
-#define BOARD_PIN_SDA GPIO_NUM_22 // D4
-#define BOARD_PIN_SCL GPIO_NUM_23 // D5
+#define BOARD_PIN_SDA GPIO_NUM_20 // D9
+#define BOARD_PIN_SCL GPIO_NUM_19 // D8
 
-#define BOARD_PIN_KEY_UP            GPIO_NUM_0  // D0
-#define BOARD_PIN_KEY_DOWN          GPIO_NUM_19 // D8
-#define BOARD_PIN_KEY_LEFT          GPIO_NUM_20 // D9
+#define BOARD_PIN_KEY_UP            GPIO_NUM_18 // D10
+#define BOARD_PIN_KEY_DOWN          GPIO_NUM_23 // D5
+#define BOARD_PIN_KEY_LEFT          GPIO_NUM_22 // D4
 #define BOARD_PIN_KEY_RIGHT         GPIO_NUM_16 // D6, also U0TXD: 1 k series
 #define BOARD_PIN_KEY_CENTER        GPIO_NUM_17 // D7
 

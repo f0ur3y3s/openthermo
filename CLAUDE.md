@@ -35,7 +35,7 @@ Read these before working:
 
 | Component | Responsibility |
 |---|---|
-| `board` | Pin map for the XIAO C6 (verified against Seeed's pinout), plus `board_init()` for the RF switch. |
+| `board` | Pin map for the XIAO C6 (verified against Seeed's pinout), plus `board_init()` for the RF switch. Pin map v2 (Oct 8, 2026): relays on D1, D2, D3, D0 (IN1..IN4), I2C on D9/D8, keys UP D10, DOWN D5, LEFT D4, RIGHT D6, OK D7, matching the round-5 controller board. |
 | `hvac_logic` | Pure logic with no IDF calls and full host-test coverage. Takes mode, setpoints, temperature and a monotonic time in ms. Returns the desired outputs (Y1, G, O, W). Owns hysteresis, minimum run and off times, aux staging, auto changeover, and the O-change rules. Its header lists how each ambiguous spec rule was read. |
 | `relays` | Drives IN1–IN4. All outputs go low as the first act in `app_main`. `relays_guard` (pure, own state) enforces the interlocks a second time, as defence in depth. |
 | `i2c_bus` | The one I2C bus that the OLED and the SHT40 share. |
@@ -100,6 +100,7 @@ Read these before working:
 - **Before wiring to the HVAC:** confirm the relay NO/COM/NC order and 3.3 V pull-in (`docs/HARDWARE.md`, bring-up step 2).
 - **Firmware:**
   - The firmware has the control loop, relays with an independent guard, the SHT40, OLED pages with burn-in creep, the D-pad and NVS settings. The pure logic is host-tested with `pio test -e native`. The self-heat offset per relay (`SENSOR_SELF_HEAT_PER_RELAY_F10`) is 0 until it is measured.
+  - **Pin map v2 (Oct 8, 2026):** builds clean and passes `check_safety_sources.py`, but is **not yet bench-validated**. Before any HVAC use: flash the bootloader too (it holds the relay pins), scope all four IN pins (IN4 is now GPIO0) through power-on, reset and flashing, and re-run the relay reset and panic checks in `docs/HARDWARE.md`.
   - **Bench build:** `tools/matter.sh build sim` is the bench build. It runs Matter over Thread with no SHT40: a simulated room responds to the outputs, and the user LED (GPIO15) blinks a pattern per output state (`OPENTHERMO_STATUS_LED`, `status_led.h`). The OLED shows "SIM". Never flash it to the installed unit.
   - **Matter over Thread on the C6 works (Oct 2026):** paired with Apple Home via the HomePod; it runs as a Thread router.
   - **Flashing:** flash the `-app.bin` at 0x20000 to update and keep pairing and settings (plus `-bootloader.bin` at 0x0 when the bootloader changed); the merged `.bin` at 0x0 starts clean.
