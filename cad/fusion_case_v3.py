@@ -751,7 +751,7 @@ def build():
         I(hull, tobox(mx, my, ex, ey, 300, 100, CAR_Z0 - 1, CAR_Z1 + 1))
     U(plate, hull)
     for px, py in POSTS:
-        U(plate, tcyl((px, py, CAR_Z0), (px, py, CAR_Z1), 3.5))
+        U(plate, tcyl((px, py, CAR_Z0), (px, py, CAR_Z1), SFX_EAR_R))   # same r as the clamp tube: no overhang lip
         dx, dy = px - DC[0], py - DC[1]
         U(plate, tobox(DC[0] + dx / 2, DC[1] + dy / 2, dx, dy, math.hypot(dx, dy), 5.0, CAR_Z0, CAR_Z1))
         slots.append(tcyl((px, py, CAR_Z0 - 1), (px, py, CAR_Z1 + 1), M2_CLEAR_R))
@@ -765,8 +765,10 @@ def build():
         th = math.radians(ANG[nm])
         for lx, ly in legs:
             pillars.append((DC[0] + lx * math.cos(th) - ly * math.sin(th), DC[1] + lx * math.sin(th) + ly * math.cos(th)))
-    for x, y in pillars:
-        walls.append(tcyl((x, y, CRADLE_TOP - 0.3), (x, y, STOP_Z), 0.8))
+    for x, y in pillars:                                       # r 0.8 on a 1.2 wall: 45 deg cone base, no overhang
+        pl = tcyl((x, y, CRADLE_TOP - 0.3), (x, y, STOP_Z), 0.8)
+        U(pl, tcone((x, y, CRADLE_TOP - 0.5), 0.6, (x, y, CRADLE_TOP - 0.3), 0.8))
+        walls.append(pl)
     for px, py in POSTS:                                       # tubes round the posts clamp the flexure frame ears
         t = tcyl((px, py, CAR_Z1), (px, py, SFX_Z0), SFX_EAR_R)
         for nm in SWITCHES:                                    # merge into the cradle walls; keep only the switch
