@@ -3,7 +3,10 @@ openthermo D-pad as an ENCLOSED stand-alone module with a 6-pin 2.54 mm Dupont s
 
 Run with a design document active whose name contains 'dpad module'. Builds the case from fusion_case_v3.py
 (same folder) so the D-pad parts are exactly the case's, keeps only the D-pad, encloses it, and moves everything
-so the D-pad centre is at the origin (Z = 0 at the back of the module):
+so the D-pad centre is at the origin (Z = 0 at the back of the module).
+Its Dupont pinout (GND, UP, DOWN, LEFT, RIGHT, OK) is separate from the main case's JST-PH pigtails, and harmless
+if mis-mated: every pin is an input or GND. Keep it away from anything that carries 5 V. The centre key's two guide
+pins are lengths of 1.75 filament (7.9 mm), as in the main case:
 
   Front shell (PETG)        - 56 x 56 rounded box, open at the back: the key face (square-pad openings +
                               elephant-foot lips), side walls, the four carrier posts (M2 pilots), four corner

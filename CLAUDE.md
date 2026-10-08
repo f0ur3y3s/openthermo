@@ -24,7 +24,8 @@ Read these before working:
 
 - **Firmware builds with `idf.py` in WSL2** (decided Oct 2026).
   - The `matter/` project uses ESP-IDF v5.5.5 + esp-matter `release/v1.6`, installed by `tools/setup_matter_wsl.sh`.
-  - `tools/matter.sh build [sim]` builds it; `tools/matter.sh tidy [sim]` runs clang-tidy. The script also fetches U8g2 at the pinned version.
+  - `tools/matter.sh build [debug|sim]` builds it; `tools/matter.sh tidy [...]` runs clang-tidy. The script also fetches U8g2 and qrcodegen at pinned versions.
+  - The plain build is the release: no serial shell (`CONFIG_ENABLE_CHIP_SHELL=n`). `debug` adds the shell (`matter/sdkconfig.defaults.debug`); `sim` is a debug build with the simulated room.
   - Flash from Windows with esptool (see `README.md`).
 - **PlatformIO only runs the host tests:** `pio test -e native`.
 - **Size:** `tools/check_size.py` runs after every build. It fails if the app is over 90% of its smallest app slot, or static RAM is over 80%. The firmware logs its heap low-water mark every 10 min (`control: health`).
@@ -42,7 +43,7 @@ Read these before working:
 | `sensor` | SHT40 over I2C. Stores temperature as `int16_t` tenths of °F or °C (no stored floats, rule 4). Applies a self-heating offset that depends on which relays are energised. Reports a fault after 2 min without a good read. |
 | `display`, `pages`, `buttons` | SSD1306 OLED (u8g2) and the 5-way D-pad, ported from the user's NTP desk clock (`E:\esp\deskmate`). These run on the main/UI task only (rule 9). Key handling is pure and tested (`pages_nav`). |
 | `settings` | NVS blob with a version and a migration, per rule 10 (v2, Oct 2026: v1 records migrate on boot). Holds mode, setpoints, fan, units, calibration offset, brightness, the dim timeout and the screen-off time (default 10 min; the panel switches off to stop OLED wear, a key wakes it, a sensor fault keeps it on). Every change is one locked `settings_update()`. |
-| `matter_bridge` (`matter/components/`) | Matter Thermostat cluster (heat, cool, auto, off; occupied heating and cooling setpoints; local temperature). Fan control cluster for G. Emergency heat is a separate On/Off plug-in unit endpoint (Apple Home has no native e-heat mode); its StartUpOnOff is null so a reboot never cancels e-heat. A "Thermostat fault" contact sensor opens on a sensor fault. Callbacks are ignored until `esp_matter::start()` returns and on the sync task's own reports; limits, deadband, control sequence and StartUpOnOff are set at boot and refused to controllers. The commissioning QR code on the OLED is not started. |
+| `matter_bridge` (`matter/components/`) | Matter Thermostat cluster (heat, cool, auto, off; occupied heating and cooling setpoints; local temperature). Fan control cluster for G. Emergency heat is a separate On/Off plug-in unit endpoint (Apple Home has no native e-heat mode); its StartUpOnOff is null so a reboot never cancels e-heat. A "Thermostat fault" contact sensor opens on a sensor fault. Callbacks are ignored until `esp_matter::start()` returns and on the sync task's own reports; limits, deadband, control sequence and StartUpOnOff are set at boot and refused to controllers. Left / right cycle main, mode, fan and settings; Info and Pair with Home are settings rows. The Pair page shows the commissioning QR code (qrcodegen) and manual code; an unpaired thermostat boots onto it. Settings › Factory reset (confirmed, starts on No) resets the settings and unpairs. |
 
 ## How the timers are enforced
 
@@ -86,20 +87,24 @@ Read these before working:
 - **Parts:** all ordered (see `docs/HARDWARE.md`). The XIAO C6 boards, mouse switches and spare OLEDs are on hand.
 - **Enclosure:**
   - v3 landscape, 138 × 114 × 27 mm.
-  - Three-agent review done and fixes applied.
-  - It mounts on the old Braeburn screw line: two screws side by side, about 75 mm apart. The slots accept 65–85 mm.
+  - Three-agent reviews done and fixes applied (round 3, wiring/placement/design, Oct 2026: `docs/reviews/v3r3_*.md`).
+  - It mounts on the old Braeburn screw line: two screws side by side, measured 80 mm apart, wire hole centred. Left slot horizontal (accepts 72–88 mm), right slot vertical (±3.5 mm to level).
+  - Fasteners are M2/M3 button heads threaded straight into PETG; no inserts. Cover rim fit (CLR 0.15) confirmed on a fit-ring print.
+  - Centre D-pad key is guided by two 1.75 filament pins (printed pins could snap).
 - **Measure before printing:**
-  - wall screw spacing and wire-hole size;
+  - installed fuse-holder height, perfboard top to highest point (≤ 17.9 mm with the cover pocket);
+  - XL7015 tallest part within x 26..56 (≤ 13.4 mm above its PCB), and which end is IN and OUT;
+  - SHT40 hole position;
   - whether the case covers the old paint outline;
-  - XL7015 size and trim-pot height;
-  - switch lever travel to the click.
+  - D-pad: every key clicks before it bottoms (else set `FL_Z0 = ZF - 1.0`).
+- **Before wiring to the HVAC:** confirm the relay NO/COM/NC order and 3.3 V pull-in (`docs/HARDWARE.md`, bring-up step 2).
 - **Firmware:**
   - The firmware has the control loop, relays with an independent guard, the SHT40, OLED pages with burn-in creep, the D-pad and NVS settings. The pure logic is host-tested with `pio test -e native`. The self-heat offset per relay (`SENSOR_SELF_HEAT_PER_RELAY_F10`) is 0 until it is measured.
   - **Bench build:** `tools/matter.sh build sim` is the bench build. It runs Matter over Thread with no SHT40: a simulated room responds to the outputs, and the user LED (GPIO15) blinks a pattern per output state (`OPENTHERMO_STATUS_LED`, `status_led.h`). The OLED shows "SIM". Never flash it to the installed unit.
   - **Matter over Thread on the C6 works (Oct 2026):** paired with Apple Home via the HomePod; it runs as a Thread router.
   - **Flashing:** flash the `-app.bin` at 0x20000 to update and keep pairing and settings (plus `-bootloader.bin` at 0x0 when the bootloader changed); the merged `.bin` at 0x0 starts clean.
   - Mode, setpoints (limited to 60–80 °F), fan and e-heat round-trip with Apple Home. The OLED and the status LED work on the bench.
-  - Not started: the commissioning QR on the OLED, and real-hardware testing with the SHT40 and relay module.
+  - Real-hardware testing with the SHT40 and relay module is under way on the bench (Oct 2026).
 
 ## How the user works
 

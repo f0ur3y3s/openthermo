@@ -26,8 +26,9 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 ```
 
 - **Half-wave rectification.** It keeps C = GND, so plugging USB into a PC while the board is on 24 VAC is safe. Check C-to-earth continuity first anyway.
-- **Bus voltage.** The DC bus sits at about 33–39 V peak. The XL7015 accepts 5–80 V. Set its output to 5.00 V **before** connecting any load.
-- **Relay contacts.** The contacts switch R onto Y1, G, O and W. Contactor pickup is about 1.25 A, and the SRD relays are rated 10 A.
+- **Bus voltage.** The DC bus sits at about 33–39 V peak. The XL7015 accepts 5–80 V. Set its output to 5.00 V **before** connecting any load, then lock the trimpot with a dab of nail polish.
+- **Relay contacts.** The contacts switch R onto Y1, G, O and W. The SRD relays are rated 10 A.
+- **F2 sizing.** About 1.25 A is the contactor *inrush*, which a T fuse rides through; the steady Heat + aux load is typically 0.6–1.2 A. After installation, clamp-meter R in heat, cool, heat + aux and e-heat. Keep T1.6A if the steady current is ≤ 1.1 A, otherwise fit T2A (18 AWG and the contacts allow it).
 
 ## Relay module (AEDIKO 4-ch, H/L trigger)
 
@@ -36,6 +37,8 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 - **Jumpers.** Set all four trigger jumpers S1–S4 to **H**. This board has no JD-VCC jumper.
 - **Clearance.** The relay tops sit 1–2 mm under the cover. The module must sit flat on its four bosses.
 - **Light leaks.** Cover the on-board relay LEDs with Kapton so they don't glow through the top vents.
+- **Terminal order is not confirmed.** The CAD assumes NO, COM, NC from the left of each group. Bring-up step 2 checks it before any field wire lands; paint-mark the four NO screws.
+- **3.3 V drive.** The IN inputs must pull in from a XIAO GPIO (3.3 V), not just from 5 V. If they don't (see step 2), set S1–S4 to **L** and add one NPN per channel (2N3904, 2N2222 or a 2N7000): collector to IN, emitter to GND, base from the GPIO through 2.2–4.7 k, and keep the 10 k pull-down on the GPIO. GPIO high still means energised and a floating or low GPIO still means off. Never use an inverting pull-up stage in H mode: every relay would turn on at boot.
 
 | Channel | Load |
 |---|---|
@@ -69,18 +72,34 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 - **Fit a 10 k pull-down from each IN pin to GND.** After a power-on the pins are floating inputs until the bootloader hook drives them low, tens of ms later.
 - **After any other reset** (a crash, a watchdog, a software restart) the C6 keeps its GPIO outputs. The firmware drops the relays in the panic handler, in the restart path and again first thing in the bootloader (Oct 2026 bench check: without these, a relay stayed on about 0.67 s into the reboot).
 
+## Controller board
+
+- **Perfboard** about 74 × 32 mm (x −60..14 in the CAD). Trim the right edge so it stops 0.75 mm short of the divider rib and the sensor grommet.
+- **470 µF** lies flat on the board, axis at x = 4 (body x −1..9), so a driver still reaches the (11.5, −49) mounting screw.
+- **Pads at the right end** (x 10..14): SHT40, 4 pads at y −42..−36; XL7015, 3 pads at y −34..−29. The cover harness lands at x 2..8, y −28..−24. Keep every pad at least 3 mm from a screw centre.
+- **Underside:** only 3 mm to the backplate. Trim every lead and header tail to ≤ 2 mm, and run the 18 AWG R, C and F2 links on the component side.
+- **Fuse holders:** the header pins added to the clip legs must be **soldered**, not glued (CA glue doesn't conduct and F2 carries up to about 1 A). Tug-test them and check ≤ 0.05 Ω from clip to pin. Installed height, board top to the highest point, must be ≤ 17.9 mm (the cover has a 1 mm pocket over the fuses).
+
 ## Sensor
 
-- MusRock SHT40 module (about 18 × 12 mm) at I2C address 0x44.
-- It stands in its own vented chamber at the bottom right of the case, with a double-skin wall toward the electronics.
-- Seal the cable notch with putty.
+- MusRock SHT40 module, measured 12.56 × 10.5 mm, 2.85 mm hole near one corner, pins VIN GND SCL SDA on the opposite edge. I2C address 0x44.
+- It lies flat, sensor side up, in its own vented chamber at the bottom right of the case, 14 mm off the wall plane. One M2 × 6 goes into a slim standoff, and the board rests on two thin posts (slim on purpose: they carry wall heat into the sensor).
+- The wires pass through a TPU grommet in the double-skin divider. Knife-cut a slit from the top of the grommet down to its channel and press the 4 × 26 AWG cable in; the cover squeezes it shut.
 - Firmware applies an offset that depends on how many relays are energised; each coil dissipates about 0.35 W.
+- **Calibration:** the backplate still pulls the reading 16–28 % of the way toward the wall-surface temperature. Log it against a reference thermometer over a cold night before trusting the offset, especially on an exterior wall.
 
 ## UI
 
 - 0.96" SSD1306 I2C OLED at 0x3C. Remove its header and solder wires directly.
 - 5-way D-pad made of five lever micro switches, the same type as the NTP desk clock.
-- A 9-pin JST-PH connector carries VCC, GND, SDA, SCL, U, D, L, R and C from the cover to the controller board, so the cover can come off.
+- **Cover connectors** (so the cover can come off): one JST-PH 6-pin pair for the D-pad and one JST-PH 4-pin pair for the OLED, inline on pigtails (PH is 2.0 mm pitch, so it doesn't fit the perfboard). The mated pairs lie flat under the D-pad carrier with about 80 mm of cover-side slack; tack them to the backplate with hot glue.
+  - D-pad 6-pin: GND, UP, DOWN, LEFT, RIGHT, OK.
+  - OLED 4-pin and the optional SHT40 4-pin: **both in the same order, GND, 3V3, SDA, SCL**, so swapping them does no harm.
+  - Paint pin 1 on every housing.
+- **The relay cable has no connector.** Solder it at the controller and screw it into the module's 6-way block. A 6-pin plug there could mate with the D-pad's, and a key press would then put 5 V on a GPIO or short the 5 V rail.
+- **Strain relief:** hot-glue the OLED wires to its PCB next to the pads, and tie or glue the D-pad bundle to the carrier.
+- **I2C pull-ups:** check both modules. If the SHT40 module has none, fit 10 k from SDA and SCL to 3V3 on the controller (with the OLED's 4.7 k that gives about 3.2 k).
+- **Centre key guides:** two 7.9 mm lengths of 1.75 filament, pushed into the blind holes in the centre key; they slide in the carrier's columns.
 
 ## BOM (all ordered from Amazon, Oct 2026)
 
@@ -99,7 +118,11 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
 | 5.08 mm screw terminals (from the QSYZAIL kit) | R, C plus field wires |
 | 0.96" SSD1306 OLED | 1 (on hand) |
 | Lever micro switches | 5 (on hand) |
-| Perfboard about 75 × 32, M3×4 heat-set inserts, #8 screws and anchors, JST-PH 9-pin, foam or TPU gasket | — |
+| Perfboard about 74 × 32; M3 × 10 and M2 × 6 button-head screws (threaded straight into PETG, no inserts); #8 screws and anchors | — |
+| JST-PH pigtail pairs: one 6-pin (D-pad), one or two 4-pin (OLED, optional SHT40) | — |
+| 1 k resistor (D6 line), 10 k pull-downs (IN1–IN4) | 1 + 4 |
+| Optional: 10 k I2C pull-ups; 2N3904 / 2N2222 / 2N7000 relay drivers + 2.2–4.7 k base resistors | 2; 4 + 4 |
+| 1.75 mm filament (switch retention pins, centre key guides) | — |
 
 ## Bring-up order
 
@@ -107,14 +130,18 @@ R ──F2 T1.6A── relay COM1..COM4 (jumpered)
    - check the bus voltage;
    - set the XL7015 to 5.00 V;
    - check ripple under a 0.5 A load.
-2. Relay module from 5 V: toggle each IN by hand and check continuity from COM to NO.
+2. Relay module, **before any field wire lands**:
+   1. Module unpowered: each terminal you plan to use must read **open** to its COM. The third terminal of each group reads **closed** to COM; that one is NC and stays unused.
+   2. Power the module from 5 V and drive each IN from a **XIAO GPIO at 3.3 V** (not from 5 V). The relay must pull in solidly, the used terminal must close to COM, and the IN current should be at least 1.5–2 mA. If not, switch to L mode with NPN drivers (see the relay module section).
+   3. Paint-mark the four NO screws.
+   4. Optional: scope the IN pins through a reset and a flash; they must stay below about 1 V.
 3. C6 bench (sim) build: outputs on LEDs, display and D-pad, with the HVAC logic running against a simulated room, paired with Apple Home over Thread. Done (Oct 2026).
 4. C6 real build with the SHT40 and the relay module, still driving **LEDs, not the HVAC system**.
 5. Wire to the real system with the compressor timer verified. Test fan, then heat, then cool, then aux, then emergency heat.
 
 ## Bench checks (C6, before the wall)
 
-Run these on the bench with LEDs (or the relay module) on IN1–IN4 and no HVAC attached. The serial console is `pio device monitor -p COM10 -b 115200`.
+Run these on the bench with LEDs (or the relay module) on IN1–IN4 and no HVAC attached. The `matter esp ...` commands need a debug build (`tools/matter.sh build debug`); the serial console is `pio device monitor -p COM10 -b 115200`.
 
 | Check | How | Pass |
 |---|---|---|
@@ -123,4 +150,5 @@ Run these on the bench with LEDs (or the relay module) on IN1–IN4 and no HVAC 
 | Sensor fault | Pull the SHT40's SDA lead. | After 2 min: every output off, OLED fault, Home's "Thermostat fault" opens. Reconnect: valid again only after 1 min of good reads. |
 | Bench build on a real board | Flash the `-sim` build with the SHT40 connected. | Log: `SHT40 found ... will not drive its relays`; the relays stay off. |
 | Fixed attributes | `matter esp attribute set 0x1 0x201 0x19 127` (deadband). | Refused; Home setpoint changes still work. |
+| Factory reset | Settings › Factory reset: centre, No, centre; then centre, Yes, centre. | No does nothing. Yes shows "Factory reset", restarts in mode Off, and the Pair page shows the QR code. |
 | Timing rules | Run a day with the real build, saving the log; `python tools/check_relay_log.py bench.log`. | `RESULT: PASS`. |

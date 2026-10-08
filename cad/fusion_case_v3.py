@@ -36,16 +36,18 @@ M2_PILOT_R, M2_CLEAR_R = 0.85, 1.2         # 1.7 pilot for M2, 2.4 clearance
 UX = 41.0                                 # UI column centre x
 # sensor chamber (bottom of the UI column)
 VDIV_X, HDIV_Y, DIV_T = 16.5, -32.5, 1.6
-# relay module (AEDIKO 4-ch, 75 x 55, holes 67 x 44.5)
+# relay module (AEDIKO 4-ch, 73 x 50, holes 67 x 44.5)
 MOD = (-62.0, 11.0, -4.5, 45.5)                # measured 73 x 50, centred on the 67 x 44.5 holes
 MOD_HOLES = [(-59.0, -1.75), (8.0, -1.75), (-59.0, 42.75), (8.0, 42.75)]
 MOD_PCB_Z = 6.0
+FUSE_H = 17.0                                  # holder height with the cap; set to the measured installed height
+FUSE_POCKET = (-37.0, -8.0, -52.5, -29.5, 1.0)  # 1.0 deep pocket in the cover's inner face over the fuses (H <= 17.9)
 # XL7015 buck (listing: 44 x 16 board; height to the top of the tallest part assumed 12, confirm on arrival)
 XL_L, XL_W, XL_H = 44.0, 16.0, 12.0
 XL_C = (38.5, 34.5)                            # board centre, lying on two rails under the OLED
-XL_TIES = (XL_C[0] - 7.0, XL_C[0] + 5.0)       # zip-tie notches: between the input cap and the inductor, and the inductor and the IC
+XL_TIES = (XL_C[0] + 7.0, XL_C[0] - 5.0)       # zip-tie notches either side of the inductor (board turned: OUT end faces left)
 # controller board
-CTL = (-60.0, 14.5, -52.0, -20.0)
+CTL = (-60.0, 14.0, -52.0, -20.0)             # right edge trimmed to 14.0 (rib at 14.75, grommet at 14.6)
 CTL_HOLES = [(-57.0, -49.0), (11.5, -49.0), (-57.0, -23.0), (11.5, -23.0)]
 CTL_TOP = 7.6
 # OLED (0.96" SSD1306), header removed, wires soldered to pads
@@ -70,8 +72,10 @@ SQ_CHEV = (2.0, 1.6, 0.4)                       # engraved chevron: half-base, h
 NUB_GAP = 0.15                                # nub clears the resting lever (the old 0.2 preload left keys pressed)
 NUB_Z0, FL_Z0 = ZF - 1.8 + NUB_GAP, ZF - 0.8  # lever top under the nub's tip-side edge sits at ZF-1.8
 NUB_R = 1.0                                   # key nub radius
-KEY_PROUD, KEY_TRAVEL = 1.4, 1.5              # stop = gap 0.15 + click ~0.85 at the nub + ~0.5 overtravel;
-                                              # clicks with the key ~0.4 proud, bottoms 0.1 below the face
+KEY_PROUD, KEY_TRAVEL = 1.4, 1.5              # no nubs: the lever tip (z ~23.77) sits 0.43 under the pocket ceiling
+                                              # (FL_Z0), so 1.5 key travel moves the tip ~0.83, about the ~0.85 click.
+                                              # Coupon keys clicked; if a printed key does not, set FL_Z0 = ZF - 1.0.
+                                              # Print the key plate at 0.2 mm layers (0.4 arms).
 # square flexure key plate (coupon-tested). Local key frame: a = along the key axis from DC, d = across it.
 # Arrow keys hang on two folded arms each, both running the same way (parallelogram), so a key drifts ~0.1 sideways
 # as it travels instead of stretching the arms. Everything starts on one plane (SFX_Z0) so it prints face-up with
@@ -85,9 +89,13 @@ SFX_FRAME = (19.6, 21.4)                      # square frame ring, half-sizes
 SFX_EAR_R, SFX_HOLE_R = 3.6, 2.75             # frame ears round the cover posts (post r 2.5); carrier clamp tubes
 # centre key guide (it is not on the flexure and tilted/jammed): two pins under the key run in sockets in two carrier
 # columns that stand outside the centre cradle walls; the column tops are also the centre key's stops
-CK_GUIDE_S, CK_GUIDE_P = -1.0, 4.6            # along / across the centre switch axis (clear of the pin path and ribs)
-CK_PIN_R, CK_SOCK_R, CK_COL_R = 0.75, 0.9, 1.5  # pin, socket (0.15 clearance per side), column
+# The guides are two lengths of 1.75 filament (printed 1.5 pins could snap): snug in blind holes in the key, sliding
+# in sockets in the carrier columns. They sit in the two free corners of the key, either side of the diagonal switch.
+CK_GUIDE_S, CK_GUIDE_P = 0.0, 4.53            # along / across the centre switch axis: key corners (+-3.2, -+3.2)
+CK_HOLE_R, CK_SOCK_R, CK_COL_R = 0.90, 1.0, 1.5 # key hole (snug, as PIN_FAR_R), carrier socket (slip), column
 CK_PIN_LEN = 4.0                              # pin length below the key underside (2.5 engaged at rest)
+CK_HOLE_TOP = DEPTH + KEY_PROUD - 1.2         # blind hole top in the key (1.2 skin under the cap face)
+CK_PIN_CUT = CK_HOLE_TOP - SFX_Z0 + CK_PIN_LEN  # filament length to cut (~7.9)
 SW_L, SW_W, SW_H = 12.8, 5.8, 6.0                 # measured with calipers
 # lever (measured): 13.1 long, 3.5 wide, free tip 3.75 above the body top, pivot inset 1.3 from the body end.
 # Along the switch axis s (0 = key nub contact): body s -1.4..11.4, lever pivot s 10.1, tip s -3.0.
@@ -118,9 +126,16 @@ GRM_SKIRT_T, GRM_SKIRT_PROUD, GRM_SKIRT_FLARE = 0.5, 0.6, 0.6
 GRM_COLLAR_Z = 0.6                                 # captive collar behind the window ledge; skirt hinges here
 # sensor-cable grommet (TPU 95A): a block that sits on the backplate where the cable crosses the chamber's double
 # wall (divider + skin). The cover's walls carry a slot open at their free edge, so the cover slides down over the
-# block and squeezes it shut. The cable lies in a channel and is pressed in through a slit from the top.
+# block and squeezes it shut. The cable lies in a channel; knife-cut a slit from the block top down to the channel
+# and press the cable in (the cover's squeeze closes it).
 SG_X, SG_Y, SG_Z = (14.6, 20.4), (-42.5, -37.5), (PLATE, 13.0)
-SG_CH_Z, SG_CH_D = 8.0, 3.2                        # cable channel (4 x 26 AWG silicone, threaded before soldering)
+# SHT40 module (measured 12.56 x 10.5, 2.85 hole in a corner, VIN GND SCL SDA on the far edge), lying flat in the
+# chamber, sensor side up, pin edge toward the cable grommet; held by one M2 x 6 into a standoff, resting on two posts
+SHT_X0, SHT_Y1 = 25.0, -40.0                   # pin-edge x, +Y edge of the board
+SHT_L, SHT_W, SHT_T, SHT_Z = 12.56, 10.5, 1.6, 14.0  # along x (pins -> hole), along y, thickness, underside height
+                                                     # (mid-depth: in the vent airflow, 11 mm off the backplate)
+SHT_HOLE = (SHT_X0 + SHT_L - 2.4, SHT_Y1 - 2.7)       # 2.85 hole centre
+SG_CH_Z, SG_CH_D = 8.0, 3.6                        # cable channel (4 x 26 AWG silicone, OD 1.3-1.4: needs ~3.4)
 SG_SQUEEZE = 0.15                                  # per side: wall slot narrower than the block
 # switch mounting holes (measured): through the body side to side, 0.5 from the pin face to the hole edge,
 # one 2.0 round, one 2.1 x 2.0 slot, 6.5 apart and centred on the body (s 1.75 and 8.25).
@@ -132,7 +147,8 @@ PIN_ENTRY_R, PIN_FAR_R = 1.05, 0.90                # slip fit in the entry wall 
 PINS = {'up': (8.25, 1), 'right': (8.25, 1), 'left': (8.25, -1), 'down': (8.25, -1), 'center': (1.75, 1)}
 POSTS = [(UX - 14.1, 10.1), (UX + 14.1, 10.1), (25.0, -20.0), (57.0, -18.0)]
 # wall mount: Braeburn 1220NC footprint, two screws side by side ~75 apart, wire hole between
-MNT_X, MNT_Y, MNT_HALF = 37.5, -13.5, 10.0    # slots accept 65..85 spacing
+MNT_X, MNT_Y = 40.0, -13.5                    # old Braeburn screws (measured 80 apart, wire hole centred between)
+MNT_HALF, MNT_VHALF = 8.0, 3.5               # left slot horizontal (spacing 72..88), right slot vertical (levels +-3.5)
 MNT_RS, MNT_RH, MNT_BOSS = 2.2, 4.3, 1.5      # #8 shank / head radius, local boss
 
 # ------------------------------------------------------------ temp-BRep helpers
@@ -170,29 +186,17 @@ def trrect(x0, x1, y0, y1, z0, z1, r):
             U(b, tcyl((cx, cy, z0), (cx, cy, z1), r))
     return b
 
-def countersunk(cx, cy, half):
-    """#6 wood screw: 3.8 shank, 82 deg countersink, horizontal slot of +-half."""
-    b = tcyl((cx - half, cy, -1), (cx - half, cy, PLATE + 1), 1.9)
-    if half > 0:
-        U(b, tbox(cx - half, cx + half, cy - 1.9, cy + 1.9, -1, PLATE + 1))
-        U(b, tcyl((cx + half, cy, -1), (cx + half, cy, PLATE + 1), 1.9))
-    depth = (3.75 - 1.9) / math.tan(math.radians(41))
-    n = max(1, int(half))
-    for i in range(-n, n + 1):
-        px = cx + (half * i / n if half > 0 else 0)
-        U(b, tcone((px, cy, PLATE - depth), 1.9, (px, cy, PLATE + 0.01), 3.76))
-    return b
-
-def slot_csk(cx, cy, half, zt):
-    """#8 screw slot along X with an 82 deg countersink at the top face zt."""
-    b = tcyl((cx - half, cy, -1), (cx - half, cy, zt + 1), MNT_RS)
-    U(b, tbox(cx - half, cx + half, cy - MNT_RS, cy + MNT_RS, -1, zt + 1))
-    U(b, tcyl((cx + half, cy, -1), (cx + half, cy, zt + 1), MNT_RS))
+def slot_csk(cx, cy, half, zt, vertical=False):
+    """#8 screw slot (along X, or along Y if vertical) with an 82 deg countersink at the top face zt."""
+    ux, uy = (0.0, 1.0) if vertical else (1.0, 0.0)
+    b = tcyl((cx - ux * half, cy - uy * half, -1), (cx - ux * half, cy - uy * half, zt + 1), MNT_RS)
+    U(b, tobox(cx, cy, ux, uy, 2 * half, 2 * MNT_RS, -1, zt + 1))
+    U(b, tcyl((cx + ux * half, cy + uy * half, -1), (cx + ux * half, cy + uy * half, zt + 1), MNT_RS))
     depth = (MNT_RH - MNT_RS) / math.tan(math.radians(41))
     n = int(2 * half / 0.5)
     for i in range(n + 1):
-        px = cx - half + i * 0.5
-        U(b, tcone((px, cy, zt - depth), MNT_RS, (px, cy, zt + 0.01), MNT_RH + 0.01))
+        px, py = cx - ux * half + ux * i * 0.5, cy - uy * half + uy * i * 0.5
+        U(b, tcone((px, py, zt - depth), MNT_RS, (px, py, zt + 0.01), MNT_RH + 0.01))
     return b
 
 def sector_up(rin, rout, d, z0, z1, d_ne=None, d_nw=None):
@@ -253,8 +257,8 @@ def sfx_key(name):
     k = sq_shape(name, 0.0, ZF, zt)
     if name == 'center':
         U(k, sq_shape(name, SQ_FL_C, SFX_Z0, ZF))
-        for gx, gy in ck_guides():                                       # guide pins (print this key face-down)
-            U(k, tcyl((gx, gy, SFX_Z0 - CK_PIN_LEN), (gx, gy, SFX_Z0 + 0.01), CK_PIN_R))
+        for gx, gy in ck_guides():                                       # blind holes for the filament guide pins
+            D(k, tcyl((gx, gy, SFX_Z0 - 1), (gx, gy, CK_HOLE_TOP), CK_HOLE_R))
     else:
         U(k, sq_shape(name, SQ_FL_OUT, SFX_Z0, ZF, inner=SQ_FL_IN))
         D(k, sq_chevron(name, zt - SQ_CHEV[2], zt + 1))
@@ -330,7 +334,106 @@ def combine(comp, target, temps, op):
 JOIN = adsk.fusion.FeatureOperations.JoinFeatureOperation
 CUT = adsk.fusion.FeatureOperations.CutFeatureOperation
 
-MINE = ('Cover', 'Backplate', 'Gasket (TPU)', 'D-pad keys (PETG)', 'D-pad switch carrier (PETG)', 'Reference (not printed)')
+# ------------------------------------------------------------ wiring (reference only: routes and bundle sizes)
+# Off-board wiring between the parts. Bundles are drawn as one tube sized for their wire count; each wire fans out to
+# its terminal at the end. Perfboard-internal wiring is not drawn. Field wires 18 AWG thermostat cable, the rest 26 AWG.
+R_FIELD, R_SIG = 0.8, 0.65
+def r_bundle(n, r=R_SIG):
+    return r * 1.15 * math.sqrt(n)
+
+def wire_path(pts, r):
+    b = None
+    pts = [q for i, q in enumerate(pts) if i == 0 or math.dist(q, pts[i - 1]) > 1e-6]
+    for a, c in zip(pts[:-1], pts[1:]):
+        seg = tcyl(a, c, r)
+        b = seg if b is None else U(b, seg)
+    for q in pts[1:-1]:
+        U(b, tbm.createSphere(P(mm(q[0]), mm(q[1]), mm(q[2])), mm(r)))
+    return b
+
+def build_wiring():
+    w = new_comp('Wiring (not printed)')
+    named = []
+    zt = MOD_PCB_Z + 1.6 + 5.0                                     # relay screw-terminal entry height
+    # relay output terminals (12-way, front face y = my0+0.5): per relay NO, COM, NC from left (check your board)
+    mx0, mx1, my0, my1 = MOD
+    kx = [(mx0 + mx1) / 2 + dx for dx in (-25.5, -8.5, 8.5, 25.5)]
+    yf = my0 + 0.5 - 0.6
+    # 1. field wires from the wall window: R, C to the R-C terminal; Y1, G, O, W to NO1..NO4
+    wy, wz = -6.5, 13.0
+    for i, (nm, k) in enumerate((('Y1', 0), ('G', 1), ('O', 2), ('W', 3))):
+        x0 = -6.0 + i * 1.8
+        x1 = kx[k] - 5.0
+        named.append(('Field %s' % nm, wire_path([(x0, -13.5, 0.5), (x0, -13.5, wz), (x0, wy - i * 0.0, wz),
+                                                   (x1, wy, wz), (x1, yf, wz)], R_FIELD)))
+    for nm, x in (('R', -7.5), ('C', -2.5)):
+        named.append(('Field %s' % nm, wire_path([(x + 9.0, -13.5, 0.5), (x + 9.0, -13.5, 14.0), (x, -16.0, 14.0),
+                                                  (x, -20.6, 13.6)], R_FIELD)))
+    # 2. relay commons: F2 (left end) -> COM1, then COM1-COM2-COM3-COM4 jumpers
+    named.append(('F2 -> COM1', wire_path([(-37.5, -35.5, CTL_TOP + 0.8), (-37.5, -20.5, CTL_TOP + 0.8),
+                                           (-37.5, -20.5, 17.0), (-37.5, -8.0, 17.0), (kx[0], -8.0, 17.0),
+                                           (kx[0], yf, zt + 1.5)], R_FIELD)))
+    for a, c in zip(kx[:-1], kx[1:]):
+        named.append(('COM jumper', wire_path([(a + 0.6, yf, zt + 1.5), (a + 0.6, yf - 2.0, zt + 3.5),
+                                               (c - 0.6, yf - 2.0, zt + 3.5), (c - 0.6, yf, zt + 1.5)], R_FIELD)))
+    # 3. relay harness (5V, GND, IN1-IN4): controller board -> left channel -> input terminal (far edge)
+    rb = r_bundle(6)
+    cx = mx0 - 1.2                                                 # channel between the module and the rim
+    yb = my1 + 3.0
+    named.append(('Relay harness (6)', wire_path([(-50.0, -22.0, CTL_TOP + rb), (cx, -22.0, CTL_TOP + rb + 2.0),
+                                                  (cx, yb, CTL_TOP + rb + 2.0), (mx0 + 26.0, yb, CTL_TOP + rb + 2.0)], rb)))
+    for i in range(6):
+        tx = mx0 + 3.5 + i * 5.0
+        named.append(('Relay harness fan %d' % (i + 1), wire_path([(mx0 + 1.0 + i * 4.0, yb, CTL_TOP + rb + 2.0),
+                                                                    (tx, my0 + 46.2, zt)], R_SIG)))
+    # 4. XL7015: one 3-wire cable from the controller board (channel right of the relay module)
+    xb = r_bundle(3)
+    xc = 14.5
+    xl0, xl1 = XL_C[0] - XL_L / 2, XL_C[0] + XL_L / 2
+    yl0, yl1 = XL_C[1] - XL_W / 2, XL_C[1] + XL_W / 2
+    xx = 14.0                                                      # XL7015 bundle runs low, under the cover harness
+    zb = CTL_TOP + xb + 0.2
+    # 3 wires: bus +, GND, 5 V out (IN- and OUT- are the same node on the XL7015). Board turned so OUT faces the cable.
+    named.append(('XL7015 harness (3)', wire_path([(12.0, -31.5, zb), (12.0, -29.0, zb), (xx, -29.0, zb), (xx, -17.0, zb), (xx, -12.0, 6.0),
+                                                   (xx, yl0 + 1.5, 6.0)], xb)))
+    for nm, yy in (('OUT- (GND)', yl0 + 1.5), ('OUT+ (5 V)', yl1 - 1.5)):
+        named.append(('XL7015 %s' % nm, wire_path([(xx, yl0 + 1.5, 6.0), (xx, yy, 6.0), (xl0 + 1.0, yy, PLATE + 3.6)], R_SIG)))
+    named.append(('XL7015 IN+ (bus)', wire_path([(xx, yl0 + 1.5, 6.0), (xx, yl1 + 1.8, 6.0), (xl1 + 0.5, yl1 + 1.8, 6.0),
+                                                 (xl1 + 0.5, yl1 - 1.5, 6.0), (xl1 - 1.0, yl1 - 1.5, PLATE + 3.6)], R_SIG)))
+    # 5. SHT40: chamber -> grommet channel -> controller board (right end)
+    sy = (SG_Y[0] + SG_Y[1]) / 2
+    named.append(('SHT40 (4)', wire_path([(SHT_X0 + 1.1, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2),
+                                          (SHT_X0 - 1.5, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2), (SG_X[1] + 1.5, sy, SG_CH_Z),
+                                          (SG_X[0] - 1.0, sy, SG_CH_Z), (12.0, sy, CTL_TOP + 1.6)], r_bundle(4))))
+    # 6. cover side: OLED (4) and D-pad (6) pigtails end in JST-PH pairs lying flat under the carrier (x 22..48,
+    #    y 5..17); ~80 mm of cover-side slack is stowed there too. Controller side: one 10-wire bundle down the
+    #    channel right of the relay module to pads at x 2..8, y -28..-24 (clear of the R-C terminal and the screw).
+    cb = r_bundle(10)
+    pz = 6.85                                                      # mid-height of the mated pairs
+    named.append(('OLED (4)', wire_path([(UX, OLED_YB + OLED_H - 2.0, ZF - 2.6), (UX, OLED_YB + OLED_H + 1.5, ZF - 4.0),
+                                         (UX, OLED_YB + OLED_H + 1.5, 12.0), (xc, OLED_YB + OLED_H + 1.5, 12.0),
+                                         (xc, 21.0, 12.0), (43.0, 21.0, pz), (43.0, 17.0, pz)], r_bundle(4))))
+    named.append(('D-pad (6)', wire_path([(DC[0], DC[1] - 5.0, 9.5), (DC[0] - 5.0, DC[1] - 5.0, 9.5), (20.0, DC[1] - 5.0, 9.5),
+                                          (20.0, -6.0, 6.0), (20.0, 18.5, 6.0), (29.0, 18.5, pz), (29.0, 17.0, pz)], r_bundle(6))))
+    named.append(('Controller side (10)', wire_path([(29.0, 5.0, pz), (29.0, 2.5, pz), (25.0, 2.5, 10.3), (15.5, 2.5, 10.3), (xc, 0.0, 13.0), (xc, -17.0, 13.0),
+                                                     (8.0, -22.0, 13.0), (5.0, -25.5, CTL_TOP + cb)], cb)))
+    named.append(('OLED pair -> bundle', wire_path([(43.0, 5.0, pz), (43.0, 2.5, pz), (29.5, 2.5, pz)], r_bundle(4))))
+    add_bodies(w, named)
+    for i, (n, _) in enumerate(named):
+        w.bRepBodies.item(i).name = n
+    try:
+        lib = app.materialLibraries.itemByName('Fusion Appearance Library')
+        red = des.appearances.itemByName('Plastic - Glossy (Red)') or \
+            des.appearances.addByCopy(lib.appearances.itemByName('Plastic - Glossy (Red)'), 'Plastic - Glossy (Red)')
+        for b in w.bRepBodies:
+            b.appearance = red
+    except Exception:
+        pass
+    log.append('wiring ok')
+
+
+MINE = ('Cover', 'Backplate', 'Gasket (TPU)', 'D-pad keys (PETG)', 'D-pad switch carrier (PETG)', 'Reference (not printed)',
+        'Wiring (not printed)')
 
 def build():
     # safety: only rebuild in a document that holds nothing but this case
@@ -371,7 +474,7 @@ def build():
     joins.append(frame)
     for px, py in POSTS:
         joins.append(tcyl((px, py, CAR_Z1), (px, py, ZF + 0.3), 2.5))
-    # double-skin chamber walls (2 mm air gap to the divider), hung from the cover
+    # double-skin chamber walls (1.6 mm air gap to the divider), hung from the cover
     joins.append(tbox(18.9, 20.1, -52.4, -34.9, 3.5, ZF + 0.3))                # (stops 0.65 short of the rim)
     joins.append(tbox(18.9, 20.1, -iy - 0.5, -52.4, 8.5, ZF + 0.3))
     joins.append(tbox(18.9, 64.4, -36.1, -34.9, 3.5, ZF + 0.3))
@@ -411,6 +514,8 @@ def build():
     for px, py in POSTS:
         cuts.append(tcyl((px, py, CAR_Z1 - 0.1), (px, py, CAR_Z1 + 6), M2_PILOT_R))     # M2 x 6 carrier screws
     cuts.append(tcyl((SCREW[0], -iy - 3, SCREW[1]), (SCREW[0], -iy + 2, SCREW[1]), M3_CLEAR_R))
+    fpx0, fpx1, fpy0, fpy1, fpd = FUSE_POCKET
+    cuts.append(trrect(fpx0, fpx1, fpy0, fpy1, ZF - 1.0, ZF + fpd, 1.0))                 # fuse-holder pocket (opens up when printed)
     combine(cov, body, cuts, CUT)
     log.append('cover ok')
 
@@ -436,19 +541,21 @@ def build():
         joins.append(tcyl((x, y, 1.0), (x, y, MOD_PCB_Z), 3.5))
     for x, y in CTL_HOLES:
         joins.append(tcyl((x, y, 1.0), (x, y, CTL_TOP - 1.6), 3.5))
-    rail = tbox(UX - 10.7, UX + 10.7, -50.5, -45.5, 1.0, 9.0)
-    D(rail, tbox(UX - 9.4, UX + 9.4, -49.0, -47.0, 6.0, 10.0))
-    joins.append(rail)
-    joins.append(tbox(SCREW[0] - 5, SCREW[0] + 4.5, -hy + 1.0, -45.0, 1.0, 11.0))   # (clear of the cover's inner corner)
-    for s in (-1, 1):                                                              # wall-screw slot bosses
-        joins.append(tbox(min(s * 21.5, s * 53.5), max(s * 21.5, s * 53.5), MNT_Y - 6, MNT_Y + 6, PLATE - 0.5, PLATE + MNT_BOSS))
+    hx_, hy_ = SHT_HOLE                                                          # SHT40 standoff + two rest posts
+    joins.append(tcyl((hx_, hy_, PLATE - 0.5), (hx_, hy_, SHT_Z), 2.0))      # thin: less wall heat into the sensor
+    for px_, py_ in ((SHT_X0 + 4.5, SHT_Y1 - 1.5), (SHT_X0 + 4.5, SHT_Y1 - SHT_W + 1.5)):
+        joins.append(tcyl((px_, py_, PLATE - 0.5), (px_, py_, SHT_Z), 1.2))
+    joins.append(tbox(SCREW[0] - 5, SCREW[0] + 4.5, -hy + 1.0, -43.0, 1.0, 11.0))   # (clear of the cover's inner corner)
+    bm = MNT_RH + 1.7                                                              # wall-screw slot bosses
+    joins.append(tbox(-MNT_X - MNT_HALF - bm, -MNT_X + MNT_HALF + bm, MNT_Y - bm, MNT_Y + bm, PLATE - 0.5, PLATE + MNT_BOSS))
+    joins.append(tbox(MNT_X - bm, MNT_X + bm, MNT_Y - MNT_VHALF - bm, MNT_Y + MNT_VHALF + bm, PLATE - 0.5, PLATE + MNT_BOSS))
     br = tbox(-22.5, -19.8, -18.5, -8.5, PLATE - 0.5, PLATE + MNT_BOSS + 3.8)         # zip-tie strain-relief bridge
     D(br, tbox(-22.6, -19.7, -16.25, -10.75, PLATE + MNT_BOSS, PLATE + MNT_BOSS + 1.8))
     joins.append(br)
     for y in (XL_C[1] - 6.5, XL_C[1] + 6.5):                                       # XL7015 rails (under the OLED)
         rl = tbox(XL_C[0] - 22.5, XL_C[0] + 22.5, y - 1, y + 1, PLATE - 0.5, PLATE + 1.5)
         for x in XL_TIES:                                                          # zip-tie notches between parts
-            D(rl, tbox(x - 2.5, x + 2.5, y - 1.1, y + 1.1, PLATE - 0.6, PLATE + 1.0))
+            D(rl, tbox(x - 2.5, x + 2.5, y - 1.1, y + 1.1, PLATE - 1.5, PLATE + 0.5))   # 2.0 tunnel, 1.0 roof
         joins.append(rl)
     combine(bp, cup, joins, JOIN)
     cuts = []
@@ -456,14 +563,15 @@ def build():
         cuts.append(tcyl((x, y, 1.0), (x, y, MOD_PCB_Z + 0.1), M3_PILOT_R))
     for x, y in CTL_HOLES:
         cuts.append(tcyl((x, y, 1.0), (x, y, CTL_TOP - 1.5), M3_PILOT_R))
-    cuts.append(tcyl((SCREW[0], -hy - 1.0, SCREW[1]), (SCREW[0], -47.0, SCREW[1]), M3_PILOT_R))   # M3 x 10 closure
+    cuts.append(tcyl((SCREW[0], -hy - 1.0, SCREW[1]), (SCREW[0], -45.0, SCREW[1]), M3_PILOT_R))   # M3 x 10 closure (2 mm past the tip)
     cuts.append(tbox(VDIV_X - DIV_RIB, VDIV_X + DIV_RIB, HDIV_Y - DIV_RIB, HDIV_Y + DIV_RIB, 10.0, 13.0))   # rib junction groove
     cuts.append(trrect(*WIN_W, -1.0, PLATE + 1.0, WIN_R))                          # wire window
     cuts.append(tbox(SG_X[0] - 0.1, SG_X[1] + 0.1, SG_Y[0] + 0.1, SG_Y[1] - 0.1, PLATE, 13.0))   # grommet seat in the rib (0.1/side press fit)
     gw = GRM_GROOVE_W                                                              # skirt groove on the wall face
     cuts.append(trrect(WIN_W[0] - gw, WIN_W[1] + gw, WIN_W[2] - gw, WIN_W[3] + gw, -1.0, GRM_GROOVE_D, WIN_R + gw))
-    for s in (-1, 1):
-        cuts.append(slot_csk(s * MNT_X, MNT_Y, MNT_HALF, PLATE + MNT_BOSS))
+    cuts.append(slot_csk(-MNT_X, MNT_Y, MNT_HALF, PLATE + MNT_BOSS))                 # left: horizontal
+    cuts.append(slot_csk(MNT_X, MNT_Y, MNT_VHALF, PLATE + MNT_BOSS, vertical=True))  # right: vertical
+    cuts.append(tcyl((SHT_HOLE[0], SHT_HOLE[1], SHT_Z - 5.5), (SHT_HOLE[0], SHT_HOLE[1], SHT_Z + 1), M2_PILOT_R))  # M2 x 6
     foot = trrect(-hx - 1, hx + 1, -hy - 1, hy + 1, -1.0, FIT_RELIEF[1], R_BP + 1)          # rim foot relief: eats the
     D(foot, trrect(-hx + FIT_RELIEF[0], hx - FIT_RELIEF[0], -hy + FIT_RELIEF[0], hy - FIT_RELIEF[0],  # elephant foot
                    -2.0, FIT_RELIEF[1] + 1, R_BP - FIT_RELIEF[0]))
@@ -672,15 +780,21 @@ def build():
                               PLATE + 1.5, PLATE + 1.5 + 1.6)),
         ('XL7015 parts (caps, trimpot)', tbox(XL_C[0] - XL_L / 2 + 1, XL_C[0] + XL_L / 2 - 1, XL_C[1] - XL_W / 2,
                                               XL_C[1] + XL_W / 2, PLATE + 3.1, PLATE + 1.5 + XL_H)),
-        ('470uF 63V (lying)', tcyl((30.0, -25.2, 8.0), (52.0, -25.2, 8.0), 5.0)),
+        ('470uF 63V (lying, on the controller board)', tcyl((4.0, -50.5, CTL_TOP + 5.0), (4.0, -29.5, CTL_TOP + 5.0), 5.0)),
+        ('Pad strip (SHT40 4, XL7015 3)', tbox(10.0, 14.0, -42.0, -29.0, CTL_TOP, CTL_TOP + 0.6)),
+        ('JST-PH 6p pair (D-pad), lying flat', tbox(22.0, 36.0, 5.0, 17.0, 4.6, 9.1)),
+        ('JST-PH 4p pair (OLED), lying flat', tbox(38.0, 48.0, 5.0, 17.0, 4.6, 9.1)),
         ('R-C terminal', tbox(-10.0, 0.0, -29.0, -21.0, CTL_TOP, CTL_TOP + 12.0)),
-        ('JST-PH 9p cover harness', tbox(-36.0, -14.0, -28.0, -23.0, CTL_TOP, CTL_TOP + 6.0)),
-        # uxcell 5x20 PCB clip holders (as bought), on the controller board where the XL7015 used to be
-        ('Fuse F1 PCB holder', tbox(-30.0, -8.0, -50.0, -41.5, CTL_TOP, CTL_TOP + 10.0)),
-        ('Fuse F2 PCB holder', tbox(-30.0, -8.0, -39.0, -30.5, CTL_TOP, CTL_TOP + 10.0)),
-        ('SHT40 module', tbox(UX - 9.0, UX + 9.0, -48.8, -47.2, 6.0, 18.0)),
-        ('#8 screw head L', tcyl((-MNT_X, MNT_Y, PLATE + MNT_BOSS), (-MNT_X, MNT_Y, PLATE + MNT_BOSS + 3), MNT_RH)),
-        ('#8 screw head R', tcyl((MNT_X, MNT_Y, PLATE + MNT_BOSS), (MNT_X, MNT_Y, PLATE + MNT_BOSS + 3), MNT_RH)),
+        # 5x20 PCB fuse holders, measured 26.8 x 10 x 17 with the cap on (pins 23 apart)
+        ('Fuse F1 PCB holder', tbox(-36.0, -9.2, -51.5, -41.5, CTL_TOP, CTL_TOP + FUSE_H)),
+        ('Fuse F2 PCB holder', tbox(-36.0, -9.2, -40.5, -30.5, CTL_TOP, CTL_TOP + FUSE_H)),
+        ('SHT40 module', tbox(SHT_X0, SHT_X0 + SHT_L, SHT_Y1 - SHT_W, SHT_Y1, SHT_Z, SHT_Z + SHT_T + 1.0)),
+        ('#8 screw head L (slot travel)', U(tcyl((-MNT_X - MNT_HALF, MNT_Y, PLATE + MNT_BOSS), (-MNT_X - MNT_HALF, MNT_Y, PLATE + MNT_BOSS + 3), MNT_RH),
+                                          U(tbox(-MNT_X - MNT_HALF, -MNT_X + MNT_HALF, MNT_Y - MNT_RH, MNT_Y + MNT_RH, PLATE + MNT_BOSS, PLATE + MNT_BOSS + 3),
+                                            tcyl((-MNT_X + MNT_HALF, MNT_Y, PLATE + MNT_BOSS), (-MNT_X + MNT_HALF, MNT_Y, PLATE + MNT_BOSS + 3), MNT_RH)))),
+        ('#8 screw head R (slot travel)', U(tcyl((MNT_X, MNT_Y - MNT_VHALF, PLATE + MNT_BOSS), (MNT_X, MNT_Y - MNT_VHALF, PLATE + MNT_BOSS + 3), MNT_RH),
+                                          U(tbox(MNT_X - MNT_RH, MNT_X + MNT_RH, MNT_Y - MNT_VHALF, MNT_Y + MNT_VHALF, PLATE + MNT_BOSS, PLATE + MNT_BOSS + 3),
+                                            tcyl((MNT_X, MNT_Y + MNT_VHALF, PLATE + MNT_BOSS), (MNT_X, MNT_Y + MNT_VHALF, PLATE + MNT_BOSS + 3), MNT_RH)))),
         ('OLED PCB', tbox(UX - OLED_W / 2, UX + OLED_W / 2, OLED_YB, OLED_YB + OLED_H, ZF - 2.4, ZF - 1.4)),
         ('OLED glass', tbox(UX - 13.35, UX + 13.35, OLED_YB + 4.6, OLED_YB + 24.0, ZF - 1.4, ZF)),
         ('OLED back parts', tbox(UX - 12.0, UX + 12.0, OLED_YB + 1, OLED_YB + 26, ZF - 3.4, ZF - 2.4)),
@@ -691,6 +805,10 @@ def build():
         r.append(('Terminal K%d' % (i + 1), tbox(x - 7.6, x + 7.6, my0 + 0.5, my0 + 8.5, mz, mz + 10.0)))
     for name in SWITCHES:
         r.append(('SW %s body' % name, sw_box(name, -1.4, 11.4, SW_W, SW_Z0, SW_Z1)))
+        if name == 'center':
+            for j, (gx, gy) in enumerate(ck_guides()):
+                r.append(('Centre guide pin %d (1.75 filament, %.1f long)' % (j + 1, CK_PIN_CUT),
+                          tcyl((gx, gy, CK_HOLE_TOP - CK_PIN_CUT), (gx, gy, CK_HOLE_TOP - 0.05), 0.875)))
         lev = None
         s0 = LEV_PIVOT - LEV_L
         nseg = 26
@@ -712,6 +830,7 @@ def build():
     for b in ref.bRepBodies:
         b.opacity = 0.55
     log.append('reference ok')
+    build_wiring()
 
     try:
         lib = app.materialLibraries.itemByName('Fusion Appearance Library')
