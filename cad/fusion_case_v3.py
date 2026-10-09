@@ -32,7 +32,7 @@ ZF = DEPTH - WALL                         # front inner face, 25
 SCREW = (58.0, 7.0)                       # bottom M3 screw x, z
 # screws (M2 / M3 only, threaded straight into PETG; no inserts)
 M3_PILOT_R, M3_CLEAR_R = 1.3, 1.7          # 2.6 pilot for an M3 machine screw to thread-form, 3.4 clearance
-M2_PILOT_R, M2_CLEAR_R = 0.85, 1.2         # 1.7 pilot for M2, 2.4 clearance
+M2_PILOT_R, M2_CLEAR_R = 0.95, 1.2         # 1.9 pilot for M2 (prints ~1.65, just over the 1.57 core: low drive torque), 2.4 clearance
 UX = 41.0                                 # UI column centre x
 # sensor chamber (bottom of the UI column)
 VDIV_X, HDIV_Y, DIV_T = 16.5, -32.5, 1.6
@@ -589,6 +589,7 @@ def build():
         cuts.append(sq_shape(nm, SQ_HOLE_CLR + 0.4, DEPTH - 0.4, DEPTH + 1))           # elephant-foot relief
     for px, py in POSTS:
         cuts.append(tcyl((px, py, CAR_Z1 - 0.1), (px, py, CAR_Z1 + 6), M2_PILOT_R))     # M2 x 6 carrier screws
+        cuts.append(tcone((px, py, CAR_Z1 - 0.01), M2_PILOT_R + 0.3, (px, py, CAR_Z1 + 0.3), M2_PILOT_R))   # lead-in: starts the screw straight
     cuts.append(tcyl((SCREW[0], -iy - 3, SCREW[1]), (SCREW[0], -iy + 2, SCREW[1]), M3_CLEAR_R))
     fpx0, fpx1, fpy0, fpy1, fpd = FUSE_POCKET
     cuts.append(trrect(fpx0, fpx1, fpy0, fpy1, ZF - 1.0, ZF + fpd, 1.0))                 # fuse-holder pocket (opens up when printed)

@@ -65,8 +65,9 @@ DUPONT_VARIANTS = [(0.10, 0.0), (0.15, 0.0), (0.20, 0.0)]   # coupon: (plug, bod
 DUPONT_PITCH, DUPONT_DX = 26.0, 70.0              # coupon strip: holder pitch, offset from the module (x)
 PIN_REC = 0.5                                   # pin tips this far inside the outer face
 PLUG_LEDGE = (0.6, 0.6)                         # end ledges the plug seats on: width in from each end, depth (y)
-HDR_RAIL_W, HDR_ROOF_T = 1.2, 1.0               # channel side rails, bridged roof thickness
-HDR_STOP = (1.2, 2.0)                           # stops behind the header body ends: length (y), height
+HDR_RAIL_W, HDR_ROOF_T = 2.4, 1.4               # channel side walls (fused into the lip), bridged roof thickness
+HDR_STOP = (2.4, None)                          # stops behind the header body ends: length (y), height (None = full)
+HDR_GUSSET = 1.9                                # 45 deg fillets at the holder's base (half-diagonal), print as slopes
 MOD_WIRE = 4.5                                  # wiring room under the switch terminals
 MOD_ZB = (SW_Z0 - 3.5) - MOD_WIRE - MOD_BACK_T   # back outer face
 
@@ -91,7 +92,20 @@ def dupont_holder(hx, yo, zc, plug_clr=None, body_clr=None, wall_gap=0.15):
     rw = max(cw, bw) + HDR_RAIL_W
     y0 = yo + MOD_WALL + wall_gap
     tail_edge = (HDR_N - 1) * HDR_P / 2 + HDR_PIN_W / 2 + 0.2
+    sh_ = ct - zc if HDR_STOP[1] is None else HDR_STOP[1]
+    ye = yb + 0.1 + HDR_STOP[0]
     adds = []
+    def fillet(axis, c, a0, a1):
+        # 45 deg wedge along a base edge: a square bar turned 45 deg about the edge; its lower half sits in the plate
+        g = HDR_GUSSET * math.sqrt(2)
+        if axis == 'y':
+            bar = tbox(c - g / 2, c + g / 2, a0, a1, zc - g / 2, zc + g / 2)
+            m = adsk.core.Matrix3D.create(); m.setToRotation(math.radians(45), V(0, 1, 0), P(mm(c), 0, mm(zc)))
+        else:
+            bar = tbox(a0, a1, c - g / 2, c + g / 2, zc - g / 2, zc + g / 2)
+            m = adsk.core.Matrix3D.create(); m.setToRotation(math.radians(45), V(1, 0, 0), P(0, mm(c), mm(zc)))
+        tbm.transform(bar, m)
+        return bar
     for sx in (-1, 1):
         def bx(a, b, ya, yb_, za, zb_):
             xa, xb = sorted((hx + sx * a, hx + sx * b))
@@ -99,12 +113,16 @@ def dupont_holder(hx, yo, zc, plug_clr=None, body_clr=None, wall_gap=0.15):
         adds.append(bx(cw, rw, y0, yf - PLUG_LEDGE[1], zc - 0.01, ct))                          # channel rails
         adds.append(bx(cw - PLUG_LEDGE[0], rw, yf - PLUG_LEDGE[1], yf, zc - 0.01, ct))          # plug seat ledges
         adds.append(bx(bw, rw, yf, yb + 0.1, zc - 0.01, ct))                                    # body pocket walls
-        adds.append(bx(tail_edge, rw, yb + 0.1, yb + 0.1 + HDR_STOP[0], zc - 0.01, zc + HDR_STOP[1]))   # stops
+        adds.append(bx(tail_edge, rw, yb + 0.1, ye, zc - 0.01, zc + sh_))                            # stops
+        xs = hx + sx * rw
+        adds.append(fillet('y', xs, y0, ye))                                                    # outer base fillets
+        xa, xb = sorted((hx + sx * tail_edge, xs))
+        adds.append(fillet('x', ye, xa, xb))                                                    # behind the stops
     adds.append(tbox(hx - rw, hx + rw, y0, yf - PLUG_LEDGE[1], ct, ct + HDR_ROOF_T))           # roof over the channel only
     slot = tbox(hx - cw, hx + cw, yo - 1, yo + MOD_WALL + 1, zc - 1, ct)
     p1 = hx - (HDR_N - 1) * HDR_P / 2
     dot = tcyl((p1, yo + 0.4, ct + 1.5), (p1, yo - 1, ct + 1.5), 0.5)
-    return adds, slot, dot, rw, yb + 0.1 + HDR_STOP[0]
+    return adds, slot, dot, rw, ye
 
 
 def dupont_coupon():
@@ -156,6 +174,7 @@ def build_module():
         D(sh, sq_shape(nm, SQ_HOLE_CLR + 0.4, DEPTH - 0.4, DEPTH + 1))          # elephant-foot relief
     for px, py in POSTS:
         D(sh, tcyl((px, py, CAR_Z1 - 0.1), (px, py, CAR_Z1 + 6), M2_PILOT_R))     # M2 x 6, carrier
+        D(sh, tcone((px, py, CAR_Z1 - 0.01), M2_PILOT_R + 0.3, (px, py, CAR_Z1 + 0.3), M2_PILOT_R))   # lead-in: starts the screw straight
     for cx, cy in cols:
         D(sh, tcyl((cx, cy, zc - 0.1), (cx, cy, zc + MOD_M3_DEPTH), M3_PILOT_R))   # M3 x 10, back cover
     # ---- back cover
@@ -174,7 +193,8 @@ def build_module():
     adds, slot, dot, rw, yend = dupont_holder(hx, yo, zc)
     D(sh, slot)
     D(sh, dot)
-    D(lip, tbox(hx - rw - 0.3, hx + rw + 0.3, yo - 1, yend + 1, zc - 1, zc + lh + 1))
+    D(lip, tbox(hx - (PLUG_W / 2 + PLUG_CLR), hx + (PLUG_W / 2 + PLUG_CLR), yo - 1, yend + 1, zc - 1, zc + lh + 1))
+    # (the lip is cut only for the plug channel, so the holder's side walls fuse into it)
     U(bc, lip)
     for a_ in adds:
         U(bc, a_)
