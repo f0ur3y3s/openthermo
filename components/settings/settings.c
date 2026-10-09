@@ -180,6 +180,24 @@ done:
     return b_changed;
 }
 
+esp_err_t settings_reset(void)
+{
+    esp_err_t  err = ESP_FAIL;
+    settings_t cfg = { 0 };
+
+    settings_logic_defaults(&cfg);
+    if (NULL != g_h_lock)
+    {
+        (void)xSemaphoreTake(g_h_lock, portMAX_DELAY);
+        g_cfg     = cfg;
+        g_b_dirty = false; // written just below
+        (void)xSemaphoreGive(g_h_lock);
+    }
+    err = settings_store(&cfg);
+
+    return err;
+}
+
 esp_err_t settings_commit_due(uint64_t now_ms)
 {
     esp_err_t  err   = ESP_OK;

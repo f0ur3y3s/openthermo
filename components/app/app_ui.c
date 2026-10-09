@@ -13,6 +13,8 @@
 #include "buttons.h"
 #include "control.h"
 #include "display.h"
+#include "esp_log.h"
+#include "esp_system.h"
 #include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -23,8 +25,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#define LOG_TAG "app_ui"
+
 #define UI_TICK_MS        20U
 #define UI_REDRAW_MS      250U
+#define UI_PAIR_POLL_MS   2000U // pairing state for the pair page
+#define UI_RESET_WAIT_MS  5000U // for the network's own restart
 #define UI_DIM_BRIGHTNESS 1U
 #define US_PER_MS         1000
 #define MS_PER_S          1000U
@@ -37,7 +43,11 @@ typedef struct
     uint8_t     brightness;  // what the panel is set to now
     uint64_t    last_key_ms; // for the dim timeout
     uint64_t    last_draw_ms;
+    uint64_t    last_pair_ms;
+    bool        b_pair_shown; // the pair page was shown at boot already
 } app_ui_t;
+
+static app_net_t const * gp_net = NULL; // set once by app_ui_run()
 
 static uint64_t app_ui_now_ms(void)
 {
@@ -111,6 +121,54 @@ done:
     return b_any;
 }
 
+// Refreshes the pair page's codes. At boot, an unpaired thermostat opens on
+// the pair page, so the QR code is the first thing shown.
+static void app_ui_pairing(app_ui_t * p_ui)
+{
+    char qr[PAGES_PAIR_QR_LEN]         = { 0 };
+    char manual[PAGES_PAIR_MANUAL_LEN] = { 0 };
+    bool b_paired                      = false;
+
+    if ((NULL == gp_net) || (NULL == gp_net->p_pairing))
+    {
+        pages_set_pairing(NULL, NULL, false);
+    }
+    else if (gp_net->p_pairing(qr, sizeof(qr), manual, sizeof(manual),
+                               &b_paired))
+    {
+        pages_set_pairing(qr, manual, b_paired);
+        if (!p_ui->b_pair_shown && !b_paired && !p_ui->b_dimmed)
+        {
+            p_ui->nav.page = PAGES_PAIR;
+        }
+        p_ui->b_pair_shown = true;
+    }
+    else
+    {
+        // Not started yet: the page keeps saying so.
+    }
+}
+
+// The confirmed factory reset: the thermostat's settings back to their
+// defaults (mode Off), then the network forgets its pairing and restarts the
+// chip. Every relay drops at that restart (relays.h), and the next boot
+// re-arms the minimum-off time as any boot does.
+static void app_ui_factory_reset(void)
+{
+    ESP_LOGW(LOG_TAG, "factory reset from the settings page");
+    display_status("Factory reset", "resetting...", "");
+    if (ESP_OK != settings_reset())
+    {
+        ESP_LOGE(LOG_TAG, "settings reset failed: restarting anyway");
+    }
+    if ((NULL != gp_net) && (NULL != gp_net->p_factory_reset))
+    {
+        gp_net->p_factory_reset(); // schedules its own restart
+        vTaskDelay(pdMS_TO_TICKS(UI_RESET_WAIT_MS));
+    }
+    esp_restart(); // no network, or it did not restart
+}
+
 // Switches the panel off after the screen-off time with no key, which stops
 // OLED wear entirely; dimming only slows it. A sensor fault keeps (or turns)
 // the panel on, dimmed, so the fault stays on show. Any key wakes it.
@@ -164,7 +222,7 @@ static void app_ui_brightness(app_ui_t * p_ui, settings_t const * p_cfg,
     }
 }
 
-void app_ui_run(void)
+void app_ui_run(app_net_t const * p_net)
 {
     app_ui_t         ui                        = { 0 };
     button_event_t   events[BUTTONS_KEY_COUNT] = { BUTTON_EVENT_NONE };
@@ -173,6 +231,7 @@ void app_ui_run(void)
     uint64_t         now_ms                    = app_ui_now_ms();
     bool             b_redraw                  = true;
 
+    gp_net = p_net;
     pages_nav_reset(&ui.nav);
 #if OPENTHERMO_STATUS_LED
     status_led_init();
@@ -186,6 +245,15 @@ void app_ui_run(void)
         now_ms = app_ui_now_ms();
         buttons_poll(now_ms, events);
         b_redraw = app_ui_keys(&ui, events, now_ms);
+        if (pages_nav_take_reset(&ui.nav))
+        {
+            app_ui_factory_reset(); // does not return
+        }
+        if ((now_ms - ui.last_pair_ms) >= UI_PAIR_POLL_MS)
+        {
+            app_ui_pairing(&ui);
+            ui.last_pair_ms = now_ms;
+        }
 
         settings_get(&cfg);
         control_get(&status);

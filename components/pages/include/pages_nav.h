@@ -32,9 +32,15 @@ typedef enum
     PAGES_MODE,
     PAGES_FAN,
     PAGES_SETTINGS,
-    PAGES_INFO,
+    // Opened from a settings row, not part of the left / right cycle;
+    // centre, left or right returns to that row.
+    PAGES_INFO, // diagnostics
+    PAGES_PAIR, // commissioning QR code and manual pairing code
     PAGES_COUNT
 } pages_id_t;
+
+// Left / right cycle through these: main, mode, fan, settings.
+#define PAGES_CYCLE_COUNT ((uint32_t)PAGES_SETTINGS + 1U)
 
 typedef enum
 {
@@ -44,6 +50,9 @@ typedef enum
     PAGES_SET_DIM,
     PAGES_SET_OFF,
     PAGES_SET_BRIGHT,
+    PAGES_SET_INFO,  // opens the info page
+    PAGES_SET_PAIR,  // opens the pair page
+    PAGES_SET_RESET, // an action, not a value: asks for confirmation first
     PAGES_SET_COUNT
 } pages_setting_t;
 
@@ -63,6 +72,9 @@ typedef struct
     uint8_t    cursor;          // mode, fan and settings list position
     bool       b_editing;       // settings: up / down change the value
     bool       b_cool_selected; // main, in Auto: up / down move cool
+    bool       b_confirm;       // settings: the factory reset prompt shows
+    bool       b_confirm_yes;   // its choice; starts on No
+    bool       b_reset_wanted;  // confirmed; see pages_nav_take_reset()
 } pages_nav_t;
 
 /**
@@ -81,6 +93,15 @@ void pages_nav_reset(pages_nav_t * p_nav);
  */
 bool pages_nav_key(pages_nav_t * p_nav, settings_t * p_cfg, buttons_key_t key,
                    button_event_t event);
+
+/**
+ * True once, after the user confirmed the factory reset on the settings
+ * page (centre on "Factory reset", down to Yes, then centre again; the
+ * prompt starts on No, with No above Yes, and left / right or the panel
+ * dimming closes it). Clears
+ * the request.
+ */
+bool pages_nav_take_reset(pages_nav_t * p_nav);
 
 /**
  * True if the main page's up / down would move the cool setpoint in this

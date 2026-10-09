@@ -2,15 +2,21 @@
 # Builds the firmware (matter/) for the Seeed XIAO ESP32-C6 inside WSL2. Run
 # from anywhere:
 #
-#   bash tools/matter.sh build [sim]      build and write the flashable images
-#                                         to matter/out/. "sim" swaps the
-#                                         SHT40 for the simulated room and
-#                                         blinks the user LED (bench only,
-#                                         never on the wall)
-#   bash tools/matter.sh tidy [sim]       clang-tidy over the project's own C
+#   bash tools/matter.sh build [debug|sim]
+#                                         build and write the flashable images
+#                                         to matter/out/. The plain build is
+#                                         the release: no serial shell.
+#                                         "debug" adds the shell (`matter esp
+#                                         ...` commands: factory reset,
+#                                         attributes, the bench reset checks).
+#                                         "sim" is a debug build that also
+#                                         swaps the SHT40 for the simulated
+#                                         room and blinks the user LED (bench
+#                                         only, never on the wall)
+#   bash tools/matter.sh tidy [debug|sim] clang-tidy over the project's own C
 #                                         sources (builds first if needed)
-#   bash tools/matter.sh menuconfig [sim] idf.py menuconfig for the same build
-#   bash tools/matter.sh clean [sim]      remove the build directory
+#   bash tools/matter.sh menuconfig [...] idf.py menuconfig for the same build
+#   bash tools/matter.sh clean [...]      remove the build directory
 #
 # The build directory lives in the WSL home (fast), not on the Windows
 # drive. Flashing is from Windows; see README.md.
@@ -25,11 +31,17 @@ shift || true
 
 VARIANT="$TARGET"
 SIM_ARGS=()
+DEFAULTS="sdkconfig.defaults" # ESP-IDF adds sdkconfig.defaults.esp32c6 too
 for arg in "$@"; do
     case "$arg" in
+        debug)
+            VARIANT="$TARGET-debug"
+            DEFAULTS="sdkconfig.defaults;sdkconfig.defaults.debug"
+            ;;
         sim)
             VARIANT="$TARGET-sim"
             SIM_ARGS=(-D OPENTHERMO_SIM=1)
+            DEFAULTS="sdkconfig.defaults;sdkconfig.defaults.debug"
             ;;
         esp32c6) ;; # the only target; accepted for old command lines
         *)
@@ -49,6 +61,15 @@ if [ ! -d "$OPENTHERMO_U8G2_DIR/src/clib" ]; then
         https://github.com/olikraus/U8g2_Arduino "$OPENTHERMO_U8G2_DIR"
 fi
 
+# Project Nayuki's QR Code generator, pinned, for the pairing page's QR code.
+QRCODEGEN_VERSION=v1.8.0
+export OPENTHERMO_QRCODEGEN_DIR="$ROOT/qrcodegen-$QRCODEGEN_VERSION"
+if [ ! -f "$OPENTHERMO_QRCODEGEN_DIR/c/qrcodegen.c" ]; then
+    git -c advice.detachedHead=false clone --quiet --depth 1 \
+        --branch "$QRCODEGEN_VERSION" \
+        https://github.com/nayuki/QR-Code-generator "$OPENTHERMO_QRCODEGEN_DIR"
+fi
+
 # The export scripts read variables that may be unset, so relax -u for them.
 set +u
 # shellcheck disable=SC1091
@@ -60,7 +81,7 @@ set -u
 # Each variant keeps its sdkconfig with its build, so sim and real builds do
 # not overwrite each other's configuration.
 IDF=(idf.py -C "$PROJECT_DIR" -B "$BUILD_DIR" -D "SDKCONFIG=$BUILD_DIR/sdkconfig"
-     -D "IDF_TARGET=$TARGET" "${SIM_ARGS[@]}")
+     -D "SDKCONFIG_DEFAULTS=$DEFAULTS" -D "IDF_TARGET=$TARGET" "${SIM_ARGS[@]}")
 
 case "$CMD" in
     build)
@@ -94,7 +115,7 @@ case "$CMD" in
         rm -rf "$BUILD_DIR"
         ;;
     *)
-        echo "usage: $0 {build|tidy|menuconfig|clean} [sim]" >&2
+        echo "usage: $0 {build|tidy|menuconfig|clean} [debug|sim]" >&2
         exit 2
         ;;
 esac

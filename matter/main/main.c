@@ -14,5 +14,11 @@ void app_main(void);
 
 void app_main(void)
 {
-    app_start(matter_bridge_start);
+    static app_net_t const g_net = {
+        .p_start         = matter_bridge_start,
+        .p_factory_reset = matter_bridge_factory_reset,
+        .p_pairing       = matter_bridge_pairing,
+    };
+
+    app_start(&g_net);
 }

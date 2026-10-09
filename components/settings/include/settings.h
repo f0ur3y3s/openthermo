@@ -56,6 +56,14 @@ void settings_get(settings_t * p_out);
 bool settings_update(settings_edit_fn_t p_fn, void * p_ctx, uint64_t now_ms);
 
 /**
+ * Factory reset of the thermostat's own settings: the defaults (mode Off)
+ * become current and are written to flash at once.
+ *
+ * @return the flash write's result
+ */
+esp_err_t settings_reset(void);
+
+/**
  * Writes the record to flash if it changed and has been quiet for
  * SETTINGS_COMMIT_DELAY_MS. Call it from the UI loop.
  *

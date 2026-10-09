@@ -96,7 +96,7 @@ static char const * reset_reason_name(esp_reset_reason_t reason)
 // Start-up failures abort through ESP_ERROR_CHECK on purpose: the reset that
 // follows starts with every relay output low again, which is the safe state.
 // See docs/CODING_STANDARD.md, deviation D3.
-void app_start(app_net_start_t p_net_start)
+void app_start(app_net_t const * p_net)
 {
     settings_t                    cfg     = { 0 };
     esp_reset_reason_t            reason  = ESP_RST_UNKNOWN;
@@ -149,10 +149,10 @@ void app_start(app_net_start_t p_net_start)
     // up never delays the relays being under control. Skipped in a crash
     // loop: Matter is the likeliest cause, and heating and cooling do not
     // need it.
-    if ((NULL != p_net_start) && !b_loop)
+    if ((NULL != p_net) && (NULL != p_net->p_start) && !b_loop)
     {
-        p_net_start();
+        p_net->p_start();
     }
 
-    app_ui_run();
+    app_ui_run(b_loop ? NULL : p_net); // no network if it was not started
 }

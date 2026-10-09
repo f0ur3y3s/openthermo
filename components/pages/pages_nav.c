@@ -38,6 +38,7 @@ static void nav_enter(pages_nav_t * p_nav, settings_t const * p_cfg,
 {
     p_nav->page      = page;
     p_nav->b_editing = false;
+    p_nav->b_confirm = false; // leaving a page cancels its prompt
 
     switch (page)
     {
@@ -102,6 +103,17 @@ static bool nav_main(pages_nav_t * p_nav, settings_t * p_cfg, buttons_key_t key,
 
 done:
     return b_changed;
+}
+
+// From the info or pair page back to the settings row that opened it.
+static void nav_back_to_settings(pages_nav_t * p_nav)
+{
+    // Both rows are below PAGES_SET_COUNT (9), so the casts are lossless.
+    p_nav->cursor    = (PAGES_INFO == p_nav->page) ? (uint8_t)PAGES_SET_INFO
+                                                   : (uint8_t)PAGES_SET_PAIR;
+    p_nav->page      = PAGES_SETTINGS;
+    p_nav->b_editing = false;
+    p_nav->b_confirm = false;
 }
 
 // Mode and fan pages: pick one of `count` values for *p_field.
@@ -195,7 +207,47 @@ static bool nav_settings(pages_nav_t * p_nav, settings_t * p_cfg,
     bool    b_changed = false;
     int32_t dir       = (BUTTONS_KEY_UP == key) ? 1 : -1;
 
-    if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event))
+    if (p_nav->b_confirm)
+    {
+        // The factory reset prompt, No above Yes: up chooses No, down Yes,
+        // centre answers. Presses only, so a held key cannot walk onto Yes.
+        if ((BUTTON_EVENT_PRESS == event) && (BUTTONS_KEY_UP == key))
+        {
+            p_nav->b_confirm_yes = false;
+        }
+        else if ((BUTTON_EVENT_PRESS == event) && (BUTTONS_KEY_DOWN == key))
+        {
+            p_nav->b_confirm_yes = true;
+        }
+        else if ((BUTTON_EVENT_PRESS == event) && (BUTTONS_KEY_CENTER == key))
+        {
+            p_nav->b_reset_wanted = p_nav->b_confirm_yes;
+            p_nav->b_confirm      = false;
+            p_nav->b_confirm_yes  = false;
+        }
+        else
+        {
+            // Repeats do nothing; left / right are handled before this and
+            // close the prompt.
+        }
+    }
+    else if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event) &&
+             ((uint8_t)PAGES_SET_INFO == p_nav->cursor)) // 6 fits
+    {
+        p_nav->page = PAGES_INFO; // the cursor stays, for the way back
+    }
+    else if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event) &&
+             ((uint8_t)PAGES_SET_PAIR == p_nav->cursor)) // 7 fits
+    {
+        p_nav->page = PAGES_PAIR;
+    }
+    else if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event) &&
+             ((uint8_t)PAGES_SET_RESET == p_nav->cursor)) // 8 fits
+    {
+        p_nav->b_confirm     = true;
+        p_nav->b_confirm_yes = false;
+    }
+    else if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event))
     {
         p_nav->b_editing = !p_nav->b_editing;
     }
@@ -211,13 +263,26 @@ static bool nav_settings(pages_nav_t * p_nav, settings_t * p_cfg,
         p_nav->cursor--;
     }
     else if (!p_nav->b_editing && (BUTTONS_KEY_DOWN == key) &&
-             ((p_nav->cursor + 1U) < (uint32_t)PAGES_SET_COUNT)) // 6 fits
+             ((p_nav->cursor + 1U) < (uint32_t)PAGES_SET_COUNT)) // 9 fits
     {
         p_nav->cursor++;
     }
+    else if (!p_nav->b_editing && (BUTTON_EVENT_PRESS == event) &&
+             (BUTTONS_KEY_UP == key))
+    {
+        // Up at the top wraps to the last row. A fresh press only: a held
+        // key stops at the end instead of spinning round the list.
+        p_nav->cursor = (uint8_t)PAGES_SET_COUNT - 1U; // 8 fits
+    }
+    else if (!p_nav->b_editing && (BUTTON_EVENT_PRESS == event) &&
+             (BUTTONS_KEY_DOWN == key))
+    {
+        p_nav->cursor = 0U; // down at the bottom wraps to the first row
+    }
     else
     {
-        // At the end of the list, or a key this page does not use.
+        // A held key at the end of the list, or a key this page does not
+        // use.
     }
 
     return b_changed;
@@ -231,7 +296,23 @@ void pages_nav_reset(pages_nav_t * p_nav)
         p_nav->cursor          = 0U;
         p_nav->b_editing       = false;
         p_nav->b_cool_selected = false;
+        p_nav->b_confirm       = false;
+        p_nav->b_confirm_yes   = false;
+        p_nav->b_reset_wanted  = false;
     }
+}
+
+bool pages_nav_take_reset(pages_nav_t * p_nav)
+{
+    bool b_wanted = false;
+
+    if (NULL != p_nav)
+    {
+        b_wanted              = p_nav->b_reset_wanted;
+        p_nav->b_reset_wanted = false;
+    }
+
+    return b_wanted;
 }
 
 bool pages_nav_key(pages_nav_t * p_nav, settings_t * p_cfg, buttons_key_t key,
@@ -247,14 +328,31 @@ bool pages_nav_key(pages_nav_t * p_nav, settings_t * p_cfg, buttons_key_t key,
 
     if ((BUTTONS_KEY_LEFT == key) || (BUTTONS_KEY_RIGHT == key))
     {
-        if (BUTTON_EVENT_PRESS == event)
+        if ((BUTTON_EVENT_PRESS == event) && p_nav->b_confirm)
         {
-            // Pages are a small enum; stepping modulo the count wraps both
-            // ways and the result always fits back into pages_id_t.
-            page = ((uint32_t)p_nav->page +
-                    ((BUTTONS_KEY_RIGHT == key) ? 1U : (PAGES_COUNT - 1U))) %
-                   (uint32_t)PAGES_COUNT;
+            // Close the factory reset prompt, staying on the settings list.
+            p_nav->b_confirm     = false;
+            p_nav->b_confirm_yes = false;
+        }
+        else if ((BUTTON_EVENT_PRESS == event) &&
+                 ((PAGES_INFO == p_nav->page) || (PAGES_PAIR == p_nav->page)))
+        {
+            nav_back_to_settings(p_nav);
+        }
+        else if (BUTTON_EVENT_PRESS == event)
+        {
+            // The cycle's pages are the first PAGES_CYCLE_COUNT of a small
+            // enum; stepping modulo that count wraps both ways and the
+            // result always fits back into pages_id_t.
+            page =
+                (((uint32_t)p_nav->page % PAGES_CYCLE_COUNT) +
+                 ((BUTTONS_KEY_RIGHT == key) ? 1U : (PAGES_CYCLE_COUNT - 1U))) %
+                PAGES_CYCLE_COUNT;
             nav_enter(p_nav, p_cfg, (pages_id_t)page);
+        }
+        else
+        {
+            // Page keys do not repeat.
         }
         goto done;
     }
@@ -276,7 +374,12 @@ bool pages_nav_key(pages_nav_t * p_nav, settings_t * p_cfg, buttons_key_t key,
             b_changed = nav_settings(p_nav, p_cfg, key, event);
             break;
         case PAGES_INFO:
-            break;
+        case PAGES_PAIR:
+            if ((BUTTONS_KEY_CENTER == key) && (BUTTON_EVENT_PRESS == event))
+            {
+                nav_back_to_settings(p_nav);
+            }
+            break; // nothing to change here
         default:
             pages_nav_reset(p_nav); // corrupted: back to a known page
             break;

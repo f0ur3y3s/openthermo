@@ -39,7 +39,7 @@ void bootloader_hooks_include(void)
 void bootloader_before_init(void)
 {
     // gpio_num_t values for these pins are 1..21, so the casts are lossless.
-    static uint32_t const s_pins[] = {
+    static uint32_t const g_pins[] = {
         (uint32_t)BOARD_PIN_RELAY_Y1,
         (uint32_t)BOARD_PIN_RELAY_G,
         (uint32_t)BOARD_PIN_RELAY_O,
@@ -49,9 +49,9 @@ void bootloader_before_init(void)
 
     // Latch low first, so no pin can go high on the way to being an output.
     REG_WRITE(GPIO_OUT_W1TC_REG, RELAY_PIN_MASK);
-    for (idx = 0U; idx < (sizeof(s_pins) / sizeof(s_pins[0])); idx++)
+    for (idx = 0U; idx < (sizeof(g_pins) / sizeof(g_pins[0])); idx++)
     {
-        esp_rom_gpio_pad_select_gpio(s_pins[idx]);
+        esp_rom_gpio_pad_select_gpio(g_pins[idx]);
     }
     REG_WRITE(GPIO_ENABLE_W1TS_REG, RELAY_PIN_MASK);
 }

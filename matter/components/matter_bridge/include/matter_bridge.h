@@ -21,16 +21,34 @@
 #ifndef MATTER_BRIDGE_H
 #define MATTER_BRIDGE_H
 
+#include <stdbool.h>
+#include <stddef.h>
+
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/**
- * Builds the Matter node, starts Matter and the sync task. Call once, after
- * control_start(); matches app_net_start_t. Failures are logged and leave
- * the thermostat running locally.
- */
-void matter_bridge_start(void);
+    /**
+     * Builds the Matter node, starts Matter and the sync task. Call once, after
+     * control_start() (app_net_t.p_start). Failures are logged and leave the
+     * thermostat running locally.
+     */
+    void matter_bridge_start(void);
+
+    /**
+     * Forgets the pairing (fabrics, Thread credentials) and restarts the chip
+     * (app_net_t.p_factory_reset).
+     */
+    void matter_bridge_factory_reset(void);
+
+    /**
+     * The commissioning QR payload ("MT:...") and manual pairing code, and
+     * whether the thermostat is paired with any controller now
+     * (app_net_t.p_pairing). False before Matter has started.
+     */
+    bool matter_bridge_pairing(char * p_qr, size_t qr_len, char * p_manual,
+                               size_t manual_len, bool * p_b_paired);
 
 #ifdef __cplusplus
 }

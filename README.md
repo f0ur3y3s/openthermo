@@ -63,9 +63,16 @@ download is several GB and takes a while. Running it again is safe.
 **Build**, inside WSL:
 
 ```sh
-bash /mnt/e/esp/openthermo/tools/matter.sh build        # the real thermostat
-bash /mnt/e/esp/openthermo/tools/matter.sh build sim    # bench build, see below
+bash /mnt/e/esp/openthermo/tools/matter.sh build        # release: the real thermostat
+bash /mnt/e/esp/openthermo/tools/matter.sh build debug  # release plus the serial shell
+bash /mnt/e/esp/openthermo/tools/matter.sh build sim    # bench build (debug), see below
 ```
+
+The release build has no serial shell, to save space; the installed
+thermostat needs none. The debug and sim builds add it: `matter esp
+factoryreset`, `matter esp attribute get|set ...`, and the bench reset checks
+`matter esp reboot` and `matter esp panic`. Their images carry `-debug` or
+`-sim` in the name.
 
 - The first build takes a long time, because it compiles connectedhomeip. Later builds are incremental.
 - Before building, it checks that only `relays.c` can reach the relay pins.
@@ -132,23 +139,32 @@ After a clean start, the board has forgotten the Home it was in. If Apple Home s
 
 ## Pair with Apple Home
 
-1. On boot the serial log prints the pairing codes:
+1. An unpaired thermostat starts on its **Pair** page, which shows the QR
+   code and the manual pairing code; it is also under Settings › Pair with
+   Home. The serial log prints them too:
    - `SetupQRCode: [MT:Y.K9042C00KA0648G00]`;
    - `Manual pairing code: [34970112332]`.
 
    These are the Matter test credentials (passcode 20202021, discriminator 3840).
-2. In the Home app, choose **+ › Add Accessory**. Scan the QR code, or enter the manual code.
+2. In the Home app, choose **+ › Add Accessory**. Scan the QR code on the display, or enter the manual code.
 3. iOS warns about an **uncertified accessory**: choose **Add Anyway**. The firmware uses Espressif's test attestation certificates, which is expected for a home-built device.
 4. The iPhone passes the Thread network credentials to the board over Bluetooth. The board then joins your HomePod's Thread network.
 
-Home shows three accessories:
+Home shows four accessories:
 
 - **Thermostat:** modes Off, Heat, Cool and Auto; heat and cool setpoints from 60 to 80 °F; the room temperature.
 - **Fan:** Auto or On. On runs the blower (G).
 - **Outlet:** emergency heat. Rename it "Emergency heat", and keep it out of scenes and "all outlets" commands, which would switch the strips on in place of the heat pump.
 - **Contact sensor:** rename it "Thermostat fault" and turn on its notifications. It opens when the thermostat has no valid temperature and has turned everything off.
 
-To start over, run `matter esp factoryreset` in the serial console. It clears the pairing, but not the thermostat settings.
+**Factory reset:** on the D-pad, Settings › Factory reset (the last row),
+centre, then Down to Yes and centre again. The prompt starts on No, with No
+above Yes; Left, Right or the screen dimming closes it. It unpairs the thermostat
+from Home, resets every setting to its default (mode Off) and restarts. Then
+remove the accessory from the Home app before pairing again.
+
+On a debug build, `matter esp factoryreset` in the serial console clears the
+pairing only, not the thermostat settings.
 
 ## Bench build (no SHT40, no HVAC)
 

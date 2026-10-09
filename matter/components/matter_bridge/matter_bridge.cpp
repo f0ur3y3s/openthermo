@@ -29,6 +29,7 @@ extern "C"
 #include <freertos/task.h>
 #include <app/clusters/boolean-state-server/BooleanStateCluster.h>
 #include <app/clusters/fan-control-server/CodegenIntegration.h>
+#include <app/server/Server.h>
 #include <setup_payload/OnboardingCodesUtil.h>
 #if CHIP_DEVICE_CONFIG_ENABLE_THREAD
 #include <platform/ESP32/OpenthreadLauncher.h>
@@ -922,6 +923,51 @@ void bridge_register_bench_commands(void)
 #endif
 
 } // namespace
+
+extern "C" void matter_bridge_factory_reset(void)
+{
+    ESP_LOGW(LOG_TAG, "factory reset: forgetting the pairing, then restart");
+    if (ESP_OK != esp_matter::factory_reset())
+    {
+        ESP_LOGE(LOG_TAG, "factory reset failed");
+    }
+}
+
+extern "C" bool matter_bridge_pairing(char * p_qr, size_t qr_len,
+                                      char * p_manual, size_t manual_len,
+                                      bool * p_b_paired)
+{
+    bool b_ok = false;
+
+    if ((nullptr == p_qr) || (nullptr == p_manual) || (nullptr == p_b_paired) ||
+        (qr_len < 2U) || (manual_len < 2U) || !g_b_live.load())
+    {
+        goto done;
+    }
+
+    {
+        lock::ScopedChipStackLock stack_lock(portMAX_DELAY);
+        // One byte kept for the terminator the spans do not write.
+        chip::MutableCharSpan qr(p_qr, qr_len - 1U);
+        chip::MutableCharSpan manual(p_manual, manual_len - 1U);
+        chip::RendezvousInformationFlags const flags(
+            chip::RendezvousInformationFlag::kBLE);
+
+        if ((CHIP_NO_ERROR == GetQRCode(qr, flags)) &&
+            (CHIP_NO_ERROR == GetManualPairingCode(manual, flags)))
+        {
+            p_qr[qr.size()]         = '\0';
+            p_manual[manual.size()] = '\0';
+            *p_b_paired =
+                (0U <
+                 chip::Server::GetInstance().GetFabricTable().FabricCount());
+            b_ok = true;
+        }
+    }
+
+done:
+    return b_ok;
+}
 
 extern "C" void matter_bridge_start(void)
 {

@@ -9,6 +9,7 @@ the [top-level README](../README.md).
 |---|---|
 | `sdkconfig.defaults` | Watchdog, brown-out, size optimisation, BLE commissioning, Matter shell. |
 | `sdkconfig.defaults.esp32c6` | 4 MB flash, USB console, Thread instead of Wi-Fi. |
+| `sdkconfig.defaults.debug` | The serial shell, for the debug and sim builds only. |
 | `partitions.csv` | esp-matter's 4 MB layout: two 1.875 MB app slots from `0x20000`. |
 
 ## How it fits together

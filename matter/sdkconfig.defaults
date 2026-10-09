@@ -54,8 +54,10 @@ CONFIG_MBEDTLS_HKDF_C=y
 CONFIG_MBEDTLS_ERROR_STRINGS=n
 
 # ---- Matter -------------------------------------------------------------------
-# Serial shell: `matter esp factoryreset`, `matter esp wifi ...`.
-CONFIG_ENABLE_CHIP_SHELL=y
+# No serial shell in the release build: code and RAM the installed thermostat
+# never uses (its factory reset is on the D-pad's settings page). The debug
+# and sim builds turn it on (sdkconfig.defaults.debug).
+CONFIG_ENABLE_CHIP_SHELL=n
 # Root node plus thermostat, fan, e-heat and the fault contact sensor.
 CONFIG_ESP_MATTER_MAX_DYNAMIC_ENDPOINT_COUNT=5
 CONFIG_SUPPORT_GROUPCAST_CLUSTER=n

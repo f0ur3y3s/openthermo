@@ -1,0 +1,5 @@
+# Debug and bench builds (tools/matter.sh build debug | sim): the serial
+# shell on the USB console. `matter esp factoryreset`, `matter esp attribute
+# get|set ...`, `matter esp diagnostics ...`, and the bench reset checks
+# `matter esp reboot` and `matter esp panic` (docs/HARDWARE.md).
+CONFIG_ENABLE_CHIP_SHELL=y
