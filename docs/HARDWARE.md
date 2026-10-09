@@ -88,6 +88,15 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 - **XL7015 IN pair:** goes along the bottom edge to (9,0) and (11,3).
 - **COM:** rises from (13,8).
 
+**Closing the case (round-6 review):**
+- Tape or hot-glue the XL7015 IN pair to the rim's inner face, then sight along the bottom rim before closing so the cover wall doesn't pinch it.
+- Lace the cover bundle into a stiff loom with 2–3 small ties so it stays high along y −13, 5 mm clear of the XIAO's antenna end.
+- Land the 18 AWG COM at (13,8) stripped about 2 mm above the board, and bend it clear of F2's base straight away.
+- Hold the board down beside the holder, or use a fuse puller, when swapping a fuse.
+- Unplug USB before lifting the cover.
+- A block on the bottom rim under the USB plug takes the pull when you unplug.
+- Log Thread RSSI with the cover on before final install.
+
 The model is built from the BOM sizes, so re-check it once the measurements in build step 1 are in.
 
 - **Zones:** logic in columns 0–9 with the XIAO standing upright (antenna at the top edge, USB-C toward the bottom edge); 24 VAC and the bus in columns 9–23. No R, 24 VAC or bus pad touches a logic pad, straight or diagonally; 24 VAC is 8 mm from the nearest logic pad and 14 mm from the antenna.
@@ -180,7 +189,7 @@ With pin map v2 no relay input has a neighbour that could hold it high at boot. 
 - **The relay cable has no connector.** Solder it at the controller and screw it into the module's 6-way block. A 6-pin plug there could mate with the D-pad's, and a key press would then put 5 V on a GPIO or short the 5 V rail.
 - **Strain relief:** hot-glue the OLED wires to its PCB next to the pads, and tie or glue the D-pad bundle to the carrier.
 - **I2C pull-ups:** check both modules. If the SHT40 module has none, fit 10 k from SDA and SCL to 3V3 on the controller (with the OLED's 4.7 k that gives about 3.2 k).
-- **Centre key guides:** two 7.9 mm lengths of 1.75 filament, pushed into the blind holes in the centre key; they slide in the carrier's columns.
+- **Centre key guides:** two 5.7 mm lengths of 1.75 filament (cut to 5.65), CA-glued into the blind holes in the centre key's flange; they slide in the carrier's columns.
 
 ## BOM (all ordered from Amazon, Oct 2026)
 

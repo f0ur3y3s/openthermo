@@ -49,7 +49,9 @@ PB_PITCH = 2.54
 PB_X0, PB_Y0 = -58.39, -46.41
 def PB(c, r):
     return (PB_X0 + PB_PITCH * c, PB_Y0 + PB_PITCH * r)
-CTL = (PB_X0 - 5.79, PB_X0 + 23 * PB_PITCH + 5.79, PB_Y0 - 3.57, PB_Y0 + 9 * PB_PITCH + 3.57)   # x -64.18..5.82, y -49.98..-19.98
+PB_T = 1.6                                     # perfboard thickness (measure)
+PB_M = (5.79, 5.79, 3.57, 3.57)                # board edge to the outer hole centres: left, right, bottom, top (measure)
+CTL = (PB_X0 - PB_M[0], PB_X0 + 23 * PB_PITCH + PB_M[1], PB_Y0 - PB_M[2], PB_Y0 + 9 * PB_PITCH + PB_M[3])   # nominal x -64.18..5.82, y -49.98..-19.98
 # part envelopes in the board frame (x0, x1, y0, y1, z0, z1), from board_r5_layout.json (repin_option)
 BOARD_PARTS = [
     ('XIAO ESP32-C6 PCB (upright, antenna at the top edge)', (1.26, 19.06, 4.74, 25.74, 8.5, 9.5)),
@@ -69,7 +71,7 @@ BOARD_PARTS = [
     ('1.5KE51A TVS standing over (10,1), K hairpin (10,3)', (22.75, 28.05, -0.11, 5.19, 1.0, 10.5)),
     ('1N4007, A (12,5) K (12,2)', (29.13, 31.83, 6.29, 11.49, 0.0, 2.9)),
 ]
-CTL_TOP = 7.6                                  # controller board top face (board z 6.0..7.6)
+CTL_TOP = 6.0 + PB_T                           # controller board top face (board sits on pads at z 6.0)
 USB_C = (PB_X0 + 10.16, PB_Y0 + 3.74, CTL_TOP + 11.1)   # USB-C receptacle face centre (x, y, z)
 FUSE_POCKET = (PB_X0 + 33.59 - 1.0, PB_X0 + 60.39 + 1.0, PB_Y0 + 5.16 - 1.0, PB_Y0 + 25.32 + 1.0, 1.0)  # 1.0 deep (H <= 17.9)
 # XL7015 buck (listing: 44 x 16 board; height to the top of the tallest part assumed 12, confirm on arrival)
@@ -80,7 +82,7 @@ XL_TIES = (XL_C[0] + 7.0, XL_C[0] - 5.0)       # zip-tie notches either side of 
 # clear of the wall-window grommet flange (x -19.5..19.5 down to y -21.5); pins stay out of the USB plug lane, the left
 # wire lane and the cable landings.
 PB_SUPPORTS = [(-62.8, -48.6), (-38.5, -48.6), (4.4, -48.4), (-62.8, -21.4), (-32.0, -21.4), (4.0, -24.0)]
-PB_PRESS = [(-38.5, -48.9), (4.4, -48.4), (-32.0, -21.5), (4.4, -21.4)]
+PB_PRESS = [(-38.5, -48.9), (4.4, -48.2), (-32.0, -21.5), (4.4, -21.4)]
 # OLED (0.96" SSD1306), header removed, wires soldered to pads
 OLED_YB = 22.5
 OLED_W, OLED_H = 27.3, 27.8
@@ -125,8 +127,8 @@ SFX_EAR_R, SFX_HOLE_R = 3.6, 2.75             # frame ears round the cover posts
 CK_GUIDE_S, CK_GUIDE_P = 0.0, 4.53            # along / across the centre switch axis: key corners (+-3.2, -+3.2)
 CK_HOLE_R, CK_SOCK_R, CK_COL_R = 0.90, 1.0, 1.5 # key hole (snug, as PIN_FAR_R), carrier socket (slip), column
 CK_PIN_LEN = 4.0                              # pin length below the key underside (2.5 engaged at rest)
-CK_HOLE_TOP = DEPTH + KEY_PROUD - 1.2         # blind hole top in the key (1.2 skin under the cap face)
-CK_PIN_CUT = CK_HOLE_TOP - SFX_Z0 + CK_PIN_LEN  # filament length to cut (~7.9)
+CK_HOLE_TOP = ZF                              # blind hole stops in the key's flange (the cap corners left only 0.31 mm)
+CK_PIN_CUT = CK_HOLE_TOP - SFX_Z0 + CK_PIN_LEN  # filament length to cut (~5.65), CA-glued in the key
 SW_L, SW_W, SW_H = 12.8, 5.8, 6.0                 # measured with calipers
 # lever (measured): 13.1 long, 3.5 wide, free tip 3.75 above the body top, pivot inset 1.3 from the body end.
 # Along the switch axis s (0 = key nub contact): body s -1.4..11.4, lever pivot s 10.1, tip s -3.0.
@@ -171,7 +173,7 @@ SHT_L, SHT_W, SHT_T, SHT_Z = 12.56, 10.5, 1.6, 14.0  # along x (pins -> hole), a
                                                      # (mid-depth: in the vent airflow, 11 mm off the backplate)
 SHT_HOLE = (SHT_X0 + SHT_L - 2.4, SHT_Y1 - 2.7)       # 2.85 hole centre
 SG_CH_Z, SG_CH_D = 6.0, 3.6                        # cable channel (4 x 26 AWG silicone, OD 1.3-1.4: needs ~3.4); low, so
-                                                   # the cable passes under the 470 uF's overhang to the board
+                                                   # the cable runs low up the right gutter to the board
 SG_SQUEEZE = 0.15                                  # per side: wall slot narrower than the block
 # switch mounting holes (measured): through the body side to side, 0.5 from the pin face to the hole edge,
 # one 2.0 round, one 2.1 x 2.0 slot, 6.5 apart and centred on the body (s 1.75 and 8.25).
@@ -439,15 +441,15 @@ def build_wiring():
     # 4 wires from the XL7015 down the right channel; at y -14 the OUT pair joins the cover bundle (to the XIAO end)
     # and the IN pair (bus +, GND) comes down the right of the R-C terminal to holes (20, 6) and (21, 6)
     named.append(('XL7015 harness (4)', wire_path([(xx, -14.0, 7.5), (xx, -12.0, 6.0), (xx, yl0 + 1.5, 6.0)], r_bundle(4))))
-    # IN pair: down the right gutter, along the bottom edge; IN- (C) up into (9,0), IN+ (bus) through the 1.9 mm gap
+    # IN pair: down the right gutter, along the bottom edge 1 mm in from the rim (clear of the cover wall; tape it there); IN- (C) up into (9,0), IN+ (bus) through the 1.9 mm gap
     # between the TVS and the cap's end to (11,3)
-    named.append(('XL7015 IN pair (2)', wire_path([(xx, -14.0, 7.5), (13.5, -16.0, 9.3), (13.5, -53.4, 9.3),
-                                                   (-29.4, -53.4, 9.3)], r_bundle(2))))
-    named.append(('XL7015 IN- (C) to (9,0)', wire_path([(-29.4, -53.4, 9.3), (PB(9, 0)[0], -53.4, 9.3),
+    named.append(('XL7015 IN pair (2)', wire_path([(xx, -14.0, 7.5), (13.5, -16.0, 9.3), (13.5, -52.4, 9.3),
+                                                   (-29.4, -52.4, 9.3)], r_bundle(2))))
+    named.append(('XL7015 IN- (C) to (9,0)', wire_path([(-29.4, -52.4, 9.3), (PB(9, 0)[0], -52.4, 9.3),
                                                         (PB(9, 0)[0], -50.6, CTL_TOP + 0.9)], R_SIG)))
-    named.append(('XL7015 IN+ (bus) to (11,3)', wire_path([(-29.4, -53.4, 9.3), (-29.4, -41.5, 9.3), (PB(11, 0)[0], -40.0, 8.6),
+    named.append(('XL7015 IN+ (bus) to (11,3)', wire_path([(-29.4, -52.4, 9.3), (-29.4, -41.5, 9.3), (PB(11, 0)[0], -40.0, 8.6),
                                                            (PB(11, 3)[0], PB(11, 3)[1], CTL_TOP + 0.8)], R_SIG)))
-    named.append(('XL7015 OUT pair (2)', wire_path([(xx, -14.0, 7.5), (xc, -15.0, 15.0)], r_bundle(2))))
+    named.append(('XL7015 OUT pair (2)', wire_path([(xx, -14.0, 7.5), (13.8, -15.0, 15.0)], r_bundle(2))))
     for nm, yy in (('OUT- (GND)', yl0 + 1.5), ('OUT+ (5 V)', yl1 - 1.5)):
         named.append(('XL7015 %s' % nm, wire_path([(xx, yl0 + 1.5, 6.0), (xx, yy, 6.0), (xl0 + 1.0, yy, PLATE + 3.6)], R_SIG)))
     named.append(('XL7015 IN+ (bus)', wire_path([(xx, yl0 + 1.5, 6.0), (xx, yl1 + 1.8, 6.0), (xl1 + 0.5, yl1 + 1.8, 6.0),
@@ -457,9 +459,9 @@ def build_wiring():
     named.append(('SHT40 (4)', wire_path([(SHT_X0 + 1.1, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2),
                                           (SHT_X0 - 1.5, SHT_Y1 - SHT_W / 2, SHT_Z + SHT_T + 1.2), (SHT_X0 - 4.0, sy, SG_CH_Z),
                                           (SG_X[1] + 1.5, sy, SG_CH_Z),
-                                          (SG_X[0] - 0.2, sy, SG_CH_Z), (11.0, sy, 5.0), (11.0, -26.0, 5.0), (11.0, -21.5, 10.0),
-                                          (11.0, -17.5, 18.0)], r_bundle(4))))
-    # (under the 470 uF's overhang, up the right gutter, into the cover bundle to the XIAO end)
+                                          (SG_X[0] - 0.2, sy, SG_CH_Z), (11.0, sy, 5.0), (10.5, -26.0, 5.0), (10.5, -22.5, 6.0),
+                                          (10.5, -17.0, 6.0), (10.5, -16.0, 17.5), (10.0, -17.3, 18.1)], r_bundle(4))))
+    # (low up the right gutter, rising north of field R's bend, into the cover bundle to the XIAO end)
     # 6. cover side: OLED (4) and D-pad (6) pigtails end in JST-PH pairs lying flat under the carrier (x 22..48,
     #    y 5..17); ~80 mm of cover-side slack is stowed there too. Controller side: one 10-wire bundle down the
     #    channel right of the relay module, joined by the SHT40 (4) and XL7015 OUT (2) wires, then high along the
@@ -472,14 +474,15 @@ def build_wiring():
                                          (xc, 21.0, 12.0), (43.0, 21.0, pz), (43.0, 17.0, pz)], r_bundle(4))))
     named.append(('D-pad (6)', wire_path([(DC[0], DC[1] - 5.0, 9.5), (DC[0] - 5.0, DC[1] - 5.0, 9.5), (20.0, DC[1] - 5.0, 9.5),
                                           (20.0, -6.0, 6.0), (20.0, 18.5, 6.0), (29.0, 18.5, pz), (29.0, 17.0, pz)], r_bundle(6))))
-    named.append(('Controller side (10)', wire_path([(29.0, 5.0, pz), (29.0, 2.5, pz), (25.0, 2.5, 10.3), (15.5, 2.5, 10.3), (xc, 0.0, 13.0), (xc, -15.0, 15.0),
+    named.append(('Controller side (10)', wire_path([(29.0, 5.0, pz), (29.0, 2.5, pz), (25.0, 2.5, 10.3), (14.8, 2.5, 10.3), (13.8, 0.0, 13.0), (13.8, -15.0, 15.0),
                                                      (10.0, -17.3, 18.1)], cb)))
-    # the bundle drops at the top-left corner (left of the XIAO's antenna end) to the column-0 landings (GND, 3V3, UP,
+    # the bundle runs high along y -13 (5 mm off the XIAO's antenna end; lace it into a stiff loom) and drops at the
+    # top-left corner (left of the antenna end) to the column-0 landings (GND, 3V3, UP,
     # SDA, SCL, OK; XL OUT- and OUT+ continue down the left lane to (0,2) and (5,0)); LEFT, DOWN and RIGHT branch off
     # right of the XIAO to (8,7), (8,8) and (9,6), above the 1 k
-    named.append(('Cover bundle (15: cover 9 + SHT40 4 + XL OUT 2)', wire_path([(10.0, -17.3, 18.1), (-58.5, -17.3, 18.1),
-                                                                             (-58.5, -19.6, 13.5)], r_bundle(15) * 0.8)))
-    named.append(('Cover branch (LEFT, DOWN, RIGHT)', wire_path([(-36.8, -17.3, 18.1), (-36.8, -22.0, 13.0), (-36.8, -28.0, 12.0)],
+    named.append(('Cover bundle (15: cover 9 + SHT40 4 + XL OUT 2)', wire_path([(10.0, -17.3, 18.1), (4.0, -13.0, 18.1), (-58.5, -13.0, 18.1),
+                                                                             (-60.0, -19.6, 15.0)], r_bundle(15) * 0.8)))
+    named.append(('Cover branch (LEFT, DOWN, RIGHT)', wire_path([(-35.5, -13.0, 18.1), (-35.5, -22.0, 13.0), (-35.5, -28.0, 12.0)],
                                                                r_bundle(3))))
     named.append(('Left lane (wires to column 0 and the bottom edge)', tbox(-63.9, -60.1, -48.0, -21.0, CTL_TOP, CTL_TOP + 5.2)))
     named.append(('Bottom fan (to (5,0), (7,2) and the trough)', tbox(-60.1, -44.6, -49.6, -47.0, CTL_TOP, CTL_TOP + 2.4)))
@@ -572,6 +575,8 @@ def build():
     for cx in list(range(-58, 11, 5)) + list(range(22, 62, 5)):                           # exhaust, top
         cuts.append(trrect(cx - 1, cx + 1, iy - 1, iy + 3, 9.0, 20.0, 0.9))
     for cx in list(range(-56, 11, 5)) + list(range(21, 51, 4)):                           # intake, bottom
+        if abs(cx - USB_C[0]) < 7.5 + 1.0 + 2.0:                                          # >= 2 mm web beside the USB cut
+            continue                                                                       # (no floating fingers)
         cuts.append(trrect(cx - 1, cx + 1, -iy - 3, -iy + 1, 7.0, 20.0, 0.9))
     for cy in (-50.0, -46.0, -42.0, -38.0):                                               # chamber intake, right side
         cuts.append(tbox(ix - 3, ix + 3, cy - 1, cy + 1, 9.0, 20.0))
@@ -610,12 +615,11 @@ def build():
         joins.append(tcyl((x, y, 1.0), (x, y, MOD_PCB_Z), 3.5))
     cx0, cx1, cy0, cy1 = CTL                                                     # controller board cradle
     for x, y in PB_SUPPORTS:                                                     # pads under the hole-free edge margins
-        joins.append(tcyl((x, y, PLATE - 0.5), (x, y, CTL_TOP - 1.6), 1.8))
-    g_, t_, zt_ = 0.15, 1.2, CTL_TOP + 0.8                                       # fences: no overhangs, prints as is
-    zt_ = CTL_TOP + 0.85
+        joins.append(tcyl((x, y, PLATE - 0.5), (x, y, CTL_TOP - PB_T), 1.8))
+    g_, t_, zt_ = 0.15, 1.2, CTL_TOP + 0.85                                      # fences: no overhangs, prints as is
     fences = [('x', cx0 + 1.0, cx0 + 7.0, cy0 - g_, -1), ('x', 3.0, 5.0, cy0 - g_, -1),   # bottom edge
               ('x', -45.0, -40.0, cy1 + g_, 1), ('x', -58.0, -53.0, cy1 + g_, 1),                  # top edge
-              ('y', cy0 + 1.0, cy0 + 4.0, cx1 + g_, 1), ('y', cy1 - 7.0, cy1 - 3.0, cx1 + g_, 1)]   # right edge
+              ('y', cy0 + 3.0, cy0 + 6.0, cx1 + g_, 1), ('y', cy1 - 7.0, cy1 - 3.0, cx1 + g_, 1)]   # right edge
     for ax_, a0, a1, f, sd in fences:
         # wall outside the board edge, plus a 45 deg diamond bead on its inner face: it reaches 0.35 over the board
         # at z 7.95, its underside meets the board's top edge, so the board snaps in and nothing overhangs flat
@@ -633,6 +637,8 @@ def build():
         joins.append(bead)
     for y0_, y1_ in ((-46.5, -43.5), (-26.5, -23.5)):                         # bumps off the left rim: 0.15 to the board
         joins.append(tbox(-hx + RIM_T - 0.2, cx0 - g_, y0_, y1_, PLATE - 0.5, CTL_TOP))
+    # USB pull-out stop: a solid block off the bottom rim under the plug (no bead, so it takes the pull, not a fence)
+    joins.append(tbox(USB_C[0] - 3.8, USB_C[0] + 4.2, -hy + RIM_T - 0.2, cy0 - g_, PLATE - 0.5, RIM_H))
     hx_, hy_ = SHT_HOLE                                                          # SHT40 standoff + two rest posts
     joins.append(tcyl((hx_, hy_, PLATE - 0.5), (hx_, hy_, SHT_Z), 2.0))      # thin: less wall heat into the sensor
     for px_, py_ in ((SHT_X0 + 4.5, SHT_Y1 - 1.5), (SHT_X0 + 4.5, SHT_Y1 - SHT_W + 1.5)):
@@ -675,7 +681,7 @@ def build():
         return trrect(WIN_W[0] - o, WIN_W[1] + o, WIN_W[2] - o, WIN_W[3] + o, z0, z1, max(0.3, WIN_R + o))
     tube = win_off(-0.05, GRM_GROOVE_D, PLATE)                       # snug in the window
     U(tube, win_off(GRM_FL_W, PLATE, PLATE + GRM_FL_T))               # flange on the plate's inner face
-    for cx, cy in ((11.5, -23.0), (8.0, -1.75)):                     # clear the neighbouring screw posts
+    for cx, cy in ((8.0, -1.75),):                                    # clear the neighbouring screw post
         D(tube, tcyl((cx, cy, PLATE - 1), (cx, cy, PLATE + GRM_FL_T + 1), 3.8))
     U(tube, win_off(0.075, GRM_COLLAR_Z, GRM_GROOVE_D))              # captive collar behind the window ledge
     nst = 4                                                          # skirt: stepped flare from the collar to the wall
@@ -882,7 +888,7 @@ def build():
         # and the S1-S4 H/L jumpers along the far edge
         ('Input terminal (DC+ DC- IN1-4)', tbox(mx0 + 1.0, mx0 + 31.5, my0 + 41.5, my0 + 49.5, mz, mz + 10.0)),
         ('H/L jumpers S1-S4', tbox(mx1 - 31.0, mx1 - 20.0, my0 + 40.0, my0 + 48.0, mz, mz + 8.5)),
-        ('Controller perfboard', tbox(cx0, cx1, cy0, cy1, CTL_TOP - 1.6, CTL_TOP)),
+        ('Controller perfboard', tbox(cx0, cx1, cy0, cy1, CTL_TOP - PB_T, CTL_TOP)),
         ('XL7015 board', tbox(XL_C[0] - XL_L / 2, XL_C[0] + XL_L / 2, XL_C[1] - XL_W / 2, XL_C[1] + XL_W / 2,
                               PLATE + 1.5, PLATE + 1.5 + 1.6)),
         ('XL7015 parts (caps, trimpot)', tbox(XL_C[0] - XL_L / 2 + 1, XL_C[0] + XL_L / 2 - 1, XL_C[1] - XL_W / 2,
@@ -901,6 +907,12 @@ def build():
         ('OLED back parts', tbox(UX - 12.0, UX + 12.0, OLED_YB + 1, OLED_YB + 26, ZF - 3.4, ZF - 2.4)),
     ]
     for nm, (x0_, x1_, y0_, y1_, z0_, z1_) in BOARD_PARTS:                       # round-5 controller board
+        if nm.startswith('470uF'):                                               # round bodies as cylinders
+            r.append((nm, tcyl((PB_X0 + x0_, PB_Y0 + (y0_ + y1_) / 2, CTL_TOP + 5.1), (PB_X0 + x1_, PB_Y0 + (y0_ + y1_) / 2, CTL_TOP + 5.1), 5.1)))
+            continue
+        if nm.startswith('1.5KE51A'):
+            r.append((nm, tcyl((PB_X0 + 25.4, PB_Y0 + 2.54, CTL_TOP + 1.0), (PB_X0 + 25.4, PB_Y0 + 2.54, CTL_TOP + 10.5), 2.65)))
+            continue
         r.append((nm, tbox(PB_X0 + x0_, PB_X0 + x1_, PB_Y0 + y0_, PB_Y0 + y1_, CTL_TOP + z0_, CTL_TOP + z1_)))
     r.append(('USB-C plug lane (keep clear)', tbox(USB_C[0] - 6.0, USB_C[0] + 6.0, -(OH / 2 - WALL), USB_C[1] - 0.2,
                                                   USB_C[2] - 3.5, USB_C[2] + 3.5)))

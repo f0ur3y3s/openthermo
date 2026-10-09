@@ -1,3 +1,5 @@
+> **Superseded.** This was the brief for the round-4 board (screw holes, USB-C through the left wall). The board now in the case is round 5 (no mounting holes, cradle, USB-C through the bottom wall); see docs/HARDWARE.md and docs/reviews/board_r5_synthesis.md and case_r6_synthesis.md.
+
 # Controller board: parts the case model still needs
 
 > **Done (Oct 8, 2026), then redone for the real board.** The board on hand is a 30 × 70 perfboard with only 10 × 24
