@@ -76,9 +76,9 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 
 ## Controller board
 
-![Controller board, round 5, pin map v2](reviews/board_r5_layout_repin.png)
+![Controller board, round 5, pin map v2](controller_layout.png)
 
-**Round-5 layout with pin map v2**, from the board-only three-agent review (docs/reviews/board_r5_*.md; the layout is `repin_option` in board_r5_layout.json, drawing board_r5_layout_repin.png). It's a **30 × 70 mm perfboard, 10 × 24 holes**, no mounting holes. Hole (column, row) is at (2.54·col, 2.54·row) mm; columns run along the long side, row 0 is the bottom edge.
+**Round-5 layout with pin map v2**, from the board-only three-agent review (docs/reviews/board_r5_*.md; the layout is `repin_option` in board_r5_layout.json, drawing board_r5_layout_repin.png, copied to docs/controller_layout.png as the current layout). It's a **30 × 70 mm perfboard, 10 × 24 holes**, no mounting holes. Hole (column, row) is at (2.54·col, 2.54·row) mm; columns run along the long side, row 0 is the bottom edge.
 
 **In the enclosure** (`cad/fusion_case_v3.py`) the board sits in the same cradle with the XIAO's USB-C facing down, so the cover's USB cut is now in the **bottom wall** (15 × 9 mm, under the XIAO). The cables run like this:
 

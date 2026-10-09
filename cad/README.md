@@ -21,6 +21,7 @@ Run it in Fusion, either through the Fusion MCP or from Utilities → Scripts, i
 
 - Measure the wall screw spacing and the wire-hole size.
 - Check whether the case covers the old paint outline. The case reaches 43.5 mm below the screw line.
-- Measure the XL7015 size and trim-pot height. The rails assume about 49 × 26 mm and 12 mm tall.
+- XL7015 measured (Oct 2026): 43.8 × 16.1 mm, tallest part 14.56 mm from the PCB bottom (about 12.96 above its top; the limit under the OLED is 13.4). Set `XL_H = 14.56` (it is measured from the PCB bottom) and `XL_L, XL_W = 43.8, 16.1`.
+- Fuse holder installed height measured 15.0 mm: set `FUSE_H = 15.0`.
 - Measure the switch lever travel to the click. The design gives 1.5 mm of key travel and 0.2 mm of preload.
 - The fuse holders are modelled as uxcell PCB clip holders on the controller board.

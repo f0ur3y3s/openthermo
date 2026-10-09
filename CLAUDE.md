@@ -91,9 +91,11 @@ Read these before working:
   - It mounts on the old Braeburn screw line: two screws side by side, measured 80 mm apart, wire hole centred. Left slot horizontal (accepts 72–88 mm), right slot vertical (±3.5 mm to level).
   - Fasteners are M2/M3 button heads threaded straight into PETG; no inserts. Cover rim fit (CLR 0.15) confirmed on a fit-ring print.
   - Centre D-pad key is guided by two 1.75 filament pins (printed pins could snap).
+- **Measured (Oct 2026):**
+  - fuse holder installed height 15.0 mm, perfboard top to highest point (limit 17.9; model `FUSE_H` still 17.0);
+  - XL7015 board 43.8 × 16.1 mm (model 44.0 × 16.0), tallest part 14.56 mm from the PCB bottom, so about 12.96 above its top (limit 13.4: fits with 0.44 to spare; model `XL_H`, measured from the PCB bottom, still 12.0).
 - **Measure before printing:**
-  - installed fuse-holder height, perfboard top to highest point (≤ 17.9 mm with the cover pocket);
-  - XL7015 tallest part within x 26..56 (≤ 13.4 mm above its PCB), and which end is IN and OUT;
+  - which end of the XL7015 is IN and which is OUT;
   - SHT40 hole position;
   - whether the case covers the old paint outline;
   - D-pad: every key clicks before it bottoms (else set `FL_Z0 = ZF - 1.0`).
