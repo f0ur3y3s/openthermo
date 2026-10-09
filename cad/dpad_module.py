@@ -11,15 +11,17 @@ pins are lengths of 1.75 filament (5.7 mm, CA-glued into the centre key), as in 
   Front shell (PETG)        - 56 x 56 rounded box, open at the back: the key face (square-pad openings +
                               elephant-foot lips), side walls, the four carrier posts (M2 pilots), four corner
                               columns with M3 pilots for the back cover, a slot in the bottom wall for the Dupont
-                              plug and a pin-1 dot beside it. Print face-down, no supports.
+                              plug and a pin-1 dot beside it, and a hold-down tongue on that wall's inner face
+                              (45 deg gusset) over the plugs and the header body. Print face-down, no supports.
   Back cover (PETG)         - 2 mm plate with a locating lip, four M3 clearance holes, and a holder for a 1 x 6
                               straight male pin header lying flat, pins pointing out through the wall slot, tips
                               0.5 inside the outer face. The header body drops into a pocket from above (two
-                              ledges in front, stops behind its ends); six single-pin female Dupont housings
-                              (2.6 x 2.6, measured) plug in side by side through the slot along a roofed channel.
-                              Print outside-face-down (the channel roof is a short bridge).
+                              ledges in front, full-height stops behind its ends); the side walls are fused into
+                              the lip, with 45 deg base fillets. Six single-pin female Dupont housings (2.6 x 2.6,
+                              measured) plug in side by side through the slot along the channel; the shell's
+                              tongue holds them and the header down. Print outside-face-down, no bridges.
   Dupont holder coupon      - three one-piece holders (wall slice + floor) side by side, 1/2/3 notches:
-                              plug clearance per side 0.10 / 0.15 (= module) / 0.20, header body press fit.
+                              plug clearance per side 0.10 / 0.15 (= module) / 0.20, header body press fit (no hold-down).
   D-pad keys (PETG)         - flexure key plate + centre key, identical to the case. Print face-up.
   D-pad switch carrier      - identical to the case.
   Reference (not printed)   - the five lever switches, filament pins and the pin header.
@@ -65,7 +67,7 @@ DUPONT_VARIANTS = [(0.10, 0.0), (0.15, 0.0), (0.20, 0.0)]   # coupon: (plug, bod
 DUPONT_PITCH, DUPONT_DX = 26.0, 70.0              # coupon strip: holder pitch, offset from the module (x)
 PIN_REC = 0.5                                   # pin tips this far inside the outer face
 PLUG_LEDGE = (0.6, 0.6)                         # end ledges the plug seats on: width in from each end, depth (y)
-HDR_RAIL_W, HDR_ROOF_T = 2.4, 1.4               # channel side walls (fused into the lip), bridged roof thickness
+HDR_RAIL_W, HDR_ROOF_T = 2.4, 1.6               # channel side walls (fused into the lip); hold-down tongue thickness
 HDR_STOP = (2.4, None)                          # stops behind the header body ends: length (y), height (None = full)
 HDR_GUSSET = 1.9                                # 45 deg fillets at the holder's base (half-diagonal), print as slopes
 MOD_WIRE = 4.5                                  # wiring room under the switch terminals
@@ -118,11 +120,28 @@ def dupont_holder(hx, yo, zc, plug_clr=None, body_clr=None, wall_gap=0.15):
         adds.append(fillet('y', xs, y0, ye))                                                    # outer base fillets
         xa, xb = sorted((hx + sx * tail_edge, xs))
         adds.append(fillet('x', ye, xa, xb))                                                    # behind the stops
-    adds.append(tbox(hx - rw, hx + rw, y0, yf - PLUG_LEDGE[1], ct, ct + HDR_ROOF_T))           # roof over the channel only
     slot = tbox(hx - cw, hx + cw, yo - 1, yo + MOD_WALL + 1, zc - 1, ct)
     p1 = hx - (HDR_N - 1) * HDR_P / 2
     dot = tcyl((p1, yo + 0.4, ct + 1.5), (p1, yo - 1, ct + 1.5), 0.5)
     return adds, slot, dot, rw, ye
+
+
+def holder_tongue(hx, yo, zc, rw):
+    """Hold-down over the plugs and the header body, grown from the shell's bottom wall (no bridged roof on the back
+    cover: that peeled off along a layer line). Flat face 0.05 over the holder; a 45 deg gusset back to the wall, so
+    it prints face-down without support and any lift goes into the wall along its layers."""
+    yw = yo + MOD_WALL                                              # wall inner face
+    yt = yo + PIN_REC + HDR_PIN_MATE + HDR_BODY[1]                  # over the header body's back face
+    z0 = zc + PLUG_H + 2 * PLUG_CLR + 0.05
+    zt = z0 + HDR_ROOF_T
+    L = yt - yw
+    t = tbox(hx - rw, hx + rw, yw - 0.5, yt, z0, zt + L)
+    hs = tbox(hx - rw - 1, hx + rw + 1, yt - 100, yt, zt - 100, zt + 100)
+    m = adsk.core.Matrix3D.create()
+    m.setToRotation(math.radians(45), V(1, 0, 0), P(0, mm(yt), mm(zt)))
+    tbm.transform(hs, m)
+    I(t, hs)
+    return t
 
 
 def dupont_coupon():
@@ -192,6 +211,7 @@ def build_module():
     yb = yf + HDR_BODY[1]
     adds, slot, dot, rw, yend = dupont_holder(hx, yo, zc)
     D(sh, slot)
+    U(sh, holder_tongue(hx, yo, zc, rw))
     D(sh, dot)
     D(lip, tbox(hx - (PLUG_W / 2 + PLUG_CLR), hx + (PLUG_W / 2 + PLUG_CLR), yo - 1, yend + 1, zc - 1, zc + lh + 1))
     # (the lip is cut only for the plug channel, so the holder's side walls fuse into it)
