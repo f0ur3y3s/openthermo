@@ -189,7 +189,7 @@ With pin map v2 no relay input has a neighbour that could hold it high at boot. 
 - **The relay cable has no connector.** Solder it at the controller and screw it into the module's 6-way block. A 6-pin plug there could mate with the D-pad's, and a key press would then put 5 V on a GPIO or short the 5 V rail.
 - **Strain relief:** hot-glue the OLED wires to its PCB next to the pads, and tie or glue the D-pad bundle to the carrier.
 - **I2C pull-ups:** check both modules. If the SHT40 module has none, fit 10 k from SDA and SCL to 3V3 on the controller (with the OLED's 4.7 k that gives about 3.2 k).
-- **Centre key guides:** two 5.7 mm lengths of 1.75 filament (cut to 5.65), CA-glued into the blind holes in the centre key's flange; they slide in the carrier's columns.
+- **Centre key guides:** two 5.7 mm lengths of 1.75 filament (cut to 5.65), CA-glued into the Ø2.0 blind holes in the centre key's flange (lead-in at the mouth); they slide in the carrier's Ø2.1 sockets. If a pin drags in its socket, run a 2 mm drill bit through it by hand.
 
 ## BOM (all ordered from Amazon, Oct 2026)
 

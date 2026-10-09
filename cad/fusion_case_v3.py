@@ -125,7 +125,8 @@ SFX_EAR_R, SFX_HOLE_R = 3.6, 2.75             # frame ears round the cover posts
 # The guides are two lengths of 1.75 filament (printed 1.5 pins could snap): snug in blind holes in the key, sliding
 # in sockets in the carrier columns. They sit in the two free corners of the key, either side of the diagonal switch.
 CK_GUIDE_S, CK_GUIDE_P = 0.0, 4.53            # along / across the centre switch axis: key corners (+-3.2, -+3.2)
-CK_HOLE_R, CK_SOCK_R, CK_COL_R = 0.90, 1.0, 1.5 # key hole (snug, as PIN_FAR_R), carrier socket (slip), column
+CK_HOLE_R, CK_SOCK_R, CK_COL_R = 1.0, 1.05, 1.5 # key hole (CA-glued: vertical holes print ~0.2 under), carrier socket (slip), column
+CK_LEAD = 0.3                                 # 45 deg lead-in at the key hole mouth (beats the elephant foot) and the socket top
 CK_PIN_LEN = 4.0                              # pin length below the key underside (2.5 engaged at rest)
 CK_HOLE_TOP = ZF                              # blind hole stops in the key's flange (the cap corners left only 0.31 mm)
 CK_PIN_CUT = CK_HOLE_TOP - SFX_Z0 + CK_PIN_LEN  # filament length to cut (~5.65), CA-glued in the key
@@ -297,6 +298,7 @@ def sfx_key(name):
         U(k, sq_shape(name, SQ_FL_C, SFX_Z0, ZF))
         for gx, gy in ck_guides():                                       # blind holes for the filament guide pins
             D(k, tcyl((gx, gy, SFX_Z0 - 1), (gx, gy, CK_HOLE_TOP), CK_HOLE_R))
+            D(k, tcone((gx, gy, SFX_Z0 - 0.01), CK_HOLE_R + CK_LEAD, (gx, gy, SFX_Z0 + CK_LEAD), CK_HOLE_R))
     else:
         U(k, sq_shape(name, SQ_FL_OUT, SFX_Z0, ZF, inner=SQ_FL_IN))
         D(k, sq_chevron(name, zt - SQ_CHEV[2], zt + 1))
@@ -850,6 +852,7 @@ def build():
         walls.append(tcyl((gx, gy, CAR_Z1 - 0.01), (gx, gy, STOP_Z), CK_COL_R))
         # socket bottom 0.4 below the pressed pin tip, so it stays above the centre switch's retaining-pin hole
         slots.append(tcyl((gx, gy, STOP_Z - CK_PIN_LEN - 0.4), (gx, gy, STOP_Z + 1), CK_SOCK_R))
+        slots.append(tcone((gx, gy, STOP_Z - 0.2), CK_SOCK_R, (gx, gy, STOP_Z + 0.01), CK_SOCK_R + 0.2))   # lead-in
     for nm in ANG:
         legs = ((-3.0, 7.35), (-3.0, 14.65)) if nm == 'down' else ((-3.65, 11.0), (3.65, 11.0))
         th = math.radians(ANG[nm])
