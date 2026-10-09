@@ -90,6 +90,14 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 
 The cover holds the board down on its pads with a blade along the board's right margin, between the fuse holders and the field wires, and two tapered columns on the left half, one on the top margin and one on the bottom. They replaced thin 17 mm pins that snapped off.
 
+**XL7015 mounting:**
+- It lies flat, components up, on two rails on the backplate under the OLED, with its OUT end facing left (toward the cable channel).
+- It is held by a clip moulded into the backplate:
+  - four snap hooks, two on each long edge, either side of the inductor;
+  - a low end stop at each short end.
+- Solder the four wires first, then press the board straight down until all four hooks click over its top edge. To take it out, spread the hooks outward with a fingernail.
+- The model assumes a 44 × 16 × 1.6 mm board (`XL_L`, `XL_W`, `XL_PCB_T`). Measure yours. Each hook needs about 0.5 mm of bare PCB edge where it bites, 7 mm right and 5 mm left of the board's centre.
+
 **Closing the case (round-6 review):**
 - Tape or hot-glue the XL7015 IN pair to the rim's inner face, then sight along the bottom rim before closing so the cover wall doesn't pinch it.
 - Lace the cover bundle into a stiff loom with 2–3 small ties so it stays high along y −13, 5 mm clear of the XIAO's antenna end.

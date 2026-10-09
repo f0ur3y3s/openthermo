@@ -77,7 +77,8 @@ FUSE_POCKET = (PB_X0 + 33.59 - 1.0, PB_X0 + 60.39 + 1.0, PB_Y0 + 5.16 - 1.0, PB_
 # XL7015 buck (listing: 44 x 16 board; height to the top of the tallest part assumed 12, confirm on arrival)
 XL_L, XL_W, XL_H = 44.0, 16.0, 12.0
 XL_C = (38.5, 34.5)                            # board centre, lying on two rails under the OLED
-XL_TIES = (XL_C[0] + 7.0, XL_C[0] - 5.0)       # zip-tie notches either side of the inductor (board turned: OUT end faces left)
+XL_CLIPS = (XL_C[0] + 7.0, XL_C[0] - 5.0)      # snap hooks on both long edges, either side of the inductor (OUT end faces left)
+XL_PCB_T = 1.6                                 # XL7015 PCB thickness (it sits on the rails at PLATE + 1.5)
 # cradle: support pads under the hole-free margins, low fences with snap beads, and pins hung from the cover. Pads stay
 # clear of the wall-window grommet flange (x -19.5..19.5 down to y -21.5); pins stay out of the USB plug lane, the left
 # wire lane and the cable landings.
@@ -456,7 +457,7 @@ def build_wiring():
     named.append(('XL7015 OUT pair (2)', wire_path([(xx, -14.0, 7.5), (13.8, -15.0, 15.0)], r_bundle(2))))
     for nm, yy in (('OUT- (GND)', yl0 + 1.5), ('OUT+ (5 V)', yl1 - 1.5)):
         named.append(('XL7015 %s' % nm, wire_path([(xx, yl0 + 1.5, 6.0), (xx, yy, 6.0), (xl0 + 1.0, yy, PLATE + 3.6)], R_SIG)))
-    named.append(('XL7015 IN+ (bus)', wire_path([(xx, yl0 + 1.5, 6.0), (xx, yl1 + 1.8, 6.0), (xl1 + 0.5, yl1 + 1.8, 6.0),
+    named.append(('XL7015 IN+ (bus)', wire_path([(xx, yl0 + 1.5, 6.0), (xx, yl1 + 2.7, 6.0), (xl1 + 0.5, yl1 + 2.7, 6.0),   # outside the clip arms
                                                  (xl1 + 0.5, yl1 - 1.5, 6.0), (xl1 - 1.0, yl1 - 1.5, PLATE + 3.6)], R_SIG)))
     # 5. SHT40: chamber -> grommet channel -> controller board (right end)
     sy = (SG_Y[0] + SG_Y[1]) / 2
@@ -668,12 +669,32 @@ def build():
     D(br, tbox(-22.6, -19.7, -16.25, -10.75, PLATE + MNT_BOSS, PLATE + MNT_BOSS + 1.8))
     joins.append(br)
     for y in (XL_C[1] - 6.5, XL_C[1] + 6.5):                                       # XL7015 rails (under the OLED)
-        rl = tbox(XL_C[0] - 22.5, XL_C[0] + 22.5, y - 1, y + 1, PLATE - 0.5, PLATE + 1.5)
-        for x in XL_TIES:                                                          # zip-tie notches between parts
-            D(rl, tbox(x - 2.5, x + 2.5, y - 1.1, y + 1.1, PLATE - 1.5, PLATE + 0.5))   # 2.0 tunnel, 1.0 roof
-        joins.append(rl)
+        joins.append(tbox(XL_C[0] - 22.5, XL_C[0] + 22.5, y - 1, y + 1, PLATE - 0.5, PLATE + 1.5))
+    # XL7015 clip: four snap hooks on the long edges (push the board down, it clicks in; spread a hook to free it),
+    # each a 1.2 arm rooted on a 1 mm floor in its own relief pocket so it flexes ~2.5 % to pass the board, with a
+    # 45 deg diamond bead 0.35 over the PCB's top edge (no overhangs). Two low end stops locate it along x.
+    xb_ = PLATE + 1.5 + XL_PCB_T                                                   # PCB top face
+    xl_reliefs = []
+    for sd in (-1, 1):
+        ye = XL_C[1] + sd * XL_W / 2                                               # PCB long edge
+        f = ye + sd * 0.15                                                         # arm inner face
+        for xc_ in XL_CLIPS:
+            arm = tbox(xc_ - 2.5, xc_ + 2.5, min(f, f + sd * 1.2), max(f, f + sd * 1.2), 1.0, xb_ + 0.85)
+            joins.append(arm)
+            bead = tobox(xc_, f, 1, 0, 5.0, 0.7071, xb_ + 0.35 - 0.3536, xb_ + 0.35 + 0.3536)
+            m = adsk.core.Matrix3D.create()
+            m.setToRotation(math.radians(45), V(1, 0, 0), P(0, mm(f), mm(xb_ + 0.35)))
+            tbm.transform(bead, m)
+            joins.append(bead)
+            rel = tbox(xc_ - 3.1, xc_ + 3.1, min(f - sd * 0.5, f + sd * 1.8), max(f - sd * 0.5, f + sd * 1.8), 1.0, PLATE + 0.01)
+            D(rel, tbox(xc_ - 2.5, xc_ + 2.5, min(f, f + sd * 1.2), max(f, f + sd * 1.2), 0.0, PLATE + 1))
+            xl_reliefs.append(rel)
+    for sx in (-1, 1):                                                             # end stops, below the PCB top
+        xe = XL_C[0] + sx * (XL_L / 2 + 0.2)
+        joins.append(tbox(min(xe, xe + sx * 1.5), max(xe, xe + sx * 1.5), XL_C[1] - 4.0, XL_C[1] + 4.0,
+                          PLATE - 0.5, PLATE + 1.5 + XL_PCB_T - 0.3))
     combine(bp, cup, joins, JOIN)
-    cuts = []
+    cuts = list(xl_reliefs)
     for x, y in MOD_HOLES:                                                         # M3 x 6 into the bosses
         cuts.append(tcyl((x, y, 1.0), (x, y, MOD_PCB_Z + 0.1), M3_PILOT_R))
         cuts.append(tcone((x, y, MOD_PCB_Z - 0.3), M3_PILOT_R, (x, y, MOD_PCB_Z + 0.01), M3_PILOT_R + 0.3))   # lead-in
