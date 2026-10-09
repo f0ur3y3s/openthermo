@@ -180,7 +180,8 @@ SG_SQUEEZE = 0.15                                  # per side: wall slot narrowe
 # one 2.0 round, one 2.1 x 2.0 slot, 6.5 apart and centred on the body (s 1.75 and 8.25).
 HOLE_Z = 0.5 + 1.0                                 # hole centre above the body bottom
 PIN_D = 1.75                                       # retaining pin = a length of 1.75 filament
-PIN_ENTRY_R, PIN_FAR_R = 1.05, 0.90                # slip fit in the entry wall (countersunk), snug in the far wall
+PIN_ENTRY_R, PIN_FAR_R = 1.10, 0.95                # slip fit in the entry wall (countersunk), snug in the far wall;
+                                                   # teardrop tops (45 deg) so the horizontal holes print round, no sag
 # one pin per switch, through whichever hole has a clear straight path from outside the cluster:
 # (hole s, side): side +1 = enter from the (-uy, ux) side of the switch axis
 PINS = {'up': (8.25, 1), 'right': (8.25, 1), 'left': (8.25, -1), 'down': (8.25, -1), 'center': (1.75, 1)}
@@ -313,6 +314,21 @@ SWITCHES = {
     'down':   ((0.0, -P_KEY), (1.0, 0.0)),          # tangential, keeps the lever out of the slot/channel area
     'center': ((0.0, 0.0), (1 / math.sqrt(2), 1 / math.sqrt(2))),
 }
+
+def hpin_hole(x0, y0, x1, y1, z, r):
+    """Horizontal hole (axis in the print plane) with a 45 deg teardrop top: a cylinder plus the cap of a square
+    turned 45 deg about the axis, cut at the tangent points, so the top prints as two 45 deg slopes, not a bridge."""
+    L = math.hypot(x1 - x0, y1 - y0)
+    ux, uy = (x1 - x0) / L, (y1 - y0) / L
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    cyl = tcyl((x0, y0, z), (x1, y1, z), r)
+    sq = tobox(cx, cy, ux, uy, L, 2 * r, z - r, z + r)
+    m = adsk.core.Matrix3D.create()
+    m.setToRotation(math.radians(45), V(ux, uy, 0), P(mm(cx), mm(cy), mm(z)))
+    tbm.transform(sq, m)
+    I(sq, tobox(cx, cy, ux, uy, L + 1, 4 * r, z + r * 0.7071, z + 2 * r))
+    return [cyl, sq]
+
 
 def sw_box(name, s0, s1, w, z0, z1):
     """Box along a switch axis: from s0 to s1 (relative to the actuation point), width w."""
@@ -812,10 +828,12 @@ def build():
         reach = SW_W / 2 + 0.15 + 1.2 + 0.6
         if name == 'center':
             reach = 7.0                              # straight through the centre key's guide columns on both sides
-        slots.append(tcyl((hx, hy, hz), (hx + lx_ * reach, hy + ly_ * reach, hz), PIN_ENTRY_R))
+        hole = (lambda *a: [tcyl((a[0], a[1], a[4]), (a[2], a[3], a[4]), a[5])]) if name == 'center' else hpin_hole
+        # (the centre pin crosses the guide columns under their pin sockets: a teardrop top would thin that floor)
+        slots += hole(hx, hy, hx + lx_ * reach, hy + ly_ * reach, hz, PIN_ENTRY_R)
         slots.append(tcone((hx + lx_ * 3.95, hy + ly_ * 3.95, hz), PIN_ENTRY_R,
                            (hx + lx_ * 4.30, hy + ly_ * 4.30, hz), PIN_ENTRY_R + 0.35))   # entry countersink
-        slots.append(tcyl((hx, hy, hz), (hx - lx_ * reach, hy - ly_ * reach, hz), PIN_FAR_R))
+        slots += hole(hx, hy, hx - lx_ * reach, hy - ly_ * reach, hz, PIN_FAR_R)
     # fill the wedges between the cradle footprints: one solid plate = convex hull of the cradles + centre disc
     pts = [(DC[0] + 9.0 * math.cos(math.radians(a)), DC[1] + 9.0 * math.sin(math.radians(a))) for a in range(0, 360, 15)]
     for name in SWITCHES:
