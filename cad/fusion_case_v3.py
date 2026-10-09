@@ -31,7 +31,7 @@ DIV_SLOT, DIV_RIB = 1.15, 1.75                # backplate rib: tongue slot half-
 ZF = DEPTH - WALL                         # front inner face, 25
 SCREW = (58.0, 7.0)                       # bottom M3 screw x, z
 # screws (M2 / M3 only, threaded straight into PETG; no inserts)
-M3_PILOT_R, M3_CLEAR_R = 1.3, 1.7          # 2.6 pilot for an M3 machine screw to thread-form, 3.4 clearance
+M3_PILOT_R, M3_CLEAR_R = 1.4, 1.7          # 2.8 pilot (prints ~2.55, just over the 2.39 core) for an M3 machine screw to thread-form, 3.4 clearance
 M2_PILOT_R, M2_CLEAR_R = 0.95, 1.2         # 1.9 pilot for M2 (prints ~1.65, just over the 1.57 core: low drive torque), 2.4 clearance
 UX = 41.0                                 # UI column centre x
 # sensor chamber (bottom of the UI column)
@@ -551,8 +551,10 @@ def build():
     joins.append(tbox(18.9, 20.1, -iy - 0.5, -52.4, 8.5, ZF + 0.3))
     joins.append(tbox(18.9, 64.4, -36.1, -34.9, 3.5, ZF + 0.3))
     joins.append(tbox(64.4, ix + 0.2, -36.1, -34.9, 8.5, ZF + 0.3))
-    for px, py in PB_PRESS:                       # hold the controller board down onto its support pads (0.15 gap)
+    for i_, (px, py) in enumerate(PB_PRESS):      # hold the controller board down onto its support pads (0.15 gap)
         joins.append(tcyl((px, py, CTL_TOP + 0.15), (px, py, ZF + 0.3), 1.2))
+        if i_ != 3:                               # 45 deg root cone (pin 3 is 0.2 from the fuse pocket)
+            joins.append(tcone((px, py, ZF - 1.0), 1.2, (px, py, ZF + 0.3), 2.5))
     combine(cov, body, joins, JOIN)
 
     cuts = []
@@ -662,6 +664,7 @@ def build():
     cuts = []
     for x, y in MOD_HOLES:                                                         # M3 x 6 into the bosses
         cuts.append(tcyl((x, y, 1.0), (x, y, MOD_PCB_Z + 0.1), M3_PILOT_R))
+        cuts.append(tcone((x, y, MOD_PCB_Z - 0.3), M3_PILOT_R, (x, y, MOD_PCB_Z + 0.01), M3_PILOT_R + 0.3))   # lead-in
     cuts.append(tcyl((SCREW[0], -hy - 1.0, SCREW[1]), (SCREW[0], -45.0, SCREW[1]), M3_PILOT_R))   # M3 x 10 closure (2 mm past the tip)
     cuts.append(tbox(VDIV_X - DIV_RIB, VDIV_X + DIV_RIB, HDIV_Y - DIV_RIB, HDIV_Y + DIV_RIB, 10.0, 13.0))   # rib junction groove
     cuts.append(trrect(*WIN_W, -1.0, PLATE + 1.0, WIN_R))                          # wire window

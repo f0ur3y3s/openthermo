@@ -196,6 +196,7 @@ def build_module():
         D(sh, tcone((px, py, CAR_Z1 - 0.01), M2_PILOT_R + 0.3, (px, py, CAR_Z1 + 0.3), M2_PILOT_R))   # lead-in: starts the screw straight
     for cx, cy in cols:
         D(sh, tcyl((cx, cy, zc - 0.1), (cx, cy, zc + MOD_M3_DEPTH), M3_PILOT_R))   # M3 x 10, back cover
+        D(sh, tcone((cx, cy, zc - 0.01), M3_PILOT_R + 0.3, (cx, cy, zc + 0.3), M3_PILOT_R))   # lead-in
     # ---- back cover
     bc = rsq(MOD_HALF, zb, zc, MOD_R)
     lc, lt, lh = MOD_LIP

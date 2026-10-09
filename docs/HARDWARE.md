@@ -94,6 +94,7 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 - Land the 18 AWG COM at (13,8) stripped about 2 mm above the board, and bend it clear of F2's base straight away.
 - Hold the board down beside the holder, or use a fuse puller, when swapping a fuse.
 - Unplug USB before lifting the cover.
+- Screws thread-form into printed pilots sized just over the screw core (M2 Ø1.9, M3 Ø2.8, each with a lead-in). Drive them straight and stop as soon as the head seats; over-torquing twists a post off at its base layer.
 - A block on the bottom rim under the USB plug takes the pull when you unplug.
 - Log Thread RSSI with the cover on before final install.
 
