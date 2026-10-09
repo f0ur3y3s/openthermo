@@ -88,6 +88,8 @@ Pin map v2 (Oct 8, 2026), chosen with the round-5 board so that the four relay i
 - **XL7015 IN pair:** goes along the bottom edge to (9,0) and (11,3).
 - **COM:** rises from (13,8).
 
+The cover holds the board down on its pads with a blade along the board's right margin, between the fuse holders and the field wires, and two tapered columns on the left half, one on the top margin and one on the bottom. They replaced thin 17 mm pins that snapped off.
+
 **Closing the case (round-6 review):**
 - Tape or hot-glue the XL7015 IN pair to the rim's inner face, then sight along the bottom rim before closing so the cover wall doesn't pinch it.
 - Lace the cover bundle into a stiff loom with 2–3 small ties so it stays high along y −13, 5 mm clear of the XIAO's antenna end.

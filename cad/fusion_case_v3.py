@@ -82,7 +82,8 @@ XL_TIES = (XL_C[0] + 7.0, XL_C[0] - 5.0)       # zip-tie notches either side of 
 # clear of the wall-window grommet flange (x -19.5..19.5 down to y -21.5); pins stay out of the USB plug lane, the left
 # wire lane and the cable landings.
 PB_SUPPORTS = [(-62.8, -48.6), (-38.5, -48.6), (4.4, -48.4), (-62.8, -21.4), (-32.0, -21.4), (4.0, -24.0)]
-PB_PRESS = [(-38.5, -48.9), (4.4, -48.2), (-32.0, -21.5), (4.4, -21.4)]
+PB_PRESS = [(-38.5, -48.9), (-32.0, -21.5)]      # tapered hold-down columns on the left half (bottom and top margins)
+PB_BLADE = (3.4, 5.2, -48.5, -21.0)               # hold-down blade along the right margin (x, y): clear of the fuses and field wires
 # OLED (0.96" SSD1306), header removed, wires soldered to pads
 OLED_YB = 22.5
 OLED_W, OLED_H = 27.3, 27.8
@@ -552,10 +553,20 @@ def build():
     joins.append(tbox(18.9, 20.1, -iy - 0.5, -52.4, 8.5, ZF + 0.3))
     joins.append(tbox(18.9, 64.4, -36.1, -34.9, 3.5, ZF + 0.3))
     joins.append(tbox(64.4, ix + 0.2, -36.1, -34.9, 8.5, ZF + 0.3))
-    for i_, (px, py) in enumerate(PB_PRESS):      # hold the controller board down onto its support pads (0.15 gap)
-        joins.append(tcyl((px, py, CTL_TOP + 0.15), (px, py, ZF + 0.3), 1.2))
-        if i_ != 3:                               # 45 deg root cone (pin 3 is 0.2 from the fuse pocket)
-            joins.append(tcone((px, py, ZF - 1.0), 1.2, (px, py, ZF + 0.3), 2.5))
+    # hold the controller board down onto its support pads (0.15 gap). Thin 17 mm pins snapped off, so: two columns
+    # that taper from r 2.6 at the cover to a r 1.2 tip 3 mm long, and one blade along the right margin
+    for px, py in PB_PRESS:
+        joins.append(tcyl((px, py, CTL_TOP + 0.15), (px, py, CTL_TOP + 3.0), 1.2))
+        joins.append(tcone((px, py, CTL_TOP + 3.0 - 0.01), 1.2, (px, py, ZF + 0.3), 2.6))
+    bx0, bx1, by0, by1 = PB_BLADE
+    joins.append(tbox(bx0, bx1, by0, by1, CTL_TOP + 0.15, ZF + 0.3))
+    for xe, hd in ((bx1, 1.5), (bx0, 0.35)):           # 45 deg root fillets (small one on the fuse-pocket side)
+        g = hd * math.sqrt(2)
+        bar = tbox(xe - g / 2, xe + g / 2, by0, by1, ZF - g / 2, ZF + g / 2)
+        m = adsk.core.Matrix3D.create()
+        m.setToRotation(math.radians(45), V(0, 1, 0), P(mm(xe), 0, mm(ZF)))
+        tbm.transform(bar, m)
+        joins.append(bar)
     combine(cov, body, joins, JOIN)
 
     cuts = []
