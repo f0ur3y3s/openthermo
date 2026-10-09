@@ -42,6 +42,13 @@
  * checks, and scope IN4 through power-on, reset and flashing (must stay
  * below 1 V).
  */
+// GPIO0 and GPIO1 are the 32 kHz crystal pads (XTAL_32K_P / _N). With the
+// RTC on the internal RC oscillator (the default) they are plain GPIOs; an
+// external 32 kHz crystal or clock would take them over from the relays.
+#if CONFIG_RTC_CLK_SRC_EXT_CRYS || CONFIG_RTC_CLK_SRC_EXT_OSC
+#error "board.h: GPIO0/GPIO1 carry relays; the RTC must use its internal RC clock"
+#endif
+
 #define BOARD_PIN_RELAY_Y1 GPIO_NUM_1  // D1, IN1, compressor
 #define BOARD_PIN_RELAY_G  GPIO_NUM_2  // D2, IN2, blower
 #define BOARD_PIN_RELAY_O  GPIO_NUM_21 // D3, IN3, reversing valve (on = cool)

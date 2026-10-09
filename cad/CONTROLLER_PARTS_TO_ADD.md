@@ -40,9 +40,9 @@ top face. Sizes are the parts' maximum datasheet bodies plus room for the leads.
 | 1N4007 (DO-41) | 1 | 10.2 × 2.8 × 2.8 lying | lying flat | between F1 and the 470 µF (R → F1 → 1N4007 → bus) |
 | 1N5819 (DO-41) | 1 | 10.2 × 2.8 × 2.8 lying | lying flat | between the XL7015 output pads and the XIAO's 5V pin |
 | 100 nF ceramic (radial disc) | 3 | 5 × 3 × 7 standing | standing | one at the XL7015 output pads, one each at the XIAO's 5V and 3V3 |
-| 10 kΩ pull-down, 1/4 W | 4 | 10.2 × 2.6 × 2.6 lying | lying flat | the XIAO pins D1, D2, D3 and D10, each to GND. **Safety-relevant:** they hold the relay inputs low for the tens of ms after power-on before the firmware drives them. Keep them short, at the XIAO end of the relay cable. |
+| 10 kΩ pull-down, 1/4 W | 4 | 10.2 × 2.6 × 2.6 lying | lying flat | the XIAO pins D0, D1, D2 and D3 (pin map v2), each to GND. **Safety-relevant:** they hold the relay inputs low for the tens of ms after power-on before the firmware drives them. Keep them short, at the XIAO end of the relay cable. |
 | 1 kΩ series resistor, 1/4 W | 1 | 10.2 × 2.6 × 2.6 lying | lying flat | in series between XIAO D6 and the D-pad's RIGHT wire. D6 is the chip's serial TX at reset, and this keeps a held key from shorting it. |
-| Relay cable pads | 6 | 15.3 × 2.6, plus about 4 of wire bend | solder pads | near the XIAO's D1/D2/D3/D10 side. The wires are DC+, DC−, IN1–IN4, soldered with no connector (a plug could mate with the D-pad's). Allow a strain-relief tie or glue spot. |
+| Relay cable pads | 6 | 15.3 × 2.6, plus about 4 of wire bend | solder pads | near the XIAO's D0..D3 side (pin map v2). The wires are DC+, DC−, IN1–IN4, soldered with no connector (a plug could mate with the D-pad's). Allow a strain-relief tie or glue spot. |
 
 **Reserve room for these too.** They may or may not be fitted:
 
